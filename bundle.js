@@ -1,5 +1,5 @@
-const dts = require("dts-bundle");
 const { join } = require("path");
+const dts = require("dts-bundle");
 
 const entryPoints = ["", "ajax", "operators", "testing", "webSocket"];
 const baseDir = ["node_modules", "@reactivex", "rxjs", "dist", "typings"];

@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "flow": "flow",
-    "clean": "rimraf dist dist-flow",
-    "bundle": "npm run clean && node bundle.js"
+    "bundle": "rimraf dist && node bundle.js",
+    "convert": "rimraf dist-flow && node convert.js"
   },
   "author": "Lukas Geiger",
   "license": "MIT",
   "devDependencies": {
     "@reactivex/rxjs": "6.3.3",
     "dts-bundle": "^0.7.3",
+    "flowgen": "^1.2.3",
+    "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2"
   }
 }
