@@ -19,7 +19,7 @@ declare interface Unsubscribable {
   unsubscribe(): void;
 }
 declare type TeardownLogic = Unsubscribable | Function | void;
-declare interface SubscriptionLike extends Unsubscribable {
+declare interface rxjs$SubscriptionLike extends Unsubscribable {
   unsubscribe(): void;
   +closed: boolean;
 }
@@ -86,10 +86,10 @@ declare interface SchedulerLike {
     work: (state?: T) => void,
     delay?: number,
     state?: T
-  ): Subscription;
+  ): rxjs$Subscription;
 }
-declare interface SchedulerAction<T> extends Subscription {
-  schedule(state?: T, delay?: number): Subscription;
+declare interface SchedulerAction<T> extends rxjs$Subscription {
+  schedule(state?: T, delay?: number): rxjs$Subscription;
 }
 
 declare class rxjs$Observable<T> implements Subscribable<T> {
@@ -102,12 +102,12 @@ declare class rxjs$Observable<T> implements Subscribable<T> {
   constructor(subscribe?: (subscriber: Subscriber<T>) => TeardownLogic): this;
   static create: Function;
   lift<R>(operator: Operator<T, R>): rxjs$Observable<R>;
-  subscribe(observer?: PartialObserver<T>): Subscription;
+  subscribe(observer?: PartialObserver<T>): rxjs$Subscription;
   subscribe(
     next?: (value: T) => void,
     error?: (error: any) => void,
     complete?: () => void
-  ): Subscription;
+  ): rxjs$Subscription;
   // @deprecated  This is an internal implementation detail, do not use.
   _trySubscribe(sink: Subscriber<T>): TeardownLogic;
   forEach(
@@ -199,24 +199,24 @@ declare class rxjs$Observable<T> implements Subscribable<T> {
   toPromise<T>(PromiseCtor: Promise.constructor): Promise<T>;
 }
 
-declare class Subscription implements SubscriptionLike {
-  static EMPTY: Subscription;
+declare class rxjs$Subscription implements rxjs$SubscriptionLike {
+  static EMPTY: rxjs$Subscription;
   closed: boolean;
   // @internal
-  _parent: Subscription;
+  _parent: rxjs$Subscription;
   // @internal
-  _parents: Subscription[];
+  _parents: rxjs$Subscription[];
   constructor(unsubscribe?: () => void): this;
   unsubscribe(): void;
-  add(teardown: TeardownLogic): Subscription;
-  remove(subscription: Subscription): void;
+  add(teardown: TeardownLogic): rxjs$Subscription;
+  remove(subscription: rxjs$Subscription): void;
 }
 
 declare interface Operator<T, R> {
   call(subscriber: Subscriber<R>, source: any): TeardownLogic;
 }
 
-declare class Subscriber<T> extends Subscription implements Observer<T> {
+declare class Subscriber<T> extends rxjs$Subscription implements Observer<T> {
   static create<T>(
     next?: (x?: T) => void,
     error?: (e?: any) => void,
@@ -384,7 +384,7 @@ declare module "rxjs" {
     subjectFactory: () => Subject<T>;
     _subject: Subject<T>;
     _refCount: number;
-    _connection: Subscription;
+    _connection: rxjs$Subscription;
     // @internal
     _isComplete: boolean;
     constructor(
@@ -392,9 +392,9 @@ declare module "rxjs" {
       subjectFactory: () => Subject<T>
     ): this;
     // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: Subscriber<T>): Subscription;
+    _subscribe(subscriber: Subscriber<T>): rxjs$Subscription;
     getSubject(): Subject<T>;
-    connect(): Subscription;
+    connect(): rxjs$Subscription;
     refCount(): rxjs$Observable<T>;
   }
 
@@ -414,11 +414,11 @@ declare module "rxjs" {
       refCountSubscription?: RefCountSubscription
     ): this;
     // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: Subscriber<T>): Subscription;
+    _subscribe(subscriber: Subscriber<T>): rxjs$Subscription;
   }
 
   declare class Subject<T> extends rxjs$Observable<T>
-    implements SubscriptionLike {
+    implements rxjs$SubscriptionLike {
     observers: Observer<T>[];
     closed: boolean;
     isStopped: boolean;
@@ -434,7 +434,7 @@ declare module "rxjs" {
     // @deprecated  This is an internal implementation detail, do not use.
     _trySubscribe(subscriber: Subscriber<T>): TeardownLogic;
     // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: Subscriber<T>): Subscription;
+    _subscribe(subscriber: Subscriber<T>): rxjs$Subscription;
     asObservable(): rxjs$Observable<T>;
   }
 
@@ -442,7 +442,7 @@ declare module "rxjs" {
     constructor(_value: T): this;
     +value: T;
     // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: Subscriber<T>): Subscription;
+    _subscribe(subscriber: Subscriber<T>): rxjs$Subscription;
     getValue(): T;
     next(value?: T): void;
   }
@@ -454,13 +454,13 @@ declare module "rxjs" {
       scheduler?: SchedulerLike
     ): this;
     // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: Subscriber<T>): Subscription;
+    _subscribe(subscriber: Subscriber<T>): rxjs$Subscription;
     _getNow(): number;
   }
 
   declare class AsyncSubject<T> extends Subject<T> {
     // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: Subscriber<any>): Subscription;
+    _subscribe(subscriber: Subscriber<any>): rxjs$Subscription;
     next(value?: T): void;
     error(error: any): void;
     complete(): void;
@@ -487,7 +487,7 @@ declare module "rxjs" {
       work: (state?: T) => void,
       index?: number
     ): this;
-    schedule(state?: T, delay?: number): Subscription;
+    schedule(state?: T, delay?: number): rxjs$Subscription;
     requestAsyncId(
       // $FlowFixMe: flow fails due to class inheritance issues
       scheduler: VirtualTimeScheduler,
@@ -512,7 +512,7 @@ declare module "rxjs" {
       work: (state?: T) => void,
       delay?: number,
       state?: T
-    ): Subscription;
+    ): rxjs$Subscription;
   }
 
   declare class Notification<T> {
@@ -625,7 +625,7 @@ declare module "rxjs" {
       work: (state?: T) => void,
       delay?: number,
       state?: T
-    ): Subscription;
+    ): rxjs$Subscription;
     flush(action: AsyncAction<any>): void;
   }
 
@@ -643,7 +643,7 @@ declare module "rxjs" {
     delay: number;
     pending: boolean;
     constructor(scheduler: AsyncScheduler, work: (state?: T) => void): this;
-    schedule(state?: T, delay?: number): Subscription;
+    schedule(state?: T, delay?: number): rxjs$Subscription;
     requestAsyncId(scheduler: AsyncScheduler, id?: any, delay?: number): any;
     recycleAsyncId(scheduler: AsyncScheduler, id: any, delay?: number): any;
     execute(state: T, delay: number): any;
@@ -652,8 +652,8 @@ declare module "rxjs" {
     _unsubscribe(): void;
   }
 
-  declare class Action<T> extends Subscription {
+  declare class Action<T> extends rxjs$Subscription {
     constructor(scheduler: Scheduler, work: (state?: T) => void): this;
-    schedule(state?: T, delay?: number): Subscription;
+    schedule(state?: T, delay?: number): rxjs$Subscription;
   }
 }
