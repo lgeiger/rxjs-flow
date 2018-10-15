@@ -3012,14 +3012,6 @@ declare module "rxjs/operators" {
     count: number
   ): rxjs$MonoTypeOperatorFunction<T>;
 
-  declare export function takeWhile<T, S>(
-    predicate: (value: T, index: number) => boolean
-  ): rxjs$OperatorFunction<T, S>;
-
-  declare export function takeWhile<T>(
-    predicate: (value: T, index: number) => boolean
-  ): rxjs$MonoTypeOperatorFunction<T>;
-
   declare export function takeLast<T>(
     count: number
   ): rxjs$MonoTypeOperatorFunction<T>;
@@ -3031,6 +3023,10 @@ declare module "rxjs/operators" {
   declare export function takeWhile<T, S>(
     predicate: (value: T, index: number) => S
   ): rxjs$OperatorFunction<T, S>;
+
+  declare export function takeWhile<T>(
+    predicate: (value: T, index: number) => boolean
+  ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function tap<T>(
     next?: (x: T) => void,
