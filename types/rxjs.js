@@ -322,7 +322,7 @@ declare function rxjs$iif<T, F>(
 
 declare module "rxjs" {
   declare module.exports: {
-    rxjs$Observable: typeof rxjs$Observable,
+    Observable: typeof rxjs$Observable,
     Subscriber: typeof rxjs$Subscriber,
     throwError: typeof rxjs$throwError,
     iif: typeof rxjs$iif,
@@ -1944,6 +1944,19 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$OperatorFunction<T, T[]>;
 
+  declare export function bufferTime<T>(
+    bufferTimeSpan: number,
+    bufferCreationInterval: ?number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T[]>;
+
+  declare export function bufferTime<T>(
+    bufferTimeSpan: number,
+    bufferCreationInterval: ?number,
+    maxBufferSize: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T[]>;
+
   declare export function bufferToggle<T, O>(
     openings: rxjs$SubscribableOrPromise<O>,
     closingSelector: (value: O) => rxjs$SubscribableOrPromise<any>
@@ -1960,13 +1973,121 @@ declare module "rxjs/operators" {
     ) => "NO PRINT IMPLEMENTED: NeverKeyword"
   ): rxjs$MonoTypeOperatorFunction<T>;
 
+  declare export function catchError<T, R>(
+    selector: (err: any, caught: rxjs$Observable<T>) => rxjs$ObservableInput<R>
+  ): rxjs$OperatorFunction<T, T | R>;
+
   declare export function combineAll<T>(): rxjs$OperatorFunction<
     rxjs$ObservableInput<T>,
     T[]
   >;
 
+  declare export function combineAll<T>(): rxjs$OperatorFunction<any, T[]>;
+
+  declare export function combineAll<T, R>(
+    project: (...values: T[]) => R
+  ): rxjs$OperatorFunction<rxjs$ObservableInput<T>, R>;
+
+  declare export function combineAll<R>(
+    project: (...values: Array<any>) => R
+  ): rxjs$OperatorFunction<any, R>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
   declare export function combineLatest<T, R>(
     project: (v1: T) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2, R>(
+    v2: rxjs$ObservableInput<T2>,
+    project: (v1: T, v2: T2) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2, T3, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    project: (v1: T, v2: T2, v3: T3) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2, T3, T4, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    project: (v1: T, v2: T2, v3: T3, v4: T4) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2, T3, T4, T5, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2, T3, T4, T5, T6, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>,
+    project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2>(
+    v2: rxjs$ObservableInput<T2>
+  ): rxjs$OperatorFunction<T, [T, T2]>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2, T3>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>
+  ): rxjs$OperatorFunction<T, [T, T2, T3]>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2, T3, T4>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>
+  ): rxjs$OperatorFunction<T, [T, T2, T3, T4]>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2, T3, T4, T5>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>
+  ): rxjs$OperatorFunction<T, [T, T2, T3, T4, T5]>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, T2, T3, T4, T5, T6>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>
+  ): rxjs$OperatorFunction<T, [T, T2, T3, T4, T5, T6]>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, R>(
+    ...observables: Array<
+      rxjs$ObservableInput<T> | ((...values: Array<T>) => R)
+    >
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, R>(
+    array: rxjs$ObservableInput<T>[]
+  ): rxjs$OperatorFunction<T, Array<T>>;
+
+  // @deprecated Deprecated in favor of static combineLatest.
+  declare export function combineLatest<T, TOther, R>(
+    array: rxjs$ObservableInput<TOther>[],
+    project: (v1: T, ...values: Array<TOther>) => R
   ): rxjs$OperatorFunction<T, R>;
 
   // @deprecated  Deprecated in favor of static concat.
@@ -1974,18 +2095,100 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$MonoTypeOperatorFunction<T>;
 
+  // @deprecated Deprecated in favor of static concat.
+  declare export function concat<T, T2>(
+    v2: rxjs$ObservableInput<T2>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2>;
+
+  // @deprecated Deprecated in favor of static concat.
+  declare export function concat<T, T2, T3>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3>;
+
+  // @deprecated Deprecated in favor of static concat.
+  declare export function concat<T, T2, T3, T4>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3 | T4>;
+
+  // @deprecated Deprecated in favor of static concat.
+  declare export function concat<T, T2, T3, T4, T5>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3 | T4 | T5>;
+  // @deprecated Deprecated in favor of static concat.
+  declare export function concat<T, T2, T3, T4, T5, T6>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3 | T4 | T5 | T6>;
+  // @deprecated Deprecated in favor of static concat.
+  declare export function concat<T>(
+    ...observables: Array<rxjs$ObservableInput<T> | rxjs$SchedulerLike>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+  // @deprecated Deprecated in favor of static concat.
+  declare export function concat<T, R>(
+    ...observables: Array<rxjs$ObservableInput<any> | rxjs$SchedulerLike>
+  ): rxjs$OperatorFunction<T, R>;
+
   declare export function concatAll<T>(): rxjs$OperatorFunction<
     rxjs$ObservableInput<T>,
     T
   >;
 
+  declare export function concatAll<R>(): rxjs$OperatorFunction<any, R>;
+
   declare export function concatMap<T, R>(
     project: (value: T, index: number) => rxjs$ObservableInput<R>
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated resultSelector no longer supported, use inner map instead
+  declare export function concatMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>,
+    resultSelector: void
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated resultSelector no longer supported, use inner map instead
+  declare export function concatMap<T, I, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<I>,
+    resultSelector: (
+      outerValue: T,
+      innerValue: I,
+      outerIndex: number,
+      innerIndex: number
+    ) => R
   ): rxjs$OperatorFunction<T, R>;
 
   declare export function concatMapTo<T>(
     observable: rxjs$ObservableInput<T>
   ): rxjs$OperatorFunction<any, T>;
+
+  // @deprecated
+  declare export function concatMapTo<T>(
+    observable: rxjs$ObservableInput<T>,
+    resultSelector: void
+  ): rxjs$OperatorFunction<any, T>;
+  // @deprecated
+  declare export function concatMapTo<T, I, R>(
+    observable: rxjs$ObservableInput<I>,
+    resultSelector: (
+      outerValue: T,
+      innerValue: I,
+      outerIndex: number,
+      innerIndex: number
+    ) => R
+  ): rxjs$OperatorFunction<T, R>;
 
   declare export function count<T>(
     predicate?: (value: T, index: number, source: rxjs$Observable<T>) => boolean
@@ -2018,6 +2221,11 @@ declare module "rxjs/operators" {
     subscriptionDelay?: rxjs$Observable<any>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
+  declare export function delayWhen<T>(
+    delayDurationSelector: (value: T, index: number) => rxjs$Observable<any>,
+    subscriptionDelay?: rxjs$Observable<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
   declare export function dematerialize<T>(): rxjs$OperatorFunction<
     Notification<T>,
     T
@@ -2032,8 +2240,18 @@ declare module "rxjs/operators" {
     compare?: (x: T, y: T) => boolean
   ): rxjs$MonoTypeOperatorFunction<T>;
 
+  declare export function distinctUntilChanged<T, K>(
+    compare: (x: K, y: K) => boolean,
+    keySelector: (x: T) => K
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
   declare export function distinctUntilKeyChanged<T>(
-    key: "NO PRINT IMPLEMENTED: TypeOperator"
+    key: any
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function distinctUntilKeyChanged<T>(
+    key: any,
+    compare: (x: any, y: any) => boolean
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function elementAt<T>(
@@ -2043,6 +2261,52 @@ declare module "rxjs/operators" {
 
   declare export function endWith<T>(
     scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function endWith<T>(
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+  declare export function endWith<T>(
+    v1: T,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+  declare export function endWith<T>(
+    v1: T,
+    v2: T,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+  declare export function endWith<T>(
+    v1: T,
+    v2: T,
+    v3: T,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+  declare export function endWith<T>(
+    v1: T,
+    v2: T,
+    v3: T,
+    v4: T,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+  declare export function endWith<T>(
+    v1: T,
+    v2: T,
+    v3: T,
+    v4: T,
+    v5: T,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+  declare export function endWith<T>(
+    v1: T,
+    v2: T,
+    v3: T,
+    v4: T,
+    v5: T,
+    v6: T,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+  declare export function endWith<T>(
+    ...array: Array<T | rxjs$SchedulerLike>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function every<T>(
@@ -2055,8 +2319,27 @@ declare module "rxjs/operators" {
     T
   >;
 
+  declare export function exhaust<R>(): rxjs$OperatorFunction<any, R>;
+
   declare export function exhaustMap<T, R>(
     project: (value: T, index: number) => rxjs$ObservableInput<R>
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated resultSelector is no longer supported. Use inner map instead.
+  declare export function exhaustMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>,
+    resultSelector: void
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated resultSelector is no longer supported. Use inner map instead.
+  declare export function exhaustMap<T, I, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<I>,
+    resultSelector: (
+      outerValue: T,
+      innerValue: I,
+      outerIndex: number,
+      innerIndex: number
+    ) => R
   ): rxjs$OperatorFunction<T, R>;
 
   declare export function expand<T, R>(
@@ -2065,19 +2348,35 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$OperatorFunction<T, R>;
 
+  declare export function expand<T>(
+    project: (value: T, index: number) => rxjs$ObservableInput<T>,
+    concurrent?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
   declare export function filter<T, S>(
-    predicate: (value: T, index: number) => S,
+    predicate: (value: T, index: number) => boolean,
     thisArg?: any
   ): rxjs$OperatorFunction<T, S>;
+
+  declare export function filter<T>(
+    predicate: (value: T, index: number) => boolean,
+    thisArg?: any
+  ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function finalize<T>(
     callback: () => void
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function find<T, S>(
-    predicate: (value: T, index: number, source: rxjs$Observable<T>) => S,
+    predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
     thisArg?: any
   ): rxjs$OperatorFunction<T, S | void>;
+
+  declare export function find<T>(
+    predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
+    thisArg?: any
+  ): rxjs$OperatorFunction<T, T | void>;
 
   declare export function findIndex<T>(
     predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
@@ -2089,9 +2388,39 @@ declare module "rxjs/operators" {
     defaultValue?: D
   ): rxjs$OperatorFunction<T, T | D>;
 
+  declare export function first<T, S>(
+    predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
+    defaultValue?: S
+  ): rxjs$OperatorFunction<T, S>;
+
   declare export function groupBy<T, K>(
     keySelector: (value: T) => K
   ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, T>>;
+
+  declare export function groupBy<T, K>(
+    keySelector: (value: T) => K,
+    elementSelector: void,
+    durationSelector: (
+      grouped: rxjs$GroupedObservable<K, T>
+    ) => rxjs$Observable<any>
+  ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, T>>;
+
+  declare export function groupBy<T, K, R>(
+    keySelector: (value: T) => K,
+    elementSelector?: (value: T) => R,
+    durationSelector?: (
+      grouped: rxjs$GroupedObservable<K, R>
+    ) => rxjs$Observable<any>
+  ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, R>>;
+
+  declare export function groupBy<T, K, R>(
+    keySelector: (value: T) => K,
+    elementSelector?: (value: T) => R,
+    durationSelector?: (
+      grouped: rxjs$GroupedObservable<K, R>
+    ) => rxjs$Observable<any>,
+    subjectSelector?: () => rxjs$Subject<R>
+  ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, R>>;
 
   declare export function ignoreElements(): rxjs$OperatorFunction<
     any,
@@ -2104,6 +2433,17 @@ declare module "rxjs/operators" {
     predicate?: null,
     defaultValue?: D
   ): rxjs$OperatorFunction<T, T | D>;
+
+  // declare export function last<T, S>(
+  //   predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
+  //   defaultValue?: S
+  // ): rxjs$OperatorFunction<T, S>;
+  //
+  //
+  // declare export function last<T, D>(
+  //   predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
+  //   defaultValue?: D
+  // ): rxjs$OperatorFunction<T, D>;
 
   declare export function map<T, R>(
     project: (value: T, index: number) => R,
@@ -2126,12 +2466,139 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$MonoTypeOperatorFunction<T>;
 
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T>(
+    concurrent?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2>(
+    v2: rxjs$ObservableInput<T2>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2>(
+    v2: rxjs$ObservableInput<T2>,
+    concurrent?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2, T3>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2, T3>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    concurrent?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2, T3, T4>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3 | T4>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2, T3, T4>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    concurrent?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3 | T4>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2, T3, T4, T5>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3 | T4 | T5>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2, T3, T4, T5>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    concurrent?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3 | T4 | T5>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2, T3, T4, T5, T6>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3 | T4 | T5 | T6>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, T2, T3, T4, T5, T6>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>,
+    concurrent?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | T2 | T3 | T4 | T5 | T6>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T>(
+    ...observables: Array<rxjs$ObservableInput<T> | rxjs$SchedulerLike | number>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  // @deprecated Deprecated in favor of static merge.
+  declare export function merge<T, R>(
+    ...observables: Array<
+      rxjs$ObservableInput<any> | rxjs$SchedulerLike | number
+    >
+  ): rxjs$OperatorFunction<T, R>;
+
   declare export function mergeAll<T>(
     concurrent?: number
   ): rxjs$OperatorFunction<rxjs$ObservableInput<T>, T>;
 
   declare export function mergeMap<T, R>(
     project: (value: T, index: number) => rxjs$ObservableInput<R>,
+    concurrent?: number
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function mergeMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>,
+    concurrent?: number
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated resultSelector no longer supported, use inner map instead
+  declare export function mergeMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>,
+    resultSelector: void,
+    concurrent?: number
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated resultSelector no longer supported, use inner map instead
+  declare export function mergeMap<T, I, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<I>,
+    resultSelector: (
+      outerValue: T,
+      innerValue: I,
+      outerIndex: number,
+      innerIndex: number
+    ) => R,
     concurrent?: number
   ): rxjs$OperatorFunction<T, R>;
 
@@ -2144,6 +2611,18 @@ declare module "rxjs/operators" {
     innerObservable: rxjs$ObservableInput<T>,
     concurrent?: number
   ): rxjs$OperatorFunction<any, T>;
+
+  // @deprecated
+  declare export function mergeMapTo<T, I, R>(
+    innerObservable: rxjs$ObservableInput<I>,
+    resultSelector: (
+      outerValue: T,
+      innerValue: I,
+      outerIndex: number,
+      innerIndex: number
+    ) => R,
+    concurrent?: number
+  ): rxjs$OperatorFunction<T, R>;
 
   declare export function mergeScan<T, R>(
     accumulator: (acc: R, value: T) => rxjs$ObservableInput<R>,
@@ -2159,6 +2638,24 @@ declare module "rxjs/operators" {
     subjectOrSubjectFactory: rxjs$FactoryOrValue<rxjs$Subject<T>>
   ): rxjs$UnaryFunction<rxjs$Observable<T>, rxjs$ConnectableObservable<T>>;
 
+  declare export function multicast<T>(
+    rxjs$SubjectFactory: () => rxjs$Subject<T>
+  ): rxjs$UnaryFunction<rxjs$Observable<T>, rxjs$ConnectableObservable<T>>;
+
+  declare export function multicast<T>(
+    rxjs$SubjectFactory: () => rxjs$Subject<T>,
+    selector?: rxjs$MonoTypeOperatorFunction<T>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function multicast<T, R>(
+    rxjs$SubjectFactory: () => rxjs$Subject<T>
+  ): rxjs$UnaryFunction<rxjs$Observable<T>, rxjs$ConnectableObservable<R>>;
+
+  declare export function multicast<T, R>(
+    rxjs$SubjectFactory: () => rxjs$Subject<T>,
+    selector?: rxjs$OperatorFunction<T, R>
+  ): rxjs$OperatorFunction<T, R>;
+
   declare export function observeOn<T>(
     scheduler: rxjs$SchedulerLike,
     delay?: number
@@ -2168,8 +2665,80 @@ declare module "rxjs/operators" {
     v: rxjs$ObservableInput<R>
   ): rxjs$OperatorFunction<T, R>;
 
+  declare export function onErrorResumeNext<T, T2, T3, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function onErrorResumeNext<T, T2, T3, T4, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function onErrorResumeNext<T, T2, T3, T4, T5, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function onErrorResumeNext<T, T2, T3, T4, T5, T6, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function onErrorResumeNext<T, R>(
+    ...observables: Array<
+      rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
+    >
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function onErrorResumeNext<T, R>(
+    array: rxjs$ObservableInput<any>[]
+  ): rxjs$OperatorFunction<T, R>;
+
   declare export function onErrorResumeNextStatic<R>(
     v: rxjs$ObservableInput<R>
+  ): rxjs$Observable<R>;
+
+  declare export function onErrorResumeNextStatic<T2, T3, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>
+  ): rxjs$Observable<R>;
+
+  declare export function onErrorResumeNextStatic<T2, T3, T4, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>
+  ): rxjs$Observable<R>;
+
+  declare export function onErrorResumeNextStatic<T2, T3, T4, T5, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>
+  ): rxjs$Observable<R>;
+
+  declare export function onErrorResumeNextStatic<T2, T3, T4, T5, T6, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>
+  ): rxjs$Observable<R>;
+
+  declare export function onErrorResumeNextStatic<R>(
+    ...observables: Array<
+      rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
+    >
+  ): rxjs$Observable<R>;
+
+  declare export function onErrorResumeNextStatic<R>(
+    array: rxjs$ObservableInput<any>[]
   ): rxjs$Observable<R>;
 
   declare export function pairwise<T>(): rxjs$OperatorFunction<T, [T, T]>;
@@ -2191,6 +2760,14 @@ declare module "rxjs/operators" {
     rxjs$ConnectableObservable<T>
   >;
 
+  declare export function publish<T, R>(
+    selector: rxjs$OperatorFunction<T, R>
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function publish<T>(
+    selector: rxjs$MonoTypeOperatorFunction<T>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
   declare export function publishBehavior<T>(
     value: T
   ): rxjs$UnaryFunction<rxjs$Observable<T>, rxjs$ConnectableObservable<T>>;
@@ -2206,15 +2783,53 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$MonoTypeOperatorFunction<T>;
 
+  declare export function publishReplay<T, R>(
+    bufferSize?: number,
+    windowTime?: number,
+    selector?: rxjs$OperatorFunction<T, R>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function publishReplay<T>(
+    bufferSize?: number,
+    windowTime?: number,
+    selector?: rxjs$MonoTypeOperatorFunction<T>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
   // @deprecated  Deprecated in favor of static race.
   declare export function race<T>(
     observables: Array<rxjs$Observable<T>>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
+  // @deprecated Deprecated in favor of static race.
+  declare export function race<T, R>(
+    observables: Array<rxjs$Observable<T>>
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static race.
+  declare export function race<T>(
+    ...observables: Array<rxjs$Observable<T> | Array<rxjs$Observable<T>>>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  // @deprecated Deprecated in favor of static race.
+  declare export function race<T, R>(
+    ...observables: Array<rxjs$Observable<any> | Array<rxjs$Observable<any>>>
+  ): rxjs$OperatorFunction<T, R>;
+
   declare export function reduce<T>(
     accumulator: (acc: T, value: T, index: number) => T,
     seed?: T
   ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function reduce<T>(
+    accumulator: (acc: T[], value: T, index: number) => T[],
+    seed: T[]
+  ): rxjs$OperatorFunction<T, T[]>;
+  declare export function reduce<T, R>(
+    accumulator: (acc: R, value: T, index: number) => R,
+    seed?: R
+  ): rxjs$OperatorFunction<T, R>;
 
   declare export function repeat<T>(
     count?: number
@@ -2247,6 +2862,16 @@ declare module "rxjs/operators" {
     accumulator: (acc: T, value: T, index: number) => T,
     seed?: T
   ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function scan<T>(
+    accumulator: (acc: T[], value: T, index: number) => T[],
+    seed?: T[]
+  ): rxjs$OperatorFunction<T, T[]>;
+
+  declare export function scan<T, R>(
+    accumulator: (acc: R, value: T, index: number) => R,
+    seed?: R
+  ): rxjs$OperatorFunction<T, R>;
 
   declare export function sequenceEqual<T>(
     compareTo: rxjs$Observable<T>,
@@ -2285,6 +2910,59 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$MonoTypeOperatorFunction<T>;
 
+  declare export function startWith<T>(
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function startWith<T, D>(
+    v1: D,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | D>;
+
+  declare export function startWith<T, D, E>(
+    v1: D,
+    v2: E,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | D | E>;
+
+  declare export function startWith<T, D, E, F>(
+    v1: D,
+    v2: E,
+    v3: F,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | D | E | F>;
+
+  declare export function startWith<T, D, E, F, G>(
+    v1: D,
+    v2: E,
+    v3: F,
+    v4: G,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | D | E | F | G>;
+
+  declare export function startWith<T, D, E, F, G, H>(
+    v1: D,
+    v2: E,
+    v3: F,
+    v4: G,
+    v5: H,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | D | E | F | G | H>;
+
+  declare export function startWith<T, D, E, F, G, H, I>(
+    v1: D,
+    v2: E,
+    v3: F,
+    v4: G,
+    v5: H,
+    v6: I,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | D | E | F | G | H | I>;
+
+  declare export function startWith<T, D>(
+    ...array: Array<D | rxjs$SchedulerLike>
+  ): rxjs$OperatorFunction<T, D>;
+
   declare export function subscribeOn<T>(
     scheduler: rxjs$SchedulerLike,
     delay?: number
@@ -2299,12 +2977,54 @@ declare module "rxjs/operators" {
     project: (value: T, index: number) => rxjs$ObservableInput<R>
   ): rxjs$OperatorFunction<T, R>;
 
+  // @deprecated resultSelector is no longer supported, use inner map instead
+  declare export function switchMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>,
+    resultSelector: void
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated resultSelector is no longer supported, use inner map instead
+  declare export function switchMap<T, I, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<I>,
+    resultSelector: (
+      outerValue: T,
+      innerValue: I,
+      outerIndex: number,
+      innerIndex: number
+    ) => R
+  ): rxjs$OperatorFunction<T, R>;
+
   declare export function switchMapTo<R>(
     observable: rxjs$ObservableInput<R>
   ): rxjs$OperatorFunction<any, R>;
 
+  // @deprecated resultSelector is no longer supported. Switch to using switchMap with an inner map
+  declare export function switchMapTo<T, R>(
+    observable: rxjs$ObservableInput<R>,
+    resultSelector: void
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated resultSelector is no longer supported. Switch to using switchMap with an inner map
+  declare export function switchMapTo<T, I, R>(
+    observable: rxjs$ObservableInput<I>,
+    resultSelector: (
+      outerValue: T,
+      innerValue: I,
+      outerIndex: number,
+      innerIndex: number
+    ) => R
+  ): rxjs$OperatorFunction<T, R>;
+
   declare export function take<T>(
     count: number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function takeWhile<T, S>(
+    predicate: (value: T, index: number) => boolean
+  ): rxjs$OperatorFunction<T, S>;
+
+  declare export function takeWhile<T>(
+    predicate: (value: T, index: number) => boolean
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function takeLast<T>(
@@ -2323,6 +3043,10 @@ declare module "rxjs/operators" {
     next?: (x: T) => void,
     error?: (e: any) => void,
     complete?: () => void
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function tap<T>(
+    observer: rxjs$PartialObserver<T>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare interface ThrottleConfig {
@@ -2380,6 +3104,19 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
 
+  declare export function windowTime<T>(
+    windowTimeSpan: number,
+    windowCreationInterval: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
+
+  declare export function windowTime<T>(
+    windowTimeSpan: number,
+    windowCreationInterval: number,
+    maxWindowSize: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
+
   declare export function windowToggle<T, O>(
     openings: rxjs$Observable<O>,
     closingSelector: (openValue: O) => rxjs$Observable<any>
@@ -2393,15 +3130,198 @@ declare module "rxjs/operators" {
     project: (v1: T) => R
   ): rxjs$OperatorFunction<T, R>;
 
+  declare export function withLatestFrom<T, T2, R>(
+    v2: rxjs$ObservableInput<T2>,
+    project: (v1: T, v2: T2) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function withLatestFrom<T, T2, T3, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    project: (v1: T, v2: T2, v3: T3) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function withLatestFrom<T, T2, T3, T4, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    project: (v1: T, v2: T2, v3: T3, v4: T4) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function withLatestFrom<T, T2, T3, T4, T5, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function withLatestFrom<T, T2, T3, T4, T5, T6, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>,
+    project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function withLatestFrom<T, T2>(
+    v2: rxjs$ObservableInput<T2>
+  ): rxjs$OperatorFunction<T, [T, T2]>;
+
+  declare export function withLatestFrom<T, T2, T3>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>
+  ): rxjs$OperatorFunction<T, [T, T2, T3]>;
+
+  declare export function withLatestFrom<T, T2, T3, T4>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>
+  ): rxjs$OperatorFunction<T, [T, T2, T3, T4]>;
+
+  declare export function withLatestFrom<T, T2, T3, T4, T5>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>
+  ): rxjs$OperatorFunction<T, [T, T2, T3, T4, T5]>;
+
+  declare export function withLatestFrom<T, T2, T3, T4, T5, T6>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>
+  ): rxjs$OperatorFunction<T, [T, T2, T3, T4, T5, T6]>;
+
+  declare export function withLatestFrom<T, R>(
+    ...observables: Array<
+      rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
+    >
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function withLatestFrom<T, R>(
+    array: rxjs$ObservableInput<any>[]
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function withLatestFrom<T, R>(
+    array: rxjs$ObservableInput<any>[],
+    project: (...values: Array<any>) => R
+  ): rxjs$OperatorFunction<T, R>;
+
   // @deprecated  Deprecated in favor of static zip.
   declare export function zip<T, R>(
     project: (v1: T) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2, R>(
+    v2: rxjs$ObservableInput<T2>,
+    project: (v1: T, v2: T2) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2, T3, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    project: (v1: T, v2: T2, v3: T3) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2, T3, T4, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    project: (v1: T, v2: T2, v3: T3, v4: T4) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2, T3, T4, T5, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2, T3, T4, T5, T6, R>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>,
+    project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2>(
+    v2: rxjs$ObservableInput<T2>
+  ): rxjs$OperatorFunction<T, [T, T2]>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2, T3>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>
+  ): rxjs$OperatorFunction<T, [T, T2, T3]>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2, T3, T4>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>
+  ): rxjs$OperatorFunction<T, [T, T2, T3, T4]>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2, T3, T4, T5>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>
+  ): rxjs$OperatorFunction<T, [T, T2, T3, T4, T5]>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, T2, T3, T4, T5, T6>(
+    v2: rxjs$ObservableInput<T2>,
+    v3: rxjs$ObservableInput<T3>,
+    v4: rxjs$ObservableInput<T4>,
+    v5: rxjs$ObservableInput<T5>,
+    v6: rxjs$ObservableInput<T6>
+  ): rxjs$OperatorFunction<T, [T, T2, T3, T4, T5, T6]>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, R>(
+    ...observables: Array<
+      rxjs$ObservableInput<T> | ((...values: Array<T>) => R)
+    >
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated Deprecated in favor of static zip.
+  declare export function zip<T, R>(
+    array: Array<rxjs$ObservableInput<T>>
+  ): rxjs$OperatorFunction<T, R>;
+  // @deprecated Deprecated in favor of static zip.
+
+  declare export function zip<T, TOther, R>(
+    array: Array<rxjs$ObservableInput<TOther>>,
+    project: (v1: T, ...values: Array<TOther>) => R
   ): rxjs$OperatorFunction<T, R>;
 
   declare export function zipAll<T>(): rxjs$OperatorFunction<
     rxjs$ObservableInput<T>,
     T[]
   >;
+
+  declare export function zipAll<T>(): rxjs$OperatorFunction<any, T[]>;
+
+  declare export function zipAll<T, R>(
+    project: (...values: T[]) => R
+  ): rxjs$OperatorFunction<rxjs$ObservableInput<T>, R>;
+
+  declare export function zipAll<R>(
+    project: (...values: Array<any>) => R
+  ): rxjs$OperatorFunction<any, R>;
 
   declare export function iif<T, F>(
     condition: () => boolean,
