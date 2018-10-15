@@ -299,7 +299,7 @@ code that uses the Observable.
    */
   declare export class BehaviorSubject<T> extends Subject<T> {
     constructor(_value: T): this;
-    value: T;
+    +value: T;
 
     /**
      *
@@ -752,7 +752,7 @@ argument.
   declare export interface ObjectUnsubscribedError extends Error {}
 
   declare export interface UnsubscriptionError extends Error {
-    errors: any[];
+    +errors: any[];
   }
 
   declare export interface TimeoutError extends Error {}
@@ -1506,7 +1506,7 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
   declare export type TeardownLogic = Unsubscribable | Function | void;
   declare export interface SubscriptionLike extends Unsubscribable {
     unsubscribe(): void;
-    closed: boolean;
+    +closed: boolean;
   }
   declare export type SubscribableOrPromise<T> =
     | Subscribable<T>
@@ -1558,9 +1558,9 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
     | CompletionObserver<T>;
   declare export interface Observer<T> {
     closed?: boolean;
-    next: (value: T) => void;
-    error: (err: any) => void;
-    complete: () => void;
+    +next: (value: T) => void;
+    +error: (err: any) => void;
+    +complete: () => void;
   }
   /** SCHEDULER INTERFACES */
   declare export interface SchedulerLike {
