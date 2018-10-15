@@ -307,7 +307,7 @@ code that uses the Observable.
      */
     _subscribe(subscriber: Subscriber<T>): Subscription;
     getValue(): T;
-    next(value: T): void;
+    next(value?: T): void;
   }
 
   /**
@@ -342,7 +342,7 @@ any new subscribers in addition to emitting new values to existing subscribers.
      * @deprecated  This is an internal implementation detail, do not use.
      */
     _subscribe(subscriber: Subscriber<any>): Subscription;
-    next(value: T): void;
+    next(value?: T): void;
     error(error: any): void;
     complete(): void;
   }
