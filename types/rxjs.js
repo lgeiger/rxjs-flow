@@ -945,7 +945,7 @@ notification.
     | JQueryStyleEventEmitter;
   declare type FromEventTarget<T> =
     | EventTargetLike<T>
-    | ArrayLike<EventTargetLike<T>>;
+    | Array<EventTargetLike<T>>;
   declare interface EventListenerOptions {
     capture?: boolean;
     passive?: boolean;
@@ -1518,7 +1518,7 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
   declare export type SubscribableOrPromise<T> =
     | Subscribable<T>
     | Subscribable<"NO PRINT IMPLEMENTED: NeverKeyword">
-    | PromiseLike<T>
+    | Promise<T>
     | InteropObservable<T>;
 
   /**
@@ -1534,7 +1534,7 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
   }
   declare export type ObservableInput<T> =
     | SubscribableOrPromise<T>
-    | ArrayLike<T>
+    | Array<T>
     | Iterable<T>;
 
   /**
