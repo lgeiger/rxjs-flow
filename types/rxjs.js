@@ -3,7 +3,7 @@ declare interface UnaryFunction<T, R> {
   (source: T): R;
 }
 declare interface OperatorFunction<T, R>
-  extends UnaryFunction<Observable<T>, Observable<R>> {}
+  extends UnaryFunction<rxjs$Observable<T>, rxjs$Observable<R>> {}
 declare type FactoryOrValue<T> = T | (() => T);
 declare interface MonoTypeOperatorFunction<T> extends OperatorFunction<T, T> {}
 declare interface Timestamp<T> {
@@ -92,16 +92,16 @@ declare interface SchedulerAction<T> extends Subscription {
   schedule(state?: T, delay?: number): Subscription;
 }
 
-declare class Observable<T> implements Subscribable<T> {
+declare class rxjs$Observable<T> implements Subscribable<T> {
   // @internal
   _isScalar: boolean;
   // @deprecated  This is an internal implementation detail, do not use.
-  source: Observable<any>;
+  source: rxjs$Observable<any>;
   // @deprecated  This is an internal implementation detail, do not use.
   operator: Operator<any, T>;
   constructor(subscribe?: (subscriber: Subscriber<T>) => TeardownLogic): this;
   static create: Function;
-  lift<R>(operator: Operator<T, R>): Observable<R>;
+  lift<R>(operator: Operator<T, R>): rxjs$Observable<R>;
   subscribe(observer?: PartialObserver<T>): Subscription;
   subscribe(
     next?: (value: T) => void,
@@ -120,30 +120,30 @@ declare class Observable<T> implements Subscribable<T> {
   static if: typeof iif;
   // @deprecated  In favor of throwError creation function: import { throwError } from 'rxjs';
   static throw: typeof throwError;
-  pipe(): Observable<T>;
-  pipe<A>(op1: OperatorFunction<T, A>): Observable<A>;
+  pipe(): rxjs$Observable<T>;
+  pipe<A>(op1: OperatorFunction<T, A>): rxjs$Observable<A>;
   pipe<A, B>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>
-  ): Observable<B>;
+  ): rxjs$Observable<B>;
   pipe<A, B, C>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
     op3: OperatorFunction<B, C>
-  ): Observable<C>;
+  ): rxjs$Observable<C>;
   pipe<A, B, C, D>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
     op3: OperatorFunction<B, C>,
     op4: OperatorFunction<C, D>
-  ): Observable<D>;
+  ): rxjs$Observable<D>;
   pipe<A, B, C, D, E>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
     op3: OperatorFunction<B, C>,
     op4: OperatorFunction<C, D>,
     op5: OperatorFunction<D, E>
-  ): Observable<E>;
+  ): rxjs$Observable<E>;
   pipe<A, B, C, D, E, F>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
@@ -151,7 +151,7 @@ declare class Observable<T> implements Subscribable<T> {
     op4: OperatorFunction<C, D>,
     op5: OperatorFunction<D, E>,
     op6: OperatorFunction<E, F>
-  ): Observable<F>;
+  ): rxjs$Observable<F>;
   pipe<A, B, C, D, E, F, G>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
@@ -160,7 +160,7 @@ declare class Observable<T> implements Subscribable<T> {
     op5: OperatorFunction<D, E>,
     op6: OperatorFunction<E, F>,
     op7: OperatorFunction<F, G>
-  ): Observable<G>;
+  ): rxjs$Observable<G>;
   pipe<A, B, C, D, E, F, G, H>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
@@ -170,7 +170,7 @@ declare class Observable<T> implements Subscribable<T> {
     op6: OperatorFunction<E, F>,
     op7: OperatorFunction<F, G>,
     op8: OperatorFunction<G, H>
-  ): Observable<H>;
+  ): rxjs$Observable<H>;
   pipe<A, B, C, D, E, F, G, H, I>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
@@ -181,7 +181,7 @@ declare class Observable<T> implements Subscribable<T> {
     op7: OperatorFunction<F, G>,
     op8: OperatorFunction<G, H>,
     op9: OperatorFunction<H, I>
-  ): Observable<I>;
+  ): rxjs$Observable<I>;
   pipe<A, B, C, D, E, F, G, H, I>(
     op1: OperatorFunction<T, A>,
     op2: OperatorFunction<A, B>,
@@ -193,7 +193,7 @@ declare class Observable<T> implements Subscribable<T> {
     op8: OperatorFunction<G, H>,
     op9: OperatorFunction<H, I>,
     ...operations: OperatorFunction<any, any>[]
-  ): Observable<{}>;
+  ): rxjs$Observable<{}>;
   toPromise<T>(): Promise<T>;
   toPromise<T>(PromiseCtor: typeof Promise): Promise<T>;
   toPromise<T>(PromiseCtor: Promise.constructor): Promise<T>;
@@ -249,17 +249,17 @@ declare class Subscriber<T> extends Subscription implements Observer<T> {
 declare function throwError(
   error: any,
   scheduler?: SchedulerLike
-): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
+): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
 
 declare function iif<T, F>(
   condition: () => boolean,
   trueResult?: SubscribableOrPromise<T>,
   falseResult?: SubscribableOrPromise<F>
-): Observable<T | F>;
+): rxjs$Observable<T | F>;
 
 declare module "rxjs" {
   declare module.exports: {
-    Observable: typeof Observable,
+    Observable: typeof rxjs$Observable,
     Subscriber: typeof Subscriber,
     throwError: typeof throwError,
     iif: typeof iif,
@@ -282,102 +282,120 @@ declare module "rxjs" {
     noop(): void,
     identity<T>(x: T): T,
     isObservable<T>(obj: any): boolean,
-    // @deprecated  resultSelector is no longer supported, use a mapping function.
-    bindCallback(
-      callbackFunc: Function,
-      resultSelector: Function,
-      scheduler?: SchedulerLike
-    ): (...args: any[]) => Observable<any>,
-    // @deprecated  resultSelector is deprecated, pipe to map instead
-    bindNodeCallback(
-      callbackFunc: Function,
-      resultSelector: Function,
-      scheduler?: SchedulerLike
-    ): (...args: any[]) => Observable<any>,
-    // @deprecated  resultSelector no longer supported, pipe to map instead
-    combineLatest<T, R>(
+    concat<T>(
       v1: ObservableInput<T>,
-      resultSelector: (v1: T) => R,
       scheduler?: SchedulerLike
-    ): Observable<R>,
-    concat<T>(v1: ObservableInput<T>, scheduler?: SchedulerLike): Observable<T>,
+    ): rxjs$Observable<T>,
     defer<T>(
       observableFactory: () => SubscribableOrPromise<T> | void
-    ): Observable<T>,
+    ): rxjs$Observable<T>,
     empty(
       scheduler?: SchedulerLike
-    ): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
-    forkJoin<T>(sources: [ObservableInput<T>]): Observable<T[]>,
+    ): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
+    forkJoin<T>(sources: [ObservableInput<T>]): rxjs$Observable<T[]>,
     from<T>(
       input: ObservableInput<T>,
       scheduler?: SchedulerLike
-    ): Observable<T>,
+    ): rxjs$Observable<T>,
     ArgumentOutOfRangeError: ArgumentOutOfRangeError,
     EmptyError: EmptyError,
     ObjectUnsubscribedError: ObjectUnsubscribedError,
     UnsubscriptionError: UnsubscriptionError,
     TimeoutError: TimeoutError,
-    fromEvent<T>(target: FromEventTarget<T>, eventName: string): Observable<T>,
+    fromEvent<T>(
+      target: FromEventTarget<T>,
+      eventName: string
+    ): rxjs$Observable<T>,
     fromEventPattern<T>(
       addHandler: (handler: Function) => any,
       removeHandler?: (handler: Function, signal?: any) => void
-    ): Observable<T>,
+    ): rxjs$Observable<T>,
     generate<T, S>(
       initialState: S,
       condition: ConditionFunc<S>,
       iterate: IterateFunc<S>,
       resultSelector: ResultFunc<S, T>,
       scheduler?: SchedulerLike
-    ): Observable<T>,
-    interval(period?: number, scheduler?: SchedulerLike): Observable<number>,
-    merge<T>(v1: ObservableInput<T>, scheduler?: SchedulerLike): Observable<T>,
-    // @deprecated  Deprecated in favor of using {@link  NEVER} constant.
-    never(): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
-    of<T>(a: T, scheduler?: SchedulerLike): Observable<T>,
-    onErrorResumeNext<R>(v: ObservableInput<R>): Observable<R>,
-    pairs<T>(obj: Object, scheduler?: SchedulerLike): Observable<[string, T]>,
-    race<T>(observables: Array<Observable<T>>): Observable<T>,
+    ): rxjs$Observable<T>,
+    interval(
+      period?: number,
+      scheduler?: SchedulerLike
+    ): rxjs$Observable<number>,
+    merge<T>(
+      v1: ObservableInput<T>,
+      scheduler?: SchedulerLike
+    ): rxjs$Observable<T>,
+    of<T>(a: T, scheduler?: SchedulerLike): rxjs$Observable<T>,
+    onErrorResumeNext<R>(v: ObservableInput<R>): rxjs$Observable<R>,
+    pairs<T>(
+      obj: Object,
+      scheduler?: SchedulerLike
+    ): rxjs$Observable<[string, T]>,
+    race<T>(observables: Array<rxjs$Observable<T>>): rxjs$Observable<T>,
     range(
       start?: number,
       count?: number,
       scheduler?: SchedulerLike
-    ): Observable<number>,
+    ): rxjs$Observable<number>,
     timer(
       dueTime?: number | Date,
       periodOrScheduler?: number | SchedulerLike,
       scheduler?: SchedulerLike
-    ): Observable<number>,
+    ): rxjs$Observable<number>,
     using<T>(
       resourceFactory: () => Unsubscribable | void,
       observableFactory: (
         resource: Unsubscribable | void
       ) => ObservableInput<T> | void
-    ): Observable<T>,
+    ): rxjs$Observable<T>,
+    config: {
+      Promise: Promise.constructor,
+      useDeprecatedSynchronousErrorHandling: boolean
+    },
     // @deprecated  resultSelector is no longer supported, pipe to map instead
     zip<T, R>(
       v1: ObservableInput<T>,
       resultSelector: (v1: T) => R
-    ): Observable<R>,
-    config: {
-      Promise: Promise.constructor,
-      useDeprecatedSynchronousErrorHandling: boolean
-    }
+    ): rxjs$Observable<R>,
+    // @deprecated  Deprecated in favor of using {@link  NEVER} constant.
+    never(): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
+    // @deprecated  resultSelector is no longer supported, use a mapping function.
+    bindCallback(
+      callbackFunc: Function,
+      resultSelector: Function,
+      scheduler?: SchedulerLike
+    ): (...args: any[]) => rxjs$Observable<any>,
+    // @deprecated  resultSelector is deprecated, pipe to map instead
+    bindNodeCallback(
+      callbackFunc: Function,
+      resultSelector: Function,
+      scheduler?: SchedulerLike
+    ): (...args: any[]) => rxjs$Observable<any>,
+    // @deprecated  resultSelector no longer supported, pipe to map instead
+    combineLatest<T, R>(
+      v1: ObservableInput<T>,
+      resultSelector: (v1: T) => R,
+      scheduler?: SchedulerLike
+    ): rxjs$Observable<R>
   };
 
-  declare class ConnectableObservable<T> extends Observable<T> {
-    source: Observable<T>;
+  declare class ConnectableObservable<T> extends rxjs$Observable<T> {
+    source: rxjs$Observable<T>;
     subjectFactory: () => Subject<T>;
     _subject: Subject<T>;
     _refCount: number;
     _connection: Subscription;
     // @internal
     _isComplete: boolean;
-    constructor(source: Observable<T>, subjectFactory: () => Subject<T>): this;
+    constructor(
+      source: rxjs$Observable<T>,
+      subjectFactory: () => Subject<T>
+    ): this;
     // @deprecated  This is an internal implementation detail, do not use.
     _subscribe(subscriber: Subscriber<T>): Subscription;
     getSubject(): Subject<T>;
     connect(): Subscription;
-    refCount(): Observable<T>;
+    refCount(): rxjs$Observable<T>;
   }
 
   declare interface RefCountSubscription {
@@ -387,7 +405,7 @@ declare module "rxjs" {
     attemptedToUnsubscribe: boolean;
   }
 
-  declare class GroupedObservable<K, T> extends Observable<T> {
+  declare class GroupedObservable<K, T> extends rxjs$Observable<T> {
     key: K;
     // @deprecated  Do not construct this type. Internal use only
     constructor(
@@ -399,7 +417,8 @@ declare module "rxjs" {
     _subscribe(subscriber: Subscriber<T>): Subscription;
   }
 
-  declare class Subject<T> extends Observable<T> implements SubscriptionLike {
+  declare class Subject<T> extends rxjs$Observable<T>
+    implements SubscriptionLike {
     observers: Observer<T>[];
     closed: boolean;
     isStopped: boolean;
@@ -407,7 +426,7 @@ declare module "rxjs" {
     thrownError: any;
     constructor(): this;
     static create: Function;
-    lift<R>(operator: Operator<T, R>): Observable<R>;
+    lift<R>(operator: Operator<T, R>): rxjs$Observable<R>;
     next(value?: T): void;
     error(err: any): void;
     complete(): void;
@@ -416,7 +435,7 @@ declare module "rxjs" {
     _trySubscribe(subscriber: Subscriber<T>): TeardownLogic;
     // @deprecated  This is an internal implementation detail, do not use.
     _subscribe(subscriber: Subscriber<T>): Subscription;
-    asObservable(): Observable<T>;
+    asObservable(): rxjs$Observable<T>;
   }
 
   declare class BehaviorSubject<T> extends Subject<T> {
@@ -513,7 +532,7 @@ declare module "rxjs" {
       error?: (err: any) => void,
       complete?: () => void
     ): any;
-    toObservable(): Observable<T>;
+    toObservable(): rxjs$Observable<T>;
     static createNext<T>(value: T): Notification<T>;
     static createError<T>(err?: any): Notification<T>;
     static createComplete(): Notification<any>;
