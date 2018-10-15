@@ -282,209 +282,211 @@ declare module "rxjs" {
     VirtualAction: typeof VirtualAction,
     Scheduler: typeof Scheduler,
     Notification: typeof Notification,
-    pipe<T>(): rxjs$UnaryFunction<T, T>,
-    pipe<T, A>(fn1: rxjs$UnaryFunction<T, A>): rxjs$UnaryFunction<T, A>,
-    pipe<T, A, B>(
-      fn1: rxjs$UnaryFunction<T, A>,
-      fn2: rxjs$UnaryFunction<A, B>
-    ): rxjs$UnaryFunction<T, B>,
-    pipe<T, A, B, C>(
-      fn1: rxjs$UnaryFunction<T, A>,
-      fn2: rxjs$UnaryFunction<A, B>,
-      fn3: rxjs$UnaryFunction<B, C>
-    ): rxjs$UnaryFunction<T, C>,
-    pipe<T, A, B, C, D>(
-      fn1: rxjs$UnaryFunction<T, A>,
-      fn2: rxjs$UnaryFunction<A, B>,
-      fn3: rxjs$UnaryFunction<B, C>,
-      fn4: rxjs$UnaryFunction<C, D>
-    ): rxjs$UnaryFunction<T, D>,
-    pipe<T, A, B, C, D, E>(
-      fn1: rxjs$UnaryFunction<T, A>,
-      fn2: rxjs$UnaryFunction<A, B>,
-      fn3: rxjs$UnaryFunction<B, C>,
-      fn4: rxjs$UnaryFunction<C, D>,
-      fn5: rxjs$UnaryFunction<D, E>
-    ): rxjs$UnaryFunction<T, E>,
-    pipe<T, A, B, C, D, E, F>(
-      fn1: rxjs$UnaryFunction<T, A>,
-      fn2: rxjs$UnaryFunction<A, B>,
-      fn3: rxjs$UnaryFunction<B, C>,
-      fn4: rxjs$UnaryFunction<C, D>,
-      fn5: rxjs$UnaryFunction<D, E>,
-      fn6: rxjs$UnaryFunction<E, F>
-    ): rxjs$UnaryFunction<T, F>,
-    pipe<T, A, B, C, D, E, F, G>(
-      fn1: rxjs$UnaryFunction<T, A>,
-      fn2: rxjs$UnaryFunction<A, B>,
-      fn3: rxjs$UnaryFunction<B, C>,
-      fn4: rxjs$UnaryFunction<C, D>,
-      fn5: rxjs$UnaryFunction<D, E>,
-      fn6: rxjs$UnaryFunction<E, F>,
-      fn7: rxjs$UnaryFunction<F, G>
-    ): rxjs$UnaryFunction<T, G>,
-    pipe<T, A, B, C, D, E, F, G, H>(
-      fn1: rxjs$UnaryFunction<T, A>,
-      fn2: rxjs$UnaryFunction<A, B>,
-      fn3: rxjs$UnaryFunction<B, C>,
-      fn4: rxjs$UnaryFunction<C, D>,
-      fn5: rxjs$UnaryFunction<D, E>,
-      fn6: rxjs$UnaryFunction<E, F>,
-      fn7: rxjs$UnaryFunction<F, G>,
-      fn8: rxjs$UnaryFunction<G, H>
-    ): rxjs$UnaryFunction<T, H>,
-    pipe<T, A, B, C, D, E, F, G, H, I>(
-      fn1: rxjs$UnaryFunction<T, A>,
-      fn2: rxjs$UnaryFunction<A, B>,
-      fn3: rxjs$UnaryFunction<B, C>,
-      fn4: rxjs$UnaryFunction<C, D>,
-      fn5: rxjs$UnaryFunction<D, E>,
-      fn6: rxjs$UnaryFunction<E, F>,
-      fn7: rxjs$UnaryFunction<F, G>,
-      fn8: rxjs$UnaryFunction<G, H>,
-      fn9: rxjs$UnaryFunction<H, I>
-    ): rxjs$UnaryFunction<T, I>,
-    pipe<T, A, B, C, D, E, F, G, H, I>(
-      fn1: rxjs$UnaryFunction<T, A>,
-      fn2: rxjs$UnaryFunction<A, B>,
-      fn3: rxjs$UnaryFunction<B, C>,
-      fn4: rxjs$UnaryFunction<C, D>,
-      fn5: rxjs$UnaryFunction<D, E>,
-      fn6: rxjs$UnaryFunction<E, F>,
-      fn7: rxjs$UnaryFunction<F, G>,
-      fn8: rxjs$UnaryFunction<G, H>,
-      fn9: rxjs$UnaryFunction<H, I>,
-      ...fns: rxjs$UnaryFunction<any, any>[]
-    ): rxjs$UnaryFunction<T, {}>,
+    pipe: (<T>() => rxjs$UnaryFunction<T, T>) &
+      (<T, A>(fn1: rxjs$UnaryFunction<T, A>) => rxjs$UnaryFunction<T, A>) &
+      (<T, A, B>(
+        fn1: rxjs$UnaryFunction<T, A>,
+        fn2: rxjs$UnaryFunction<A, B>
+      ) => rxjs$UnaryFunction<T, B>) &
+      (<T, A, B, C>(
+        fn1: rxjs$UnaryFunction<T, A>,
+        fn2: rxjs$UnaryFunction<A, B>,
+        fn3: rxjs$UnaryFunction<B, C>
+      ) => rxjs$UnaryFunction<T, C>) &
+      (<T, A, B, C, D>(
+        fn1: rxjs$UnaryFunction<T, A>,
+        fn2: rxjs$UnaryFunction<A, B>,
+        fn3: rxjs$UnaryFunction<B, C>,
+        fn4: rxjs$UnaryFunction<C, D>
+      ) => rxjs$UnaryFunction<T, D>) &
+      (<T, A, B, C, D, E>(
+        fn1: rxjs$UnaryFunction<T, A>,
+        fn2: rxjs$UnaryFunction<A, B>,
+        fn3: rxjs$UnaryFunction<B, C>,
+        fn4: rxjs$UnaryFunction<C, D>,
+        fn5: rxjs$UnaryFunction<D, E>
+      ) => rxjs$UnaryFunction<T, E>) &
+      (<T, A, B, C, D, E, F>(
+        fn1: rxjs$UnaryFunction<T, A>,
+        fn2: rxjs$UnaryFunction<A, B>,
+        fn3: rxjs$UnaryFunction<B, C>,
+        fn4: rxjs$UnaryFunction<C, D>,
+        fn5: rxjs$UnaryFunction<D, E>,
+        fn6: rxjs$UnaryFunction<E, F>
+      ) => rxjs$UnaryFunction<T, F>) &
+      (<T, A, B, C, D, E, F, G>(
+        fn1: rxjs$UnaryFunction<T, A>,
+        fn2: rxjs$UnaryFunction<A, B>,
+        fn3: rxjs$UnaryFunction<B, C>,
+        fn4: rxjs$UnaryFunction<C, D>,
+        fn5: rxjs$UnaryFunction<D, E>,
+        fn6: rxjs$UnaryFunction<E, F>,
+        fn7: rxjs$UnaryFunction<F, G>
+      ) => rxjs$UnaryFunction<T, G>) &
+      (<T, A, B, C, D, E, F, G, H>(
+        fn1: rxjs$UnaryFunction<T, A>,
+        fn2: rxjs$UnaryFunction<A, B>,
+        fn3: rxjs$UnaryFunction<B, C>,
+        fn4: rxjs$UnaryFunction<C, D>,
+        fn5: rxjs$UnaryFunction<D, E>,
+        fn6: rxjs$UnaryFunction<E, F>,
+        fn7: rxjs$UnaryFunction<F, G>,
+        fn8: rxjs$UnaryFunction<G, H>
+      ) => rxjs$UnaryFunction<T, H>) &
+      (<T, A, B, C, D, E, F, G, H, I>(
+        fn1: rxjs$UnaryFunction<T, A>,
+        fn2: rxjs$UnaryFunction<A, B>,
+        fn3: rxjs$UnaryFunction<B, C>,
+        fn4: rxjs$UnaryFunction<C, D>,
+        fn5: rxjs$UnaryFunction<D, E>,
+        fn6: rxjs$UnaryFunction<E, F>,
+        fn7: rxjs$UnaryFunction<F, G>,
+        fn8: rxjs$UnaryFunction<G, H>,
+        fn9: rxjs$UnaryFunction<H, I>
+      ) => rxjs$UnaryFunction<T, I>) &
+      (<T, A, B, C, D, E, F, G, H, I>(
+        fn1: rxjs$UnaryFunction<T, A>,
+        fn2: rxjs$UnaryFunction<A, B>,
+        fn3: rxjs$UnaryFunction<B, C>,
+        fn4: rxjs$UnaryFunction<C, D>,
+        fn5: rxjs$UnaryFunction<D, E>,
+        fn6: rxjs$UnaryFunction<E, F>,
+        fn7: rxjs$UnaryFunction<F, G>,
+        fn8: rxjs$UnaryFunction<G, H>,
+        fn9: rxjs$UnaryFunction<H, I>,
+        ...fns: rxjs$UnaryFunction<any, any>[]
+      ) => rxjs$UnaryFunction<T, {}>),
     noop(): void,
     identity<T>(x: T): T,
     isObservable<T>(obj: any): boolean,
-    concat<T>(
+    concat: (<T>(
       v1: rxjs$ObservableInput<T>,
       scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T>,
-    concat<T, T2>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2>,
-    concat<T, T2, T3>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3>,
-    concat<T, T2, T3, T4>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4>,
-    concat<T, T2, T3, T4, T5>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5>,
-    concat<T, T2, T3, T4, T5, T6>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      v6: rxjs$ObservableInput<T6>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>,
-    concat<T>(
-      ...observables: (rxjs$ObservableInput<T> | rxjs$SchedulerLike)[]
-    ): rxjs$Observable<T>,
-    concat<T, R>(
-      ...observables: (rxjs$ObservableInput<any> | rxjs$SchedulerLike)[]
-    ): rxjs$Observable<R>,
+    ) => rxjs$Observable<T>) &
+      (<T, T2>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2>) &
+      (<T, T2, T3>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3>) &
+      (<T, T2, T3, T4>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4>) &
+      (<T, T2, T3, T4, T5>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5>) &
+      (<T, T2, T3, T4, T5, T6>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        v6: rxjs$ObservableInput<T6>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>) &
+      (<T>(
+        ...observables: (rxjs$ObservableInput<T> | rxjs$SchedulerLike)[]
+      ) => rxjs$Observable<T>) &
+      (<T, R>(
+        ...observables: (rxjs$ObservableInput<any> | rxjs$SchedulerLike)[]
+      ) => rxjs$Observable<R>),
     defer<T>(
       observableFactory: () => rxjs$SubscribableOrPromise<T> | void
     ): rxjs$Observable<T>,
     empty(
       scheduler?: rxjs$SchedulerLike
     ): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
-    forkJoin<T>(sources: [rxjs$ObservableInput<T>]): rxjs$Observable<T[]>,
-    forkJoin<T, T2>(
-      sources: [rxjs$ObservableInput<T>, rxjs$ObservableInput<T2>]
-    ): rxjs$Observable<[T, T2]>,
-    forkJoin<T, T2, T3>(
-      sources: [
-        rxjs$ObservableInput<T>,
-        rxjs$ObservableInput<T2>,
-        rxjs$ObservableInput<T3>
-      ]
-    ): rxjs$Observable<[T, T2, T3]>,
-    forkJoin<T, T2, T3, T4>(
-      sources: [
-        rxjs$ObservableInput<T>,
-        rxjs$ObservableInput<T2>,
-        rxjs$ObservableInput<T3>,
-        rxjs$ObservableInput<T4>
-      ]
-    ): rxjs$Observable<[T, T2, T3, T4]>,
-    forkJoin<T, T2, T3, T4, T5>(
-      sources: [
-        rxjs$ObservableInput<T>,
-        rxjs$ObservableInput<T2>,
-        rxjs$ObservableInput<T3>,
-        rxjs$ObservableInput<T4>,
-        rxjs$ObservableInput<T5>
-      ]
-    ): rxjs$Observable<[T, T2, T3, T4, T5]>,
-    forkJoin<T, T2, T3, T4, T5, T6>(
-      sources: [
-        rxjs$ObservableInput<T>,
-        rxjs$ObservableInput<T2>,
-        rxjs$ObservableInput<T3>,
-        rxjs$ObservableInput<T4>,
-        rxjs$ObservableInput<T5>,
-        rxjs$ObservableInput<T6>
-      ]
-    ): rxjs$Observable<[T, T2, T3, T4, T5, T6]>,
-    forkJoin<T>(sources: Array<rxjs$ObservableInput<T>>): rxjs$Observable<T[]>,
-    forkJoin<T>(v1: rxjs$ObservableInput<T>): rxjs$Observable<T[]>,
-    forkJoin<T, T2>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>
-    ): rxjs$Observable<[T, T2]>,
-    forkJoin<T, T2, T3>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>
-    ): rxjs$Observable<[T, T2, T3]>,
-    forkJoin<T, T2, T3, T4>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>
-    ): rxjs$Observable<[T, T2, T3, T4]>,
-    forkJoin<T, T2, T3, T4, T5>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>
-    ): rxjs$Observable<[T, T2, T3, T4, T5]>,
-    forkJoin<T, T2, T3, T4, T5, T6>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      v6: rxjs$ObservableInput<T6>
-    ): rxjs$Observable<[T, T2, T3, T4, T5, T6]>,
-    // @deprecated resultSelector is deprecated, pipe to map instead
-    forkJoin(
-      ...args: Array<rxjs$ObservableInput<any> | Function>
-    ): rxjs$Observable<any>,
-    forkJoin<T>(...sources: rxjs$ObservableInput<T>[]): rxjs$Observable<T[]>,
+    forkJoin: (<T>(
+      sources: [rxjs$ObservableInput<T>]
+    ) => rxjs$Observable<T[]>) &
+      (<T, T2>(
+        sources: [rxjs$ObservableInput<T>, rxjs$ObservableInput<T2>]
+      ) => rxjs$Observable<[T, T2]>) &
+      (<T, T2, T3>(
+        sources: [
+          rxjs$ObservableInput<T>,
+          rxjs$ObservableInput<T2>,
+          rxjs$ObservableInput<T3>
+        ]
+      ) => rxjs$Observable<[T, T2, T3]>) &
+      (<T, T2, T3, T4>(
+        sources: [
+          rxjs$ObservableInput<T>,
+          rxjs$ObservableInput<T2>,
+          rxjs$ObservableInput<T3>,
+          rxjs$ObservableInput<T4>
+        ]
+      ) => rxjs$Observable<[T, T2, T3, T4]>) &
+      (<T, T2, T3, T4, T5>(
+        sources: [
+          rxjs$ObservableInput<T>,
+          rxjs$ObservableInput<T2>,
+          rxjs$ObservableInput<T3>,
+          rxjs$ObservableInput<T4>,
+          rxjs$ObservableInput<T5>
+        ]
+      ) => rxjs$Observable<[T, T2, T3, T4, T5]>) &
+      (<T, T2, T3, T4, T5, T6>(
+        sources: [
+          rxjs$ObservableInput<T>,
+          rxjs$ObservableInput<T2>,
+          rxjs$ObservableInput<T3>,
+          rxjs$ObservableInput<T4>,
+          rxjs$ObservableInput<T5>,
+          rxjs$ObservableInput<T6>
+        ]
+      ) => rxjs$Observable<[T, T2, T3, T4, T5, T6]>) &
+      (<T>(sources: Array<rxjs$ObservableInput<T>>) => rxjs$Observable<T[]>) &
+      (<T>(v1: rxjs$ObservableInput<T>) => rxjs$Observable<T[]>) &
+      (<T, T2>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>
+      ) => rxjs$Observable<[T, T2]>) &
+      (<T, T2, T3>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>
+      ) => rxjs$Observable<[T, T2, T3]>) &
+      (<T, T2, T3, T4>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>
+      ) => rxjs$Observable<[T, T2, T3, T4]>) &
+      (<T, T2, T3, T4, T5>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>
+      ) => rxjs$Observable<[T, T2, T3, T4, T5]>) &
+      (<T, T2, T3, T4, T5, T6>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        v6: rxjs$ObservableInput<T6>
+      ) => rxjs$Observable<[T, T2, T3, T4, T5, T6]>) &
+      // @deprecated resultSelector is deprecated, pipe to map instead
+      ((
+        ...args: Array<rxjs$ObservableInput<any> | Function>
+      ) => rxjs$Observable<any>) &
+      (<T>(...sources: rxjs$ObservableInput<T>[]) => rxjs$Observable<T[]>),
     from<T>(
       input: rxjs$ObservableInput<T>,
       scheduler?: rxjs$SchedulerLike
@@ -494,38 +496,38 @@ declare module "rxjs" {
     ObjectUnsubscribedError: ObjectUnsubscribedError,
     UnsubscriptionError: UnsubscriptionError,
     TimeoutError: TimeoutError,
-    fromEvent<T>(
+    fromEvent: (<T>(
       target: FromEventTarget<T>,
       eventName: string
-    ): rxjs$Observable<T>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    fromEvent<T>(
-      target: FromEventTarget<T>,
-      eventName: string,
-      resultSelector: (...args: any[]) => T
-    ): rxjs$Observable<T>,
-    fromEvent<T>(
-      target: FromEventTarget<T>,
-      eventName: string,
-      options: EventListenerOptions
-    ): rxjs$Observable<T>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    fromEvent<T>(
-      target: FromEventTarget<T>,
-      eventName: string,
-      options: EventListenerOptions,
-      resultSelector: (...args: any[]) => T
-    ): rxjs$Observable<T>,
-    fromEventPattern<T>(
+    ) => rxjs$Observable<T>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<T>(
+        target: FromEventTarget<T>,
+        eventName: string,
+        resultSelector: (...args: any[]) => T
+      ) => rxjs$Observable<T>) &
+      (<T>(
+        target: FromEventTarget<T>,
+        eventName: string,
+        options: EventListenerOptions
+      ) => rxjs$Observable<T>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<T>(
+        target: FromEventTarget<T>,
+        eventName: string,
+        options: EventListenerOptions,
+        resultSelector: (...args: any[]) => T
+      ) => rxjs$Observable<T>),
+    fromEventPattern: (<T>(
       addHandler: (handler: Function) => any,
       removeHandler?: (handler: Function, signal?: any) => void
-    ): rxjs$Observable<T>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    fromEventPattern<T>(
-      addHandler: (handler: Function) => any,
-      removeHandler?: (handler: Function, signal?: any) => void,
-      resultSelector?: (...args: any[]) => T
-    ): rxjs$Observable<T>,
+    ) => rxjs$Observable<T>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<T>(
+        addHandler: (handler: Function) => any,
+        removeHandler?: (handler: Function, signal?: any) => void,
+        resultSelector?: (...args: any[]) => T
+      ) => rxjs$Observable<T>),
     generate<T, S>(
       initialState: S,
       condition: ConditionFunc<S>,
@@ -537,210 +539,212 @@ declare module "rxjs" {
       period?: number,
       scheduler?: rxjs$SchedulerLike
     ): rxjs$Observable<number>,
-    merge<T>(
+    merge: (<T>(
       v1: rxjs$ObservableInput<T>,
       scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T>,
-    merge<T>(
-      v1: rxjs$ObservableInput<T>,
-      concurrent?: number,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T>,
-    merge<T, T2>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2>,
-    merge<T, T2>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      concurrent?: number,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2>,
-    merge<T, T2, T3>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3>,
-    merge<T, T2, T3>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      concurrent?: number,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3>,
-    merge<T, T2, T3, T4>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4>,
-    merge<T, T2, T3, T4>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      concurrent?: number,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4>,
-    merge<T, T2, T3, T4, T5>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5>,
-    merge<T, T2, T3, T4, T5>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      concurrent?: number,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5>,
-    merge<T, T2, T3, T4, T5, T6>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      v6: rxjs$ObservableInput<T6>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>,
-    merge<T, T2, T3, T4, T5, T6>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      v6: rxjs$ObservableInput<T6>,
-      concurrent?: number,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>,
-    merge<T>(
-      ...observables: (rxjs$ObservableInput<T> | rxjs$SchedulerLike | number)[]
-    ): rxjs$Observable<T>,
-    merge<T, R>(
-      ...observables: (
-        | rxjs$ObservableInput<any>
-        | rxjs$SchedulerLike
-        | number
-      )[]
-    ): rxjs$Observable<R>,
-    of<T>(a: T, scheduler?: rxjs$SchedulerLike): rxjs$Observable<T>,
-    of<T, T2>(
-      a: T,
-      b: T2,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2>,
-    of<T, T2, T3>(
-      a: T,
-      b: T2,
-      c: T3,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3>,
-    of<T, T2, T3, T4>(
-      a: T,
-      b: T2,
-      c: T3,
-      d: T4,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4>,
-    of<T, T2, T3, T4, T5>(
-      a: T,
-      b: T2,
-      c: T3,
-      d: T4,
-      e: T5,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5>,
-    of<T, T2, T3, T4, T5, T6>(
-      a: T,
-      b: T2,
-      c: T3,
-      d: T4,
-      e: T5,
-      f: T6,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>,
-    of<T, T2, T3, T4, T5, T6, T7>(
-      a: T,
-      b: T2,
-      c: T3,
-      d: T4,
-      e: T5,
-      f: T6,
-      g: T7,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5 | T6 | T7>,
-    of<T, T2, T3, T4, T5, T6, T7, T8>(
-      a: T,
-      b: T2,
-      c: T3,
-      d: T4,
-      e: T5,
-      f: T6,
-      g: T7,
-      h: T8,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5 | T6 | T7 | T8>,
-    of<T, T2, T3, T4, T5, T6, T7, T8, T9>(
-      a: T,
-      b: T2,
-      c: T3,
-      d: T4,
-      e: T5,
-      f: T6,
-      g: T7,
-      h: T8,
-      i: T9,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9>,
-    of<T>(...args: Array<T | rxjs$SchedulerLike>): rxjs$Observable<T>,
-    onErrorResumeNext<R>(v: rxjs$ObservableInput<R>): rxjs$Observable<R>,
-    onErrorResumeNext<T2, T3, R>(
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>
-    ): rxjs$Observable<R>,
-    onErrorResumeNext<T2, T3, T4, R>(
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>
-    ): rxjs$Observable<R>,
-    onErrorResumeNext<T2, T3, T4, T5, R>(
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>
-    ): rxjs$Observable<R>,
-    onErrorResumeNext<T2, T3, T4, T5, T6, R>(
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      v6: rxjs$ObservableInput<T6>
-    ): rxjs$Observable<R>,
-    onErrorResumeNext<R>(
-      ...observables: Array<
-        rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
-      >
-    ): rxjs$Observable<R>,
-    onErrorResumeNext<R>(
-      array: rxjs$ObservableInput<any>[]
-    ): rxjs$Observable<R>,
+    ) => rxjs$Observable<T>) &
+      (<T>(
+        v1: rxjs$ObservableInput<T>,
+        concurrent?: number,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T>) &
+      (<T, T2>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2>) &
+      (<T, T2>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        concurrent?: number,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2>) &
+      (<T, T2, T3>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3>) &
+      (<T, T2, T3>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        concurrent?: number,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3>) &
+      (<T, T2, T3, T4>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4>) &
+      (<T, T2, T3, T4>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        concurrent?: number,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4>) &
+      (<T, T2, T3, T4, T5>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5>) &
+      (<T, T2, T3, T4, T5>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        concurrent?: number,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5>) &
+      (<T, T2, T3, T4, T5, T6>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        v6: rxjs$ObservableInput<T6>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>) &
+      (<T, T2, T3, T4, T5, T6>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        v6: rxjs$ObservableInput<T6>,
+        concurrent?: number,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>) &
+      (<T>(
+        ...observables: (
+          | rxjs$ObservableInput<T>
+          | rxjs$SchedulerLike
+          | number
+        )[]
+      ) => rxjs$Observable<T>) &
+      (<T, R>(
+        ...observables: (
+          | rxjs$ObservableInput<any>
+          | rxjs$SchedulerLike
+          | number
+        )[]
+      ) => rxjs$Observable<R>),
+    of: (<T>(a: T, scheduler?: rxjs$SchedulerLike) => rxjs$Observable<T>) &
+      (<T, T2>(
+        a: T,
+        b: T2,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2>) &
+      (<T, T2, T3>(
+        a: T,
+        b: T2,
+        c: T3,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3>) &
+      (<T, T2, T3, T4>(
+        a: T,
+        b: T2,
+        c: T3,
+        d: T4,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4>) &
+      (<T, T2, T3, T4, T5>(
+        a: T,
+        b: T2,
+        c: T3,
+        d: T4,
+        e: T5,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5>) &
+      (<T, T2, T3, T4, T5, T6>(
+        a: T,
+        b: T2,
+        c: T3,
+        d: T4,
+        e: T5,
+        f: T6,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>) &
+      (<T, T2, T3, T4, T5, T6, T7>(
+        a: T,
+        b: T2,
+        c: T3,
+        d: T4,
+        e: T5,
+        f: T6,
+        g: T7,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5 | T6 | T7>) &
+      (<T, T2, T3, T4, T5, T6, T7, T8>(
+        a: T,
+        b: T2,
+        c: T3,
+        d: T4,
+        e: T5,
+        f: T6,
+        g: T7,
+        h: T8,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5 | T6 | T7 | T8>) &
+      (<T, T2, T3, T4, T5, T6, T7, T8, T9>(
+        a: T,
+        b: T2,
+        c: T3,
+        d: T4,
+        e: T5,
+        f: T6,
+        g: T7,
+        h: T8,
+        i: T9,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9>) &
+      (<T>(...args: Array<T | rxjs$SchedulerLike>) => rxjs$Observable<T>),
+    onErrorResumeNext: (<R>(v: rxjs$ObservableInput<R>) => rxjs$Observable<R>) &
+      (<T2, T3, R>(
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>
+      ) => rxjs$Observable<R>) &
+      (<T2, T3, T4, R>(
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>
+      ) => rxjs$Observable<R>) &
+      (<T2, T3, T4, T5, R>(
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>
+      ) => rxjs$Observable<R>) &
+      (<T2, T3, T4, T5, T6, R>(
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        v6: rxjs$ObservableInput<T6>
+      ) => rxjs$Observable<R>) &
+      (<R>(
+        ...observables: Array<
+          rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
+        >
+      ) => rxjs$Observable<R>) &
+      (<R>(array: rxjs$ObservableInput<any>[]) => rxjs$Observable<R>),
     pairs<T>(
       obj: Object,
       scheduler?: rxjs$SchedulerLike
     ): rxjs$Observable<[string, T]>,
-    race<T>(observables: Array<rxjs$Observable<T>>): rxjs$Observable<T>,
-    race<T>(observables: Array<rxjs$Observable<any>>): rxjs$Observable<T>,
-    race<T>(
-      ...observables: Array<rxjs$Observable<T> | Array<rxjs$Observable<T>>>
-    ): rxjs$Observable<T>,
+    race: (<T>(observables: Array<rxjs$Observable<T>>) => rxjs$Observable<T>) &
+      (<T>(observables: Array<rxjs$Observable<any>>) => rxjs$Observable<T>) &
+      (<T>(
+        ...observables: Array<rxjs$Observable<T> | Array<rxjs$Observable<T>>>
+      ) => rxjs$Observable<T>),
     range(
       start?: number,
       count?: number,
@@ -762,864 +766,879 @@ declare module "rxjs" {
       useDeprecatedSynchronousErrorHandling: boolean
     },
     // @deprecated  resultSelector is no longer supported, pipe to map instead
-    zip<T, R>(
+    zip: (<T, R>(
       v1: rxjs$ObservableInput<T>,
       resultSelector: (v1: T) => R
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector is no longer supported, pipe to map instead */
-    zip<T, T2, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      resultSelector: (v1: T, v2: T2) => R
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector is no longer supported, pipe to map instead */
-    zip<T, T2, T3, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      resultSelector: (v1: T, v2: T2, v3: T3) => R
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector is no longer supported, pipe to map instead */
-    zip<T, T2, T3, T4, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector is no longer supported, pipe to map instead */
-    zip<T, T2, T3, T4, T5, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector is no longer supported, pipe to map instead */
-    zip<T, T2, T3, T4, T5, T6, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      v6: rxjs$ObservableInput<T6>,
-      resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R
-    ): rxjs$Observable<R>,
-    zip<T, T2>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>
-    ): rxjs$Observable<[T, T2]>,
-    zip<T, T2, T3>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>
-    ): rxjs$Observable<[T, T2, T3]>,
-    zip<T, T2, T3, T4>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>
-    ): rxjs$Observable<[T, T2, T3, T4]>,
-    zip<T, T2, T3, T4, T5>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>
-    ): rxjs$Observable<[T, T2, T3, T4, T5]>,
-    zip<T, T2, T3, T4, T5, T6>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      v6: rxjs$ObservableInput<T6>
-    ): rxjs$Observable<[T, T2, T3, T4, T5, T6]>,
-    zip<T>(array: rxjs$ObservableInput<T>[]): rxjs$Observable<T[]>,
-    zip<R>(array: rxjs$ObservableInput<any>[]): rxjs$Observable<R>,
-    /** @deprecated resultSelector is no longer supported, pipe to map instead */
-    zip<T, R>(
-      array: rxjs$ObservableInput<T>[],
-      resultSelector: (...values: Array<T>) => R
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector is no longer supported, pipe to map instead */
-    zip<R>(
-      array: rxjs$ObservableInput<any>[],
-      resultSelector: (...values: Array<any>) => R
-    ): rxjs$Observable<R>,
-    zip<T>(
-      ...observables: Array<rxjs$ObservableInput<T>>
-    ): rxjs$Observable<T[]>,
-    zip<T, R>(
-      ...observables: Array<
-        rxjs$ObservableInput<T> | ((...values: Array<T>) => R)
-      >
-    ): rxjs$Observable<R>,
-    zip<R>(
-      ...observables: Array<
-        rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
-      >
-    ): rxjs$Observable<R>,
+    ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      (<T, T2, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        resultSelector: (v1: T, v2: T2) => R
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      (<T, T2, T3, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        resultSelector: (v1: T, v2: T2, v3: T3) => R
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      (<T, T2, T3, T4, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      (<T, T2, T3, T4, T5, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      (<T, T2, T3, T4, T5, T6, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        v6: rxjs$ObservableInput<T6>,
+        resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R
+      ) => rxjs$Observable<R>) &
+      (<T, T2>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>
+      ) => rxjs$Observable<[T, T2]>) &
+      (<T, T2, T3>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>
+      ) => rxjs$Observable<[T, T2, T3]>) &
+      (<T, T2, T3, T4>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>
+      ) => rxjs$Observable<[T, T2, T3, T4]>) &
+      (<T, T2, T3, T4, T5>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>
+      ) => rxjs$Observable<[T, T2, T3, T4, T5]>) &
+      (<T, T2, T3, T4, T5, T6>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        v6: rxjs$ObservableInput<T6>
+      ) => rxjs$Observable<[T, T2, T3, T4, T5, T6]>) &
+      (<T>(array: rxjs$ObservableInput<T>[]) => rxjs$Observable<T[]>) &
+      (<R>(array: rxjs$ObservableInput<any>[]) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      (<T, R>(
+        array: rxjs$ObservableInput<T>[],
+        resultSelector: (...values: Array<T>) => R
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      (<R>(
+        array: rxjs$ObservableInput<any>[],
+        resultSelector: (...values: Array<any>) => R
+      ) => rxjs$Observable<R>) &
+      (<T>(
+        ...observables: Array<rxjs$ObservableInput<T>>
+      ) => rxjs$Observable<T[]>) &
+      (<T, R>(
+        ...observables: Array<
+          rxjs$ObservableInput<T> | ((...values: Array<T>) => R)
+        >
+      ) => rxjs$Observable<R>) &
+      (<R>(
+        ...observables: Array<
+          rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
+        >
+      ) => rxjs$Observable<R>),
     // @deprecated  Deprecated in favor of using {@link  NEVER} constant.
     never(): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
     /** @deprecated resultSelector is no longer supported, use a mapping function. */
-    bindCallback(
+    bindCallback: ((
       callbackFunc: Function,
       resultSelector: Function,
       scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any>,
-    bindCallback<R1, R2, R3, R4>(
-      callbackFunc: (
-        callback: (
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): () => rxjs$Observable<any[]>,
-    bindCallback<R1, R2, R3>(
-      callbackFunc: (callback: (res1: R1, res2: R2, res3: R3) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): () => rxjs$Observable<[R1, R2, R3]>,
-    bindCallback<R1, R2>(
-      callbackFunc: (callback: (res1: R1, res2: R2) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): () => rxjs$Observable<[R1, R2]>,
-    bindCallback<R1>(
-      callbackFunc: (callback: (res1: R1) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): () => rxjs$Observable<R1>,
-    bindCallback(
-      callbackFunc: (callback: () => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): () => rxjs$Observable<void>,
-    bindCallback<A1, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        callback: (
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1) => rxjs$Observable<any[]>,
-    bindCallback<A1, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        callback: (res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1) => rxjs$Observable<[R1, R2, R3]>,
-    bindCallback<A1, R1, R2>(
-      callbackFunc: (arg1: A1, callback: (res1: R1, res2: R2) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1) => rxjs$Observable<[R1, R2]>,
-    bindCallback<A1, R1>(
-      callbackFunc: (arg1: A1, callback: (res1: R1) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1) => rxjs$Observable<R1>,
-    bindCallback<A1>(
-      callbackFunc: (arg1: A1, callback: () => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1) => rxjs$Observable<void>,
-    bindCallback<A1, A2, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        callback: (
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2) => rxjs$Observable<any[]>,
-    bindCallback<A1, A2, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        callback: (res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2) => rxjs$Observable<[R1, R2, R3]>,
-    bindCallback<A1, A2, R1, R2>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        callback: (res1: R1, res2: R2) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2) => rxjs$Observable<[R1, R2]>,
-    bindCallback<A1, A2, R1>(
-      callbackFunc: (arg1: A1, arg2: A2, callback: (res1: R1) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2) => rxjs$Observable<R1>,
-    bindCallback<A1, A2>(
-      callbackFunc: (arg1: A1, arg2: A2, callback: () => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2) => rxjs$Observable<void>,
-    bindCallback<A1, A2, A3, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        callback: (
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<any[]>,
-    bindCallback<A1, A2, A3, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        callback: (res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<[R1, R2, R3]>,
-    bindCallback<A1, A2, A3, R1, R2>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        callback: (res1: R1, res2: R2) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<[R1, R2]>,
-    bindCallback<A1, A2, A3, R1>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        callback: (res1: R1) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<R1>,
-    bindCallback<A1, A2, A3>(
-      callbackFunc: (arg1: A1, arg2: A2, arg3: A3, callback: () => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<void>,
-    bindCallback<A1, A2, A3, A4, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        callback: (
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<any[]>,
-    bindCallback<A1, A2, A3, A4, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        callback: (res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4
-    ) => rxjs$Observable<[R1, R2, R3]>,
-    bindCallback<A1, A2, A3, A4, R1, R2>(
-      callbackFunc: (
+    ) => (...args: any[]) => rxjs$Observable<any>) &
+      (<R1, R2, R3, R4>(
+        callbackFunc: (
+          callback: (
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => () => rxjs$Observable<any[]>) &
+      (<R1, R2, R3>(
+        callbackFunc: (callback: (res1: R1, res2: R2, res3: R3) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => () => rxjs$Observable<[R1, R2, R3]>) &
+      (<R1, R2>(
+        callbackFunc: (callback: (res1: R1, res2: R2) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => () => rxjs$Observable<[R1, R2]>) &
+      (<R1>(
+        callbackFunc: (callback: (res1: R1) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => () => rxjs$Observable<R1>) &
+      ((
+        callbackFunc: (callback: () => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => () => rxjs$Observable<void>) &
+      (<A1, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          callback: (
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1) => rxjs$Observable<any[]>) &
+      (<A1, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          callback: (res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, R1, R2>(
+        callbackFunc: (arg1: A1, callback: (res1: R1, res2: R2) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1) => rxjs$Observable<[R1, R2]>) &
+      (<A1, R1>(
+        callbackFunc: (arg1: A1, callback: (res1: R1) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1) => rxjs$Observable<R1>) &
+      (<A1>(
+        callbackFunc: (arg1: A1, callback: () => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1) => rxjs$Observable<void>) &
+      (<A1, A2, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          callback: (
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<any[]>) &
+      (<A1, A2, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          callback: (res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, A2, R1, R2>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          callback: (res1: R1, res2: R2) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<[R1, R2]>) &
+      (<A1, A2, R1>(
+        callbackFunc: (arg1: A1, arg2: A2, callback: (res1: R1) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<R1>) &
+      (<A1, A2>(
+        callbackFunc: (arg1: A1, arg2: A2, callback: () => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<void>) &
+      (<A1, A2, A3, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: (
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<any[]>) &
+      (<A1, A2, A3, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: (res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, A2, A3, R1, R2>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: (res1: R1, res2: R2) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<[R1, R2]>) &
+      (<A1, A2, A3, R1>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: (res1: R1) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<R1>) &
+      (<A1, A2, A3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: () => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<void>) &
+      (<A1, A2, A3, A4, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: (
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<any[]>) &
+      (<A1, A2, A3, A4, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: (res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
-        arg4: A4,
-        callback: (res1: R1, res2: R2) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<[R1, R2]>,
-    bindCallback<A1, A2, A3, A4, R1>(
-      callbackFunc: (
+        arg4: A4
+      ) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, A2, A3, A4, R1, R2>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: (res1: R1, res2: R2) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
-        arg4: A4,
-        callback: (res1: R1) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<R1>,
-    bindCallback<A1, A2, A3, A4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        callback: () => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<void>,
-    bindCallback<A1, A2, A3, A4, A5, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        arg5: A5,
-        callback: (
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4,
-      arg5: A5
-    ) => rxjs$Observable<any[]>,
-    bindCallback<A1, A2, A3, A4, A5, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        arg5: A5,
-        callback: (res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4,
-      arg5: A5
-    ) => rxjs$Observable<[R1, R2, R3]>,
-    bindCallback<A1, A2, A3, A4, A5, R1, R2>(
-      callbackFunc: (
+        arg4: A4
+      ) => rxjs$Observable<[R1, R2]>) &
+      (<A1, A2, A3, A4, R1>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: (res1: R1) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<R1>) &
+      (<A1, A2, A3, A4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: () => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<void>) &
+      (<A1, A2, A3, A4, A5, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: (
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
         arg4: A4,
-        arg5: A5,
-        callback: (res1: R1, res2: R2) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4,
-      arg5: A5
-    ) => rxjs$Observable<[R1, R2]>,
-    bindCallback<A1, A2, A3, A4, A5, R1>(
-      callbackFunc: (
+        arg5: A5
+      ) => rxjs$Observable<any[]>) &
+      (<A1, A2, A3, A4, A5, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: (res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
         arg4: A4,
-        arg5: A5,
-        callback: (res1: R1) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4,
-      arg5: A5
-    ) => rxjs$Observable<R1>,
-    bindCallback<A1, A2, A3, A4, A5>(
-      callbackFunc: (
+        arg5: A5
+      ) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, A2, A3, A4, A5, R1, R2>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: (res1: R1, res2: R2) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
         arg4: A4,
-        arg5: A5,
-        callback: () => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4,
-      arg5: A5
-    ) => rxjs$Observable<void>,
-    bindCallback<A, R>(
-      callbackFunc: (...args: Array<A | ((result: R) => any)>) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: A[]) => rxjs$Observable<R>,
-    bindCallback<A, R>(
-      callbackFunc: (...args: Array<A | ((...results: R[]) => any)>) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: A[]) => rxjs$Observable<R[]>,
-    bindCallback(
-      callbackFunc: Function,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any>,
+        arg5: A5
+      ) => rxjs$Observable<[R1, R2]>) &
+      (<A1, A2, A3, A4, A5, R1>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: (res1: R1) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
+        arg1: A1,
+        arg2: A2,
+        arg3: A3,
+        arg4: A4,
+        arg5: A5
+      ) => rxjs$Observable<R1>) &
+      (<A1, A2, A3, A4, A5>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: () => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
+        arg1: A1,
+        arg2: A2,
+        arg3: A3,
+        arg4: A4,
+        arg5: A5
+      ) => rxjs$Observable<void>) &
+      (<A, R>(
+        callbackFunc: (...args: Array<A | ((result: R) => any)>) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: A[]) => rxjs$Observable<R>) &
+      (<A, R>(
+        callbackFunc: (...args: Array<A | ((...results: R[]) => any)>) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: A[]) => rxjs$Observable<R[]>) &
+      ((
+        callbackFunc: Function,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: any[]) => rxjs$Observable<any>),
     /** @deprecated resultSelector is deprecated, pipe to map instead */
-    bindNodeCallback(
+    bindNodeCallback: ((
       callbackFunc: Function,
       resultSelector: Function,
       scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any>,
-    bindNodeCallback<R1, R2, R3, R4>(
-      callbackFunc: (
-        callback: (
-          err: any,
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any[]>,
-    bindNodeCallback<R1, R2, R3>(
-      callbackFunc: (
-        callback: (err: any, res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): () => rxjs$Observable<[R1, R2, R3]>,
-    bindNodeCallback<R1, R2>(
-      callbackFunc: (callback: (err: any, res1: R1, res2: R2) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): () => rxjs$Observable<[R1, R2]>,
-    bindNodeCallback<R1>(
-      callbackFunc: (callback: (err: any, res1: R1) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): () => rxjs$Observable<R1>,
-    bindNodeCallback(
-      callbackFunc: (callback: (err: any) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): () => rxjs$Observable<void>,
-    bindNodeCallback<A1, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        callback: (
-          err: any,
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any[]>,
-    bindNodeCallback<A1, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        callback: (err: any, res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1) => rxjs$Observable<[R1, R2, R3]>,
-    bindNodeCallback<A1, R1, R2>(
-      callbackFunc: (
-        arg1: A1,
-        callback: (err: any, res1: R1, res2: R2) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1) => rxjs$Observable<[R1, R2]>,
-    bindNodeCallback<A1, R1>(
-      callbackFunc: (arg1: A1, callback: (err: any, res1: R1) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1) => rxjs$Observable<R1>,
-    bindNodeCallback<A1>(
-      callbackFunc: (arg1: A1, callback: (err: any) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1) => rxjs$Observable<void>,
-    bindNodeCallback<A1, A2, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        callback: (
-          err: any,
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any[]>,
-    bindNodeCallback<A1, A2, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        callback: (err: any, res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2) => rxjs$Observable<[R1, R2, R3]>,
-    bindNodeCallback<A1, A2, R1, R2>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        callback: (err: any, res1: R1, res2: R2) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2) => rxjs$Observable<[R1, R2]>,
-    bindNodeCallback<A1, A2, R1>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        callback: (err: any, res1: R1) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2) => rxjs$Observable<R1>,
-    bindNodeCallback<A1, A2>(
-      callbackFunc: (arg1: A1, arg2: A2, callback: (err: any) => any) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2) => rxjs$Observable<void>,
-    bindNodeCallback<A1, A2, A3, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        callback: (
-          err: any,
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any[]>,
-    bindNodeCallback<A1, A2, A3, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        callback: (err: any, res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<[R1, R2, R3]>,
-    bindNodeCallback<A1, A2, A3, R1, R2>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        callback: (err: any, res1: R1, res2: R2) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<[R1, R2]>,
-    bindNodeCallback<A1, A2, A3, R1>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        callback: (err: any, res1: R1) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<R1>,
-    bindNodeCallback<A1, A2, A3>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        callback: (err: any) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<void>,
-    bindNodeCallback<A1, A2, A3, A4, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        callback: (
-          err: any,
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any[]>,
-    bindNodeCallback<A1, A2, A3, A4, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        callback: (err: any, res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4
-    ) => rxjs$Observable<[R1, R2, R3]>,
-    bindNodeCallback<A1, A2, A3, A4, R1, R2>(
-      callbackFunc: (
+    ) => (...args: any[]) => rxjs$Observable<any>) &
+      (<R1, R2, R3, R4>(
+        callbackFunc: (
+          callback: (
+            err: any,
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      (<R1, R2, R3>(
+        callbackFunc: (
+          callback: (err: any, res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => () => rxjs$Observable<[R1, R2, R3]>) &
+      (<R1, R2>(
+        callbackFunc: (callback: (err: any, res1: R1, res2: R2) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => () => rxjs$Observable<[R1, R2]>) &
+      (<R1>(
+        callbackFunc: (callback: (err: any, res1: R1) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => () => rxjs$Observable<R1>) &
+      ((
+        callbackFunc: (callback: (err: any) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => () => rxjs$Observable<void>) &
+      (<A1, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          callback: (
+            err: any,
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      (<A1, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          callback: (err: any, res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, R1, R2>(
+        callbackFunc: (
+          arg1: A1,
+          callback: (err: any, res1: R1, res2: R2) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1) => rxjs$Observable<[R1, R2]>) &
+      (<A1, R1>(
+        callbackFunc: (arg1: A1, callback: (err: any, res1: R1) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1) => rxjs$Observable<R1>) &
+      (<A1>(
+        callbackFunc: (arg1: A1, callback: (err: any) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1) => rxjs$Observable<void>) &
+      (<A1, A2, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          callback: (
+            err: any,
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      (<A1, A2, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          callback: (err: any, res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, A2, R1, R2>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          callback: (err: any, res1: R1, res2: R2) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<[R1, R2]>) &
+      (<A1, A2, R1>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          callback: (err: any, res1: R1) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<R1>) &
+      (<A1, A2>(
+        callbackFunc: (arg1: A1, arg2: A2, callback: (err: any) => any) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<void>) &
+      (<A1, A2, A3, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: (
+            err: any,
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      (<A1, A2, A3, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: (err: any, res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, A2, A3, R1, R2>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: (err: any, res1: R1, res2: R2) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<[R1, R2]>) &
+      (<A1, A2, A3, R1>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: (err: any, res1: R1) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<R1>) &
+      (<A1, A2, A3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          callback: (err: any) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<void>) &
+      (<A1, A2, A3, A4, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: (
+            err: any,
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      (<A1, A2, A3, A4, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: (err: any, res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
-        arg4: A4,
-        callback: (err: any, res1: R1, res2: R2) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<[R1, R2]>,
-    bindNodeCallback<A1, A2, A3, A4, R1>(
-      callbackFunc: (
+        arg4: A4
+      ) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, A2, A3, A4, R1, R2>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: (err: any, res1: R1, res2: R2) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
-        arg4: A4,
-        callback: (err: any, res1: R1) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<R1>,
-    bindNodeCallback<A1, A2, A3, A4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        callback: (err: any) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<void>,
-    bindNodeCallback<A1, A2, A3, A4, A5, R1, R2, R3, R4>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        arg5: A5,
-        callback: (
-          err: any,
-          res1: R1,
-          res2: R2,
-          res3: R3,
-          res4: R4,
-          ...args: any[]
-        ) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any[]>,
-    bindNodeCallback<A1, A2, A3, A4, A5, R1, R2, R3>(
-      callbackFunc: (
-        arg1: A1,
-        arg2: A2,
-        arg3: A3,
-        arg4: A4,
-        arg5: A5,
-        callback: (err: any, res1: R1, res2: R2, res3: R3) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4,
-      arg5: A5
-    ) => rxjs$Observable<[R1, R2, R3]>,
-    bindNodeCallback<A1, A2, A3, A4, A5, R1, R2>(
-      callbackFunc: (
+        arg4: A4
+      ) => rxjs$Observable<[R1, R2]>) &
+      (<A1, A2, A3, A4, R1>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: (err: any, res1: R1) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<R1>) &
+      (<A1, A2, A3, A4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          callback: (err: any) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<void>) &
+      (<A1, A2, A3, A4, A5, R1, R2, R3, R4>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: (
+            err: any,
+            res1: R1,
+            res2: R2,
+            res3: R3,
+            res4: R4,
+            ...args: any[]
+          ) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      (<A1, A2, A3, A4, A5, R1, R2, R3>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: (err: any, res1: R1, res2: R2, res3: R3) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
         arg4: A4,
-        arg5: A5,
-        callback: (err: any, res1: R1, res2: R2) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4,
-      arg5: A5
-    ) => rxjs$Observable<[R1, R2]>,
-    bindNodeCallback<A1, A2, A3, A4, A5, R1>(
-      callbackFunc: (
+        arg5: A5
+      ) => rxjs$Observable<[R1, R2, R3]>) &
+      (<A1, A2, A3, A4, A5, R1, R2>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: (err: any, res1: R1, res2: R2) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
         arg4: A4,
-        arg5: A5,
-        callback: (err: any, res1: R1) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4,
-      arg5: A5
-    ) => rxjs$Observable<R1>,
-    bindNodeCallback<A1, A2, A3, A4, A5>(
-      callbackFunc: (
+        arg5: A5
+      ) => rxjs$Observable<[R1, R2]>) &
+      (<A1, A2, A3, A4, A5, R1>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: (err: any, res1: R1) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
         arg1: A1,
         arg2: A2,
         arg3: A3,
         arg4: A4,
-        arg5: A5,
-        callback: (err: any) => any
-      ) => any,
-      scheduler?: rxjs$SchedulerLike
-    ): (
-      arg1: A1,
-      arg2: A2,
-      arg3: A3,
-      arg4: A4,
-      arg5: A5
-    ) => rxjs$Observable<void>,
-    bindNodeCallback(
-      callbackFunc: Function,
-      scheduler?: rxjs$SchedulerLike
-    ): (...args: any[]) => rxjs$Observable<any[]>,
+        arg5: A5
+      ) => rxjs$Observable<R1>) &
+      (<A1, A2, A3, A4, A5>(
+        callbackFunc: (
+          arg1: A1,
+          arg2: A2,
+          arg3: A3,
+          arg4: A4,
+          arg5: A5,
+          callback: (err: any) => any
+        ) => any,
+        scheduler?: rxjs$SchedulerLike
+      ) => (
+        arg1: A1,
+        arg2: A2,
+        arg3: A3,
+        arg4: A4,
+        arg5: A5
+      ) => rxjs$Observable<void>) &
+      ((
+        callbackFunc: Function,
+        scheduler?: rxjs$SchedulerLike
+      ) => (...args: any[]) => rxjs$Observable<any[]>),
     /** @deprecated resultSelector no longer supported, pipe to map instead */
-    combineLatest<T, R>(
+    combineLatest: (<T, R>(
       v1: rxjs$ObservableInput<T>,
       resultSelector: (v1: T) => R,
       scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    combineLatest<T, T2, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      resultSelector: (v1: T, v2: T2) => R,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    combineLatest<T, T2, T3, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      resultSelector: (v1: T, v2: T2, v3: T3) => R,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    combineLatest<T, T2, T3, T4, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    combineLatest<T, T2, T3, T4, T5, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    combineLatest<T, T2, T3, T4, T5, T6, R>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      v6: rxjs$ObservableInput<T6>,
-      resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<R>,
-    combineLatest<T, T2>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<[T, T2]>,
-    combineLatest<T, T2, T3>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<[T, T2, T3]>,
-    combineLatest<T, T2, T3, T4>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<[T, T2, T3, T4]>,
-    combineLatest<T, T2, T3, T4, T5>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<[T, T2, T3, T4, T5]>,
-    combineLatest<T, T2, T3, T4, T5, T6>(
-      v1: rxjs$ObservableInput<T>,
-      v2: rxjs$ObservableInput<T2>,
-      v3: rxjs$ObservableInput<T3>,
-      v4: rxjs$ObservableInput<T4>,
-      v5: rxjs$ObservableInput<T5>,
-      v6: rxjs$ObservableInput<T6>,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<[T, T2, T3, T4, T5, T6]>,
-    combineLatest<T>(
-      array: rxjs$ObservableInput<T>[],
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<T[]>,
-    combineLatest<R>(
-      array: rxjs$ObservableInput<any>[],
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    combineLatest<T, R>(
-      array: rxjs$ObservableInput<T>[],
-      resultSelector: (...values: Array<T>) => R,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<R>,
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
-    combineLatest<R>(
-      array: rxjs$ObservableInput<any>[],
-      resultSelector: (...values: Array<any>) => R,
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<R>,
-    combineLatest<T>(
-      ...observables: Array<rxjs$ObservableInput<T> | rxjs$SchedulerLike>
-    ): rxjs$Observable<T[]>,
-    combineLatest<T, R>(
-      ...observables: Array<
-        | rxjs$ObservableInput<T>
-        | ((...values: Array<T>) => R)
-        | rxjs$SchedulerLike
-      >
-    ): rxjs$Observable<R>,
-    combineLatest<R>(
-      ...observables: Array<
-        | rxjs$ObservableInput<any>
-        | ((...values: Array<any>) => R)
-        | rxjs$SchedulerLike
-      >
-    ): rxjs$Observable<R>
+    ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<T, T2, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        resultSelector: (v1: T, v2: T2) => R,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<T, T2, T3, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        resultSelector: (v1: T, v2: T2, v3: T3) => R,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<T, T2, T3, T4, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<T, T2, T3, T4, T5, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<T, T2, T3, T4, T5, T6, R>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        v6: rxjs$ObservableInput<T6>,
+        resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<R>) &
+      (<T, T2>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<[T, T2]>) &
+      (<T, T2, T3>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<[T, T2, T3]>) &
+      (<T, T2, T3, T4>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<[T, T2, T3, T4]>) &
+      (<T, T2, T3, T4, T5>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<[T, T2, T3, T4, T5]>) &
+      (<T, T2, T3, T4, T5, T6>(
+        v1: rxjs$ObservableInput<T>,
+        v2: rxjs$ObservableInput<T2>,
+        v3: rxjs$ObservableInput<T3>,
+        v4: rxjs$ObservableInput<T4>,
+        v5: rxjs$ObservableInput<T5>,
+        v6: rxjs$ObservableInput<T6>,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<[T, T2, T3, T4, T5, T6]>) &
+      (<T>(
+        array: rxjs$ObservableInput<T>[],
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<T[]>) &
+      (<R>(
+        array: rxjs$ObservableInput<any>[],
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<T, R>(
+        array: rxjs$ObservableInput<T>[],
+        resultSelector: (...values: Array<T>) => R,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<R>) &
+      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      (<R>(
+        array: rxjs$ObservableInput<any>[],
+        resultSelector: (...values: Array<any>) => R,
+        scheduler?: rxjs$SchedulerLike
+      ) => rxjs$Observable<R>) &
+      (<T>(
+        ...observables: Array<rxjs$ObservableInput<T> | rxjs$SchedulerLike>
+      ) => rxjs$Observable<T[]>) &
+      (<T, R>(
+        ...observables: Array<
+          | rxjs$ObservableInput<T>
+          | ((...values: Array<T>) => R)
+          | rxjs$SchedulerLike
+        >
+      ) => rxjs$Observable<R>) &
+      (<R>(
+        ...observables: Array<
+          | rxjs$ObservableInput<any>
+          | ((...values: Array<any>) => R)
+          | rxjs$SchedulerLike
+        >
+      ) => rxjs$Observable<R>)
   };
 
   declare class ConnectableObservable<T> extends rxjs$Observable<T> {
