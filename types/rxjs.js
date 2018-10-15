@@ -1,11 +1,10 @@
 declare module "rxjs" {
-
   /**
    * A representation of any set of values over any amount of time. This is the most basic building block
    * of RxJS.
    * @class  Observable<T>
    */
-  declare export class Observable<T> mixins Subscribable<T> {
+  declare export class Observable<T> implements Subscribable<T> {
     /**
      * Internal implementation detail, do not use directly.
      */
@@ -180,7 +179,7 @@ rejects with the handled error
    *
    * @class  ConnectableObservable<T>
    */
-  declare export class ConnectableObservable<T> mixins Observable<T> {
+  declare export class ConnectableObservable<T> extends Observable<T> {
     source: Observable<T>;
     subjectFactory: () => Subject<T>;
     _subject: Subject<T>;
@@ -218,7 +217,7 @@ Observable. The common key is available as the field `key` on a
 GroupedObservable instance.
  * @class  GroupedObservable<K, T>
 */
-  declare export class GroupedObservable<K, T> mixins Observable<T> {
+  declare export class GroupedObservable<K, T> extends Observable<T> {
     key: K;
 
     /**
@@ -244,7 +243,6 @@ GroupedObservable instance.
 
   declare export var observable: string | any;
 
-
   /**
  * A Subject is a special type of Observable that allows values to be
  * multicasted to many Observables. Subjects are like EventEmitters.
@@ -253,7 +251,8 @@ Every Subject is an Observable and an Observer. You can subscribe to a
 Subject, and you can call next to feed values as well as error and complete.
  * @class  Subject<T>
 */
-  declare export class Subject<T> mixins Observable<T>, SubscriptionLike {
+  declare export class Subject<T> extends Observable<T>
+    implements SubscriptionLike {
     observers: Observer<T>[];
     closed: boolean;
     isStopped: boolean;
@@ -298,7 +297,7 @@ code that uses the Observable.
    * value whenever it is subscribed to.
    * @class  BehaviorSubject<T>
    */
-  declare export class BehaviorSubject<T> mixins Subject<T> {
+  declare export class BehaviorSubject<T> extends Subject<T> {
     constructor(_value: T): this;
     value: T;
 
@@ -317,7 +316,7 @@ code that uses the Observable.
 any new subscribers in addition to emitting new values to existing subscribers.
  * @class  ReplaySubject<T>
 */
-  declare export class ReplaySubject<T> mixins Subject<T> {
+  declare export class ReplaySubject<T> extends Subject<T> {
     constructor(
       bufferSize?: number,
       windowTime?: number,
@@ -337,7 +336,7 @@ any new subscribers in addition to emitting new values to existing subscribers.
    * its latest value to all its observers on completion.
    * @class  AsyncSubject<T>
    */
-  declare export class AsyncSubject<T> mixins Subject<T> {
+  declare export class AsyncSubject<T> extends Subject<T> {
     /**
      *
      * @deprecated  This is an internal implementation detail, do not use.
@@ -356,7 +355,7 @@ any new subscribers in addition to emitting new values to existing subscribers.
 
   declare export var animationFrameScheduler: AnimationFrameScheduler;
 
-  declare export class VirtualTimeScheduler mixins AsyncScheduler {
+  declare export class VirtualTimeScheduler extends AsyncScheduler {
     maxFrames: number;
     static frameTimeFactor: number;
     frame: number;
@@ -375,7 +374,7 @@ any new subscribers in addition to emitting new values to existing subscribers.
    * We need this JSDoc comment for affecting ESDoc.
    * @nodoc
    */
-  declare export class VirtualAction<T> mixins AsyncAction<T> {
+  declare export class VirtualAction<T> extends AsyncAction<T> {
     scheduler: VirtualTimeScheduler;
     work: (state?: T) => void;
     index: number;
@@ -419,7 +418,7 @@ should not be used directly. Rather, create your own class and implement
 {
  * @link  SchedulerLike}
 */
-  declare export class Scheduler mixins SchedulerLike {
+  declare export class Scheduler extends SchedulerLike {
     /**
      * Note: the extra arrow function wrapper is to make testing by overriding
      * Date.now easier.
@@ -472,7 +471,7 @@ When a Subscription is unsubscribed, all its children (and its grandchildren)
 will be unsubscribed as well.
  * @class  Subscription
 */
-  declare export class Subscription mixins SubscriptionLike {
+  declare export class Subscription extends SubscriptionLike {
     /**
      *
      * @nocollapse
@@ -549,7 +548,8 @@ a Subscriber, in order to provide Subscription-like capabilities such as
 implementing operators, but it is rarely used as a public API.
  * @class  Subscriber<T>
 */
-  declare export class Subscriber<T> mixins Subscription, Observer<T> {
+  declare export class Subscriber<T> extends Subscription
+    implements Observer<T> {
     /**
  * A static factory for a Subscriber, given a (potentially partial) definition
  * of an Observer.
@@ -745,17 +745,17 @@ argument.
    */
   declare export function isObservable<T>(obj: any): Observable;
 
-  declare export type ArgumentOutOfRangeError = {} & Error;
+  declare export interface ArgumentOutOfRangeError extends Error {}
 
-  declare export type EmptyError = {} & Error;
+  declare export interface EmptyError extends Error {}
 
-  declare export type ObjectUnsubscribedError = {} & Error;
+  declare export interface ObjectUnsubscribedError extends Error {}
 
-  declare export type UnsubscriptionError = {
-    errors: any[]
-  } & Error;
+  declare export interface UnsubscriptionError extends Error {
+    errors: any[];
+  }
 
-  declare export type TimeoutError = {} & Error;
+  declare export interface TimeoutError extends Error {}
 
   /**
    *
@@ -786,7 +786,6 @@ argument.
     resultSelector: (v1: T) => R,
     scheduler?: SchedulerLike
   ): Observable<R>;
-
 
   declare export function concat<T>(
     v1: ObservableInput<T>,
@@ -842,7 +841,6 @@ an invocation of the given Observable factory function.
   declare export function defer<T>(
     observableFactory: () => SubscribableOrPromise<T> | void
   ): Observable<T>;
-
 
   /**
  * Creates an Observable that emits no items to the Observer and immediately
@@ -951,10 +949,10 @@ notification.
     passive?: boolean;
     once?: boolean;
   }
-  declare type AddEventListenerOptions = {
-    once?: boolean,
-    passive?: boolean
-  } & EventListenerOptions;
+  declare interface AddEventListenerOptions extends EventListenerOptions {
+    once?: boolean;
+    passive?: boolean;
+  }
 
   declare export function fromEvent<T>(
     target: FromEventTarget<T>,
@@ -993,12 +991,12 @@ If not specified, a generator never stops.
      */
     scheduler?: SchedulerLike;
   }
-  declare type GenerateOptions<T, S> = {
+  declare interface GenerateOptions<T, S> extends GenerateBaseOptions<S> {
     /**
      * Result selection function that accepts state and returns a value to emit.
      */
-    resultSelector: ResultFunc<S, T>
-  } & GenerateBaseOptions;
+    resultSelector: ResultFunc<S, T>;
+  }
 
   /**
  * Generates an observable sequence by running a state-driven loop
@@ -1179,7 +1177,6 @@ interval.
     v1: ObservableInput<T>,
     scheduler?: SchedulerLike
   ): Observable<T>;
-
 
   /**
    *
@@ -1489,11 +1486,11 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
   declare export interface UnaryFunction<T, R> {
     (source: T): R;
   }
-  declare export type OperatorFunction<T, R> = {} & UnaryFunction;
-
+  declare export interface OperatorFunction<T, R>
+    extends UnaryFunction<Observable<T>, Observable<R>> {}
   declare export type FactoryOrValue<T> = T | (() => T);
-  declare export type MonoTypeOperatorFunction<T> = {} & OperatorFunction;
-
+  declare export interface MonoTypeOperatorFunction<T>
+    extends OperatorFunction<T, T> {}
   declare export interface Timestamp<T> {
     value: T;
     timestamp: number;
@@ -1502,28 +1499,22 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
     value: T;
     interval: number;
   }
-
-  /**
-   * SUBSCRIPTION INTERFACES
-   */
+  /** SUBSCRIPTION INTERFACES */
   declare export interface Unsubscribable {
     unsubscribe(): void;
   }
   declare export type TeardownLogic = Unsubscribable | Function | void;
-  declare export type SubscriptionLike = {
-    unsubscribe(): void,
-    closed: boolean
-  } & Unsubscribable;
-
+  declare export interface SubscriptionLike extends Unsubscribable {
+    unsubscribe(): void;
+    closed: boolean;
+  }
   declare export type SubscribableOrPromise<T> =
     | Subscribable<T>
     | Subscribable<"NO PRINT IMPLEMENTED: NeverKeyword">
     | Promise<T>
     | InteropObservable<T>;
 
-  /**
-   * OBSERVABLE INTERFACES
-   */
+  /** OBSERVABLE INTERFACES */
   declare export interface Subscribable<T> {
     subscribe(observer?: PartialObserver<T>): Unsubscribable;
     subscribe(
@@ -1537,19 +1528,12 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
     | Array<T>
     | Iterable<T>;
 
-  /**
-   *
-   * @deprecated  use {
-   * @link  InteropObservable }
-   */
+  /** @deprecated use {@link InteropObservable } */
   declare export type ObservableLike<T> = InteropObservable<T>;
   declare export type InteropObservable<T> = {
-    undefined: () => Subscribable<T>
+    [any]: () => Subscribable<T>
   };
-
-  /**
-   * OBSERVER INTERFACES
-   */
+  /** OBSERVER INTERFACES */
   declare export interface NextObserver<T> {
     closed?: boolean;
     next: (value: T) => void;
@@ -1578,10 +1562,7 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
     error: (err: any) => void;
     complete: () => void;
   }
-
-  /**
-   * SCHEDULER INTERFACES
-   */
+  /** SCHEDULER INTERFACES */
   declare export interface SchedulerLike {
     now(): number;
     schedule<T>(
@@ -1590,9 +1571,9 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
       state?: T
     ): Subscription;
   }
-  declare export type SchedulerAction<T> = {
-    schedule(state?: T, delay?: number): Subscription
-  } & Subscription;
+  declare export interface SchedulerAction<T> extends Subscription {
+    schedule(state?: T, delay?: number): Subscription;
+  }
 
   declare export var config: {
     /**
@@ -1612,11 +1593,11 @@ FOR MIGRATION REASONS.
     useDeprecatedSynchronousErrorHandling: boolean
   };
 
-  declare class AsapScheduler mixins AsyncScheduler {
+  declare class AsapScheduler extends AsyncScheduler {
     flush(action?: AsyncAction<any>): void;
   }
 
-  declare class AsyncScheduler mixins Scheduler {
+  declare class AsyncScheduler extends Scheduler {
     static delegate: Scheduler;
     actions: Array<AsyncAction<any>>;
 
@@ -1645,9 +1626,9 @@ others.
     flush(action: AsyncAction<any>): void;
   }
 
-  declare class QueueScheduler mixins AsyncScheduler {}
+  declare class QueueScheduler extends AsyncScheduler {}
 
-  declare class AnimationFrameScheduler mixins AsyncScheduler {
+  declare class AnimationFrameScheduler extends AsyncScheduler {
     flush(action?: AsyncAction<any>): void;
   }
 
@@ -1656,7 +1637,7 @@ others.
    * @ignore
    * @extends  {Ignored}
    */
-  declare class AsyncAction<T> mixins Action<T> {
+  declare class AsyncAction<T> extends Action<T> {
     scheduler: AsyncScheduler;
     work: (state?: T) => void;
     id: any;
@@ -1695,7 +1676,7 @@ class Action<T> extends Subscription {
 ```
  * @class  Action<T>
 */
-  declare class Action<T> mixins Subscription {
+  declare class Action<T> extends Subscription {
     constructor(scheduler: Scheduler, work: (state?: T) => void): this;
 
     /**
