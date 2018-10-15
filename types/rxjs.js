@@ -743,7 +743,7 @@ argument.
    * Tests to see if the object is an RxJS {@link Observable}
    * @param obj the object to test
    */
-  declare export function isObservable<T>(obj: any): Observable;
+  declare export function isObservable<T>(obj: any): boolean;
 
   declare export interface ArgumentOutOfRangeError extends Error {}
 
