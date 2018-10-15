@@ -250,6 +250,65 @@ declare class rxjs$Subscriber<T> extends rxjs$Subscription
   _unsubscribeAndRecycle(): rxjs$Subscriber<T>;
 }
 
+declare class rxjs$ConnectableObservable<T> extends rxjs$Observable<T> {
+  source: rxjs$Observable<T>;
+  subjectFactory: () => rxjs$Subject<T>;
+  _subject: rxjs$Subject<T>;
+  _refCount: number;
+  _connection: rxjs$Subscription;
+  // @internal
+  _isComplete: boolean;
+  constructor(
+    source: rxjs$Observable<T>,
+    subjectFactory: () => rxjs$Subject<T>
+  ): this;
+  // @deprecated  This is an internal implementation detail, do not use.
+  _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
+  getSubject(): rxjs$Subject<T>;
+  connect(): rxjs$Subscription;
+  refCount(): rxjs$Observable<T>;
+}
+
+declare class rxjs$Subject<T> extends rxjs$Observable<T>
+  implements rxjs$SubscriptionLike {
+  observers: rxjs$Observer<T>[];
+  closed: boolean;
+  isStopped: boolean;
+  hasError: boolean;
+  thrownError: any;
+  constructor(): this;
+  static create: Function;
+  lift<R>(operator: rxjs$Operator<T, R>): rxjs$Observable<R>;
+  next(value?: T): void;
+  error(err: any): void;
+  complete(): void;
+  unsubscribe(): void;
+  // @deprecated  This is an internal implementation detail, do not use.
+  _trySubscribe(subscriber: rxjs$Subscriber<T>): rxjs$TeardownLogic;
+  // @deprecated  This is an internal implementation detail, do not use.
+  _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
+  asObservable(): rxjs$Observable<T>;
+}
+
+declare class rxjs$GroupedObservable<K, T> extends rxjs$Observable<T> {
+  key: K;
+  // @deprecated  Do not construct this type. Internal use only
+  constructor(
+    key: K,
+    groupSubject: rxjs$Subject<T>,
+    refCountSubscription?: rxjs$RefCountSubscription
+  ): this;
+  // @deprecated  This is an internal implementation detail, do not use.
+  _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
+}
+
+declare interface rxjs$RefCountSubscription {
+  count: number;
+  unsubscribe: () => void;
+  closed: boolean;
+  attemptedToUnsubscribe: boolean;
+}
+
 declare function rxjs$throwError(
   error: any,
   scheduler?: rxjs$SchedulerLike
@@ -263,14 +322,14 @@ declare function rxjs$iif<T, F>(
 
 declare module "rxjs" {
   declare module.exports: {
-    Observable: typeof rxjs$Observable,
+    rxjs$Observable: typeof rxjs$Observable,
     Subscriber: typeof rxjs$Subscriber,
     throwError: typeof rxjs$throwError,
     iif: typeof rxjs$iif,
-    ConnectableObservable: typeof ConnectableObservable,
-    GroupedObservable: typeof GroupedObservable,
+    ConnectableObservable: typeof rxjs$ConnectableObservable,
+    GroupedObservable: typeof rxjs$GroupedObservable,
     observable: string | any,
-    Subject: typeof Subject,
+    Subject: typeof rxjs$Subject,
     BehaviorSubject: typeof BehaviorSubject,
     ReplaySubject: typeof ReplaySubject,
     AsyncSubject: typeof AsyncSubject,
@@ -500,7 +559,7 @@ declare module "rxjs" {
       target: FromEventTarget<T>,
       eventName: string
     ) => rxjs$Observable<T>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<T>(
         target: FromEventTarget<T>,
         eventName: string,
@@ -511,7 +570,7 @@ declare module "rxjs" {
         eventName: string,
         options: EventListenerOptions
       ) => rxjs$Observable<T>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<T>(
         target: FromEventTarget<T>,
         eventName: string,
@@ -522,7 +581,7 @@ declare module "rxjs" {
       addHandler: (handler: Function) => any,
       removeHandler?: (handler: Function, signal?: any) => void
     ) => rxjs$Observable<T>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<T>(
         addHandler: (handler: Function) => any,
         removeHandler?: (handler: Function, signal?: any) => void,
@@ -770,20 +829,20 @@ declare module "rxjs" {
       v1: rxjs$ObservableInput<T>,
       resultSelector: (v1: T) => R
     ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
       (<T, T2, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
         resultSelector: (v1: T, v2: T2) => R
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
       (<T, T2, T3, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
         v3: rxjs$ObservableInput<T3>,
         resultSelector: (v1: T, v2: T2, v3: T3) => R
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
       (<T, T2, T3, T4, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -791,7 +850,7 @@ declare module "rxjs" {
         v4: rxjs$ObservableInput<T4>,
         resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
       (<T, T2, T3, T4, T5, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -800,7 +859,7 @@ declare module "rxjs" {
         v5: rxjs$ObservableInput<T5>,
         resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
       (<T, T2, T3, T4, T5, T6, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -842,12 +901,12 @@ declare module "rxjs" {
       ) => rxjs$Observable<[T, T2, T3, T4, T5, T6]>) &
       (<T>(array: rxjs$ObservableInput<T>[]) => rxjs$Observable<T[]>) &
       (<R>(array: rxjs$ObservableInput<any>[]) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
       (<T, R>(
         array: rxjs$ObservableInput<T>[],
         resultSelector: (...values: Array<T>) => R
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector is no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
       (<R>(
         array: rxjs$ObservableInput<any>[],
         resultSelector: (...values: Array<any>) => R
@@ -867,7 +926,7 @@ declare module "rxjs" {
       ) => rxjs$Observable<R>),
     // @deprecated  Deprecated in favor of using {@link  NEVER} constant.
     never(): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
-    /** @deprecated resultSelector is no longer supported, use a mapping function. */
+    /*// @deprecated resultSelector is no longer supported, use a mapping function. */
     bindCallback: ((
       callbackFunc: Function,
       resultSelector: Function,
@@ -1191,7 +1250,7 @@ declare module "rxjs" {
         callbackFunc: Function,
         scheduler?: rxjs$SchedulerLike
       ) => (...args: any[]) => rxjs$Observable<any>),
-    /** @deprecated resultSelector is deprecated, pipe to map instead */
+    /*// @deprecated resultSelector is deprecated, pipe to map instead */
     bindNodeCallback: ((
       callbackFunc: Function,
       resultSelector: Function,
@@ -1516,20 +1575,20 @@ declare module "rxjs" {
         callbackFunc: Function,
         scheduler?: rxjs$SchedulerLike
       ) => (...args: any[]) => rxjs$Observable<any[]>),
-    /** @deprecated resultSelector no longer supported, pipe to map instead */
+    /*// @deprecated resultSelector no longer supported, pipe to map instead */
     combineLatest: (<T, R>(
       v1: rxjs$ObservableInput<T>,
       resultSelector: (v1: T) => R,
       scheduler?: rxjs$SchedulerLike
     ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<T, T2, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
         resultSelector: (v1: T, v2: T2) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<T, T2, T3, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -1537,7 +1596,7 @@ declare module "rxjs" {
         resultSelector: (v1: T, v2: T2, v3: T3) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<T, T2, T3, T4, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -1546,7 +1605,7 @@ declare module "rxjs" {
         resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<T, T2, T3, T4, T5, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -1556,7 +1615,7 @@ declare module "rxjs" {
         resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<T, T2, T3, T4, T5, T6, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -1610,13 +1669,13 @@ declare module "rxjs" {
         array: rxjs$ObservableInput<any>[],
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<T, R>(
         array: rxjs$ObservableInput<T>[],
         resultSelector: (...values: Array<T>) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /** @deprecated resultSelector no longer supported, pipe to map instead */
+      /*// @deprecated resultSelector no longer supported, pipe to map instead */
       (<R>(
         array: rxjs$ObservableInput<any>[],
         resultSelector: (...values: Array<any>) => R,
@@ -1641,66 +1700,7 @@ declare module "rxjs" {
       ) => rxjs$Observable<R>)
   };
 
-  declare class ConnectableObservable<T> extends rxjs$Observable<T> {
-    source: rxjs$Observable<T>;
-    subjectFactory: () => Subject<T>;
-    _subject: Subject<T>;
-    _refCount: number;
-    _connection: rxjs$Subscription;
-    // @internal
-    _isComplete: boolean;
-    constructor(
-      source: rxjs$Observable<T>,
-      subjectFactory: () => Subject<T>
-    ): this;
-    // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
-    getSubject(): Subject<T>;
-    connect(): rxjs$Subscription;
-    refCount(): rxjs$Observable<T>;
-  }
-
-  declare interface RefCountSubscription {
-    count: number;
-    unsubscribe: () => void;
-    closed: boolean;
-    attemptedToUnsubscribe: boolean;
-  }
-
-  declare class GroupedObservable<K, T> extends rxjs$Observable<T> {
-    key: K;
-    // @deprecated  Do not construct this type. Internal use only
-    constructor(
-      key: K,
-      groupSubject: Subject<T>,
-      refCountSubscription?: RefCountSubscription
-    ): this;
-    // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
-  }
-
-  declare class Subject<T> extends rxjs$Observable<T>
-    implements rxjs$SubscriptionLike {
-    observers: rxjs$Observer<T>[];
-    closed: boolean;
-    isStopped: boolean;
-    hasError: boolean;
-    thrownError: any;
-    constructor(): this;
-    static create: Function;
-    lift<R>(operator: rxjs$Operator<T, R>): rxjs$Observable<R>;
-    next(value?: T): void;
-    error(err: any): void;
-    complete(): void;
-    unsubscribe(): void;
-    // @deprecated  This is an internal implementation detail, do not use.
-    _trySubscribe(subscriber: rxjs$Subscriber<T>): rxjs$TeardownLogic;
-    // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
-    asObservable(): rxjs$Observable<T>;
-  }
-
-  declare class BehaviorSubject<T> extends Subject<T> {
+  declare class BehaviorSubject<T> extends rxjs$Subject<T> {
     constructor(_value: T): this;
     +value: T;
     // @deprecated  This is an internal implementation detail, do not use.
@@ -1709,7 +1709,7 @@ declare module "rxjs" {
     next(value?: T): void;
   }
 
-  declare class ReplaySubject<T> extends Subject<T> {
+  declare class ReplaySubject<T> extends rxjs$Subject<T> {
     constructor(
       bufferSize?: number,
       windowTime?: number,
@@ -1720,7 +1720,7 @@ declare module "rxjs" {
     _getNow(): number;
   }
 
-  declare class AsyncSubject<T> extends Subject<T> {
+  declare class AsyncSubject<T> extends rxjs$Subject<T> {
     // @deprecated  This is an internal implementation detail, do not use.
     _subscribe(subscriber: rxjs$Subscriber<any>): rxjs$Subscription;
     next(value?: T): void;
@@ -1918,4 +1918,499 @@ declare module "rxjs" {
     constructor(scheduler: Scheduler, work: (state?: T) => void): this;
     schedule(state?: T, delay?: number): rxjs$Subscription;
   }
+}
+
+declare module "rxjs/operators" {
+  declare export function audit<T>(
+    durationSelector: (value: T) => rxjs$SubscribableOrPromise<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function auditTime<T>(
+    duration: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function buffer<T>(
+    closingNotifier: rxjs$Observable<any>
+  ): rxjs$OperatorFunction<T, T[]>;
+
+  declare export function bufferCount<T>(
+    bufferSize: number,
+    startBufferEvery?: number
+  ): rxjs$OperatorFunction<T, T[]>;
+
+  declare export function bufferTime<T>(
+    bufferTimeSpan: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T[]>;
+
+  declare export function bufferToggle<T, O>(
+    openings: rxjs$SubscribableOrPromise<O>,
+    closingSelector: (value: O) => rxjs$SubscribableOrPromise<any>
+  ): rxjs$OperatorFunction<T, T[]>;
+
+  declare export function bufferWhen<T>(
+    closingSelector: () => rxjs$Observable<any>
+  ): rxjs$OperatorFunction<T, T[]>;
+
+  declare export function catchError<T>(
+    selector: (
+      err: any,
+      caught: rxjs$Observable<T>
+    ) => "NO PRINT IMPLEMENTED: NeverKeyword"
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function combineAll<T>(): rxjs$OperatorFunction<
+    rxjs$ObservableInput<T>,
+    T[]
+  >;
+
+  declare export function combineLatest<T, R>(
+    project: (v1: T) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated  Deprecated in favor of static concat.
+  declare export function concat<T>(
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function concatAll<T>(): rxjs$OperatorFunction<
+    rxjs$ObservableInput<T>,
+    T
+  >;
+
+  declare export function concatMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function concatMapTo<T>(
+    observable: rxjs$ObservableInput<T>
+  ): rxjs$OperatorFunction<any, T>;
+
+  declare export function count<T>(
+    predicate?: (value: T, index: number, source: rxjs$Observable<T>) => boolean
+  ): rxjs$OperatorFunction<T, number>;
+
+  declare export function debounce<T>(
+    durationSelector: (value: T) => rxjs$SubscribableOrPromise<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function debounceTime<T>(
+    dueTime: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function defaultIfEmpty<T>(
+    defaultValue?: T
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function delay<T>(
+    delay: number | Date,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  // @deprecated  In future versions, empty notifiers will no longer re-emit the source value on the output observable.
+  declare export function delayWhen<T>(
+    delayDurationSelector: (
+      value: T,
+      index: number
+    ) => rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
+    subscriptionDelay?: rxjs$Observable<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function dematerialize<T>(): rxjs$OperatorFunction<
+    Notification<T>,
+    T
+  >;
+
+  declare export function distinct<T, K>(
+    keySelector?: (value: T) => K,
+    flushes?: rxjs$Observable<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function distinctUntilChanged<T>(
+    compare?: (x: T, y: T) => boolean
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function distinctUntilKeyChanged<T>(
+    key: "NO PRINT IMPLEMENTED: TypeOperator"
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function elementAt<T>(
+    index: number,
+    defaultValue?: T
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function endWith<T>(
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function every<T>(
+    predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
+    thisArg?: any
+  ): rxjs$OperatorFunction<T, boolean>;
+
+  declare export function exhaust<T>(): rxjs$OperatorFunction<
+    rxjs$ObservableInput<T>,
+    T
+  >;
+
+  declare export function exhaustMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function expand<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>,
+    concurrent?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function filter<T, S>(
+    predicate: (value: T, index: number) => S,
+    thisArg?: any
+  ): rxjs$OperatorFunction<T, S>;
+
+  declare export function finalize<T>(
+    callback: () => void
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function find<T, S>(
+    predicate: (value: T, index: number, source: rxjs$Observable<T>) => S,
+    thisArg?: any
+  ): rxjs$OperatorFunction<T, S | void>;
+
+  declare export function findIndex<T>(
+    predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
+    thisArg?: any
+  ): rxjs$OperatorFunction<T, number>;
+
+  declare export function first<T, D>(
+    predicate?: null,
+    defaultValue?: D
+  ): rxjs$OperatorFunction<T, T | D>;
+
+  declare export function groupBy<T, K>(
+    keySelector: (value: T) => K
+  ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, T>>;
+
+  declare export function ignoreElements(): rxjs$OperatorFunction<
+    any,
+    "NO PRINT IMPLEMENTED: NeverKeyword"
+  >;
+
+  declare export function isEmpty<T>(): rxjs$OperatorFunction<T, boolean>;
+
+  declare export function last<T, D>(
+    predicate?: null,
+    defaultValue?: D
+  ): rxjs$OperatorFunction<T, T | D>;
+
+  declare export function map<T, R>(
+    project: (value: T, index: number) => R,
+    thisArg?: any
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function mapTo<T, R>(value: R): rxjs$OperatorFunction<T, R>;
+
+  declare export function materialize<T>(): rxjs$OperatorFunction<
+    T,
+    Notification<T>
+  >;
+
+  declare export function max<T>(
+    comparer?: (x: T, y: T) => number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  // @deprecated  Deprecated in favor of static merge.
+  declare export function merge<T>(
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function mergeAll<T>(
+    concurrent?: number
+  ): rxjs$OperatorFunction<rxjs$ObservableInput<T>, T>;
+
+  declare export function mergeMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>,
+    concurrent?: number
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function flatMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>,
+    concurrent?: number
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function mergeMapTo<T>(
+    innerObservable: rxjs$ObservableInput<T>,
+    concurrent?: number
+  ): rxjs$OperatorFunction<any, T>;
+
+  declare export function mergeScan<T, R>(
+    accumulator: (acc: R, value: T) => rxjs$ObservableInput<R>,
+    seed: R,
+    concurrent?: number
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function min<T>(
+    comparer?: (x: T, y: T) => number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function multicast<T>(
+    subjectOrSubjectFactory: rxjs$FactoryOrValue<rxjs$Subject<T>>
+  ): rxjs$UnaryFunction<rxjs$Observable<T>, rxjs$ConnectableObservable<T>>;
+
+  declare export function observeOn<T>(
+    scheduler: rxjs$SchedulerLike,
+    delay?: number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function onErrorResumeNext<T, R>(
+    v: rxjs$ObservableInput<R>
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function onErrorResumeNextStatic<R>(
+    v: rxjs$ObservableInput<R>
+  ): rxjs$Observable<R>;
+
+  declare export function pairwise<T>(): rxjs$OperatorFunction<T, [T, T]>;
+
+  declare export function partition<T>(
+    predicate: (value: T, index: number) => boolean,
+    thisArg?: any
+  ): rxjs$UnaryFunction<
+    rxjs$Observable<T>,
+    [rxjs$Observable<T>, rxjs$Observable<T>]
+  >;
+
+  declare export function pluck<T, R>(
+    ...properties: string[]
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function publish<T>(): rxjs$UnaryFunction<
+    rxjs$Observable<T>,
+    rxjs$ConnectableObservable<T>
+  >;
+
+  declare export function publishBehavior<T>(
+    value: T
+  ): rxjs$UnaryFunction<rxjs$Observable<T>, rxjs$ConnectableObservable<T>>;
+
+  declare export function publishLast<T>(): rxjs$UnaryFunction<
+    rxjs$Observable<T>,
+    rxjs$ConnectableObservable<T>
+  >;
+
+  declare export function publishReplay<T>(
+    bufferSize?: number,
+    windowTime?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  // @deprecated  Deprecated in favor of static race.
+  declare export function race<T>(
+    observables: Array<rxjs$Observable<T>>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function reduce<T>(
+    accumulator: (acc: T, value: T, index: number) => T,
+    seed?: T
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function repeat<T>(
+    count?: number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function repeatWhen<T>(
+    notifier: (notifications: rxjs$Observable<any>) => rxjs$Observable<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function retry<T>(
+    count?: number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function retryWhen<T>(
+    notifier: (errors: rxjs$Observable<any>) => rxjs$Observable<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function refCount<T>(): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function sample<T>(
+    notifier: rxjs$Observable<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function sampleTime<T>(
+    period: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function scan<T>(
+    accumulator: (acc: T, value: T, index: number) => T,
+    seed?: T
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function sequenceEqual<T>(
+    compareTo: rxjs$Observable<T>,
+    comparor?: (a: T, b: T) => boolean
+  ): rxjs$OperatorFunction<T, boolean>;
+
+  declare export function share<T>(): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function shareReplay<T>(
+    bufferSize?: number,
+    windowTime?: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function single<T>(
+    predicate?: (value: T, index: number, source: rxjs$Observable<T>) => boolean
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function skip<T>(
+    count: number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function skipLast<T>(
+    count: number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function skipUntil<T>(
+    notifier: rxjs$Observable<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function skipWhile<T>(
+    predicate: (value: T, index: number) => boolean
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function startWith<T>(
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function subscribeOn<T>(
+    scheduler: rxjs$SchedulerLike,
+    delay?: number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function switchAll<T>(): rxjs$OperatorFunction<
+    rxjs$ObservableInput<T>,
+    T
+  >;
+
+  declare export function switchMap<T, R>(
+    project: (value: T, index: number) => rxjs$ObservableInput<R>
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function switchMapTo<R>(
+    observable: rxjs$ObservableInput<R>
+  ): rxjs$OperatorFunction<any, R>;
+
+  declare export function take<T>(
+    count: number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function takeLast<T>(
+    count: number
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function takeUntil<T>(
+    notifier: rxjs$Observable<any>
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function takeWhile<T, S>(
+    predicate: (value: T, index: number) => S
+  ): rxjs$OperatorFunction<T, S>;
+
+  declare export function tap<T>(
+    next?: (x: T) => void,
+    error?: (e: any) => void,
+    complete?: () => void
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare interface ThrottleConfig {
+    leading?: boolean;
+    trailing?: boolean;
+  }
+
+  declare export function throttle<T>(
+    durationSelector: (value: T) => rxjs$SubscribableOrPromise<any>,
+    config?: ThrottleConfig
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function throttleTime<T>(
+    duration: number,
+    scheduler?: rxjs$SchedulerLike,
+    config?: ThrottleConfig
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export var throwIfEmpty: <T>(
+    errorFactory?: () => any
+  ) => rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function timeInterval<T>(
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, rxjs$TimeInterval<T>>;
+
+  declare export function timeout<T>(
+    due: number | Date,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$MonoTypeOperatorFunction<T>;
+
+  declare export function timeoutWith<T, R>(
+    due: number | Date,
+    withObservable: rxjs$ObservableInput<R>,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, T | R>;
+
+  declare export function timestamp<T>(
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, rxjs$Timestamp<T>>;
+
+  declare export function toArray<T>(): rxjs$OperatorFunction<T, T[]>;
+
+  declare export function window<T>(
+    windowBoundaries: rxjs$Observable<any>
+  ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
+
+  declare export function windowCount<T>(
+    windowSize: number,
+    startWindowEvery?: number
+  ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
+
+  declare export function windowTime<T>(
+    windowTimeSpan: number,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
+
+  declare export function windowToggle<T, O>(
+    openings: rxjs$Observable<O>,
+    closingSelector: (openValue: O) => rxjs$Observable<any>
+  ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
+
+  declare export function windowWhen<T>(
+    closingSelector: () => rxjs$Observable<any>
+  ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
+
+  declare export function withLatestFrom<T, R>(
+    project: (v1: T) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  // @deprecated  Deprecated in favor of static zip.
+  declare export function zip<T, R>(
+    project: (v1: T) => R
+  ): rxjs$OperatorFunction<T, R>;
+
+  declare export function zipAll<T>(): rxjs$OperatorFunction<
+    rxjs$ObservableInput<T>,
+    T[]
+  >;
+
+  declare export function iif<T, F>(
+    condition: () => boolean,
+    trueResult?: rxjs$SubscribableOrPromise<T>,
+    falseResult?: rxjs$SubscribableOrPromise<F>
+  ): rxjs$Observable<T | F>;
+
+  declare export function throwError(
+    error: any,
+    scheduler?: rxjs$SchedulerLike
+  ): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
 }
