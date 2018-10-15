@@ -375,10 +375,12 @@ any new subscribers in addition to emitting new values to existing subscribers.
    * @nodoc
    */
   declare export class VirtualAction<T> extends AsyncAction<T> {
+    // $FlowFixMe: flow fails due to class inheritance issues
     scheduler: VirtualTimeScheduler;
     work: (state?: T) => void;
     index: number;
     active: boolean;
+    // $FlowFixMe: flow fails due to class inheritance issues
     constructor(
       scheduler: VirtualTimeScheduler,
       work: (state?: T) => void,
@@ -386,11 +388,13 @@ any new subscribers in addition to emitting new values to existing subscribers.
     ): this;
     schedule(state?: T, delay?: number): Subscription;
     requestAsyncId(
+      // $FlowFixMe: flow fails due to class inheritance issues
       scheduler: VirtualTimeScheduler,
       id?: any,
       delay?: number
     ): any;
     recycleAsyncId(
+      // $FlowFixMe: flow fails due to class inheritance issues
       scheduler: VirtualTimeScheduler,
       id?: any,
       delay?: number
@@ -418,7 +422,7 @@ should not be used directly. Rather, create your own class and implement
 {
  * @link  SchedulerLike}
 */
-  declare export class Scheduler extends SchedulerLike {
+  declare export class Scheduler implements SchedulerLike {
     /**
      * Note: the extra arrow function wrapper is to make testing by overriding
      * Date.now easier.
