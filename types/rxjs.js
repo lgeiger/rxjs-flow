@@ -44,7 +44,7 @@ declare type rxjs$ObservableInput<T> =
   | Array<T>
   | Iterable<T>;
 
-/*// @deprecated use {@link rxjs$InteropObservable } */
+// @deprecated use {@link rxjs$InteropObservable }
 declare type rxjs$ObservableLike<T> = rxjs$InteropObservable<T>;
 declare type rxjs$InteropObservable<T> = {
   [string | mixed]: () => rxjs$Subscribable<T>
@@ -557,7 +557,7 @@ declare module "rxjs" {
       target: FromEventTarget<T>,
       eventName: string
     ) => rxjs$Observable<T>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<T>(
         target: FromEventTarget<T>,
         eventName: string,
@@ -568,7 +568,7 @@ declare module "rxjs" {
         eventName: string,
         options: EventListenerOptions
       ) => rxjs$Observable<T>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<T>(
         target: FromEventTarget<T>,
         eventName: string,
@@ -579,7 +579,7 @@ declare module "rxjs" {
       addHandler: (handler: Function) => any,
       removeHandler?: (handler: Function, signal?: any) => void
     ) => rxjs$Observable<T>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<T>(
         addHandler: (handler: Function) => any,
         removeHandler?: (handler: Function, signal?: any) => void,
@@ -827,20 +827,20 @@ declare module "rxjs" {
       v1: rxjs$ObservableInput<T>,
       resultSelector: (v1: T) => R
     ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
+      // @deprecated resultSelector is no longer supported, pipe to map instead
       (<T, T2, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
         resultSelector: (v1: T, v2: T2) => R
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
+      // @deprecated resultSelector is no longer supported, pipe to map instead
       (<T, T2, T3, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
         v3: rxjs$ObservableInput<T3>,
         resultSelector: (v1: T, v2: T2, v3: T3) => R
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
+      // @deprecated resultSelector is no longer supported, pipe to map instead
       (<T, T2, T3, T4, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -848,7 +848,7 @@ declare module "rxjs" {
         v4: rxjs$ObservableInput<T4>,
         resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
+      // @deprecated resultSelector is no longer supported, pipe to map instead
       (<T, T2, T3, T4, T5, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -857,7 +857,7 @@ declare module "rxjs" {
         v5: rxjs$ObservableInput<T5>,
         resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
+      // @deprecated resultSelector is no longer supported, pipe to map instead
       (<T, T2, T3, T4, T5, T6, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -899,12 +899,12 @@ declare module "rxjs" {
       ) => rxjs$Observable<[T, T2, T3, T4, T5, T6]>) &
       (<T>(array: rxjs$ObservableInput<T>[]) => rxjs$Observable<T[]>) &
       (<R>(array: rxjs$ObservableInput<any>[]) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
+      // @deprecated resultSelector is no longer supported, pipe to map instead
       (<T, R>(
         array: rxjs$ObservableInput<T>[],
         resultSelector: (...values: Array<T>) => R
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector is no longer supported, pipe to map instead */
+      // @deprecated resultSelector is no longer supported, pipe to map instead
       (<R>(
         array: rxjs$ObservableInput<any>[],
         resultSelector: (...values: Array<any>) => R
@@ -928,7 +928,7 @@ declare module "rxjs" {
     // @deprecated Deprecated in favor of using {@link EMPTY} constant.
     empty(scheduler?: rxjs$SchedulerLike): rxjs$Observable<empty>,
     NEVER: rxjs$Observable<empty>,
-    /*// @deprecated resultSelector is no longer supported, use a mapping function. */
+    // @deprecated resultSelector is no longer supported, use a mapping function.
     bindCallback: ((
       callbackFunc: Function,
       resultSelector: Function,
@@ -1252,7 +1252,7 @@ declare module "rxjs" {
         callbackFunc: Function,
         scheduler?: rxjs$SchedulerLike
       ) => (...args: any[]) => rxjs$Observable<any>),
-    /*// @deprecated resultSelector is deprecated, pipe to map instead */
+    // @deprecated resultSelector is deprecated, pipe to map instead
     bindNodeCallback: ((
       callbackFunc: Function,
       resultSelector: Function,
@@ -1577,20 +1577,20 @@ declare module "rxjs" {
         callbackFunc: Function,
         scheduler?: rxjs$SchedulerLike
       ) => (...args: any[]) => rxjs$Observable<any[]>),
-    /*// @deprecated resultSelector no longer supported, pipe to map instead */
+    // @deprecated resultSelector no longer supported, pipe to map instead
     combineLatest: (<T, R>(
       v1: rxjs$ObservableInput<T>,
       resultSelector: (v1: T) => R,
       scheduler?: rxjs$SchedulerLike
     ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<T, T2, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
         resultSelector: (v1: T, v2: T2) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<T, T2, T3, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -1598,7 +1598,7 @@ declare module "rxjs" {
         resultSelector: (v1: T, v2: T2, v3: T3) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<T, T2, T3, T4, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -1607,7 +1607,7 @@ declare module "rxjs" {
         resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<T, T2, T3, T4, T5, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -1617,7 +1617,7 @@ declare module "rxjs" {
         resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<T, T2, T3, T4, T5, T6, R>(
         v1: rxjs$ObservableInput<T>,
         v2: rxjs$ObservableInput<T2>,
@@ -1671,13 +1671,13 @@ declare module "rxjs" {
         array: rxjs$ObservableInput<any>[],
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<T, R>(
         array: rxjs$ObservableInput<T>[],
         resultSelector: (...values: Array<T>) => R,
         scheduler?: rxjs$SchedulerLike
       ) => rxjs$Observable<R>) &
-      /*// @deprecated resultSelector no longer supported, pipe to map instead */
+      // @deprecated resultSelector no longer supported, pipe to map instead
       (<R>(
         array: rxjs$ObservableInput<any>[],
         resultSelector: (...values: Array<any>) => R,
