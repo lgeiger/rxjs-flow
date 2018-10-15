@@ -911,11 +911,11 @@ notification.
   ): Observable<T>;
 
   declare interface NodeStyleEventEmitter {
-    addListener: (eventName: string | any, handler: NodeEventHandler) => this;
+    addListener: (eventName: string | any, handler: NodeEventHandler) => void;
     removeListener: (
       eventName: string | any,
       handler: NodeEventHandler
-    ) => this;
+    ) => void;
   }
   declare type NodeEventHandler = (...args: any[]) => void;
   declare interface NodeCompatibleEventEmitter {
