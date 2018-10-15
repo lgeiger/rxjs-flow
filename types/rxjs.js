@@ -1552,15 +1552,17 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
     error?: (err: any) => void;
     complete: () => void;
   }
-  declare export type PartialObserver<T> =
-    | NextObserver<T>
-    | ErrorObserver<T>
-    | CompletionObserver<T>;
+  declare export interface PartialObserver<T> {
+    closed?: boolean;
+    next?: (value: T) => void;
+    error?: (err: any) => void;
+    complete?: () => void;
+  }
   declare export interface Observer<T> {
     closed?: boolean;
-    +next: (value: T) => void;
-    +error: (err: any) => void;
-    +complete: () => void;
+    next(value: T): void;
+    error(err: any): void;
+    complete(): void;
   }
   /** SCHEDULER INTERFACES */
   declare export interface SchedulerLike {
