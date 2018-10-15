@@ -290,6 +290,29 @@ declare class rxjs$Subject<T> extends rxjs$Observable<T>
   asObservable(): rxjs$Observable<T>;
 }
 
+declare class rxjs$Notification<T> {
+  kind: string;
+  value: T;
+  error: any;
+  hasValue: boolean;
+  constructor(kind: string, value?: T, error?: any): this;
+  observe(observer: rxjs$PartialObserver<T>): any;
+  do(
+    next: (value: T) => void,
+    error?: (err: any) => void,
+    complete?: () => void
+  ): any;
+  accept(
+    nextOrObserver: rxjs$PartialObserver<T> | ((value: T) => void),
+    error?: (err: any) => void,
+    complete?: () => void
+  ): any;
+  toObservable(): rxjs$Observable<T>;
+  static createNext<T>(value: T): rxjs$Notification<T>;
+  static createError<T>(err?: any): rxjs$Notification<T>;
+  static createComplete(): rxjs$Notification<any>;
+}
+
 declare class rxjs$GroupedObservable<K, T> extends rxjs$Observable<T> {
   key: K;
   // @deprecated  Do not construct this type. Internal use only
@@ -341,7 +364,7 @@ declare module "rxjs" {
     VirtualTimeScheduler: typeof VirtualTimeScheduler,
     VirtualAction: typeof VirtualAction,
     Scheduler: typeof Scheduler,
-    Notification: typeof Notification,
+    rxjs$Notification: typeof rxjs$Notification,
     pipe: (<T>() => rxjs$UnaryFunction<T, T>) &
       (<T, A>(fn1: rxjs$UnaryFunction<T, A>) => rxjs$UnaryFunction<T, A>) &
       (<T, A, B>(
@@ -1779,29 +1802,6 @@ declare module "rxjs" {
     ): rxjs$Subscription;
   }
 
-  declare class Notification<T> {
-    kind: string;
-    value: T;
-    error: any;
-    hasValue: boolean;
-    constructor(kind: string, value?: T, error?: any): this;
-    observe(observer: rxjs$PartialObserver<T>): any;
-    do(
-      next: (value: T) => void,
-      error?: (err: any) => void,
-      complete?: () => void
-    ): any;
-    accept(
-      nextOrObserver: rxjs$PartialObserver<T> | ((value: T) => void),
-      error?: (err: any) => void,
-      complete?: () => void
-    ): any;
-    toObservable(): rxjs$Observable<T>;
-    static createNext<T>(value: T): Notification<T>;
-    static createError<T>(err?: any): Notification<T>;
-    static createComplete(): Notification<any>;
-  }
-
   declare interface ArgumentOutOfRangeError extends Error {}
 
   declare interface EmptyError extends Error {}
@@ -2223,7 +2223,7 @@ declare module "rxjs/operators" {
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function dematerialize<T>(): rxjs$OperatorFunction<
-    Notification<T>,
+    rxjs$Notification<T>,
     T
   >;
 
@@ -2447,7 +2447,7 @@ declare module "rxjs/operators" {
 
   declare export function materialize<T>(): rxjs$OperatorFunction<
     T,
-    Notification<T>
+    rxjs$Notification<T>
   >;
 
   declare export function max<T>(
