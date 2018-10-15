@@ -13,6 +13,7 @@
   "devDependencies": {
     "@reactivex/rxjs": "6.3.3",
     "dts-bundle": "^0.7.3",
+    "flow-bin": "^0.83.0",
     "flowgen": "^1.2.3",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2"
