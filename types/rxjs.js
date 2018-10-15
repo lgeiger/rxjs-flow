@@ -75,7 +75,7 @@ rejects with the handled error
 */
     forEach(
       next: (value: T) => void,
-      promiseCtor?: PromiseConstructorLike
+      promiseCtor?: Promise.constructor
     ): Promise<void>;
 
     /**
@@ -173,7 +173,7 @@ rejects with the handled error
     ): Observable<{}>;
     toPromise<T>(): Promise<T>;
     toPromise<T>(PromiseCtor: typeof Promise): Promise<T>;
-    toPromise<T>(PromiseCtor: PromiseConstructorLike): Promise<T>;
+    toPromise<T>(PromiseCtor: Promise.constructor): Promise<T>;
   }
 
   /**
@@ -1599,7 +1599,7 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
      * The promise constructor used by default for methods such as
      * {@link toPromise} and {@link forEach}
      */
-    Promise: PromiseConstructorLike,
+    Promise: Promise.constructor,
 
     /**
  * If true, turns on synchronous error rethrowing, which is a deprecated behavior
