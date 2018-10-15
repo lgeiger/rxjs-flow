@@ -25,8 +25,8 @@ declare module "rxjs/internal/Observable" {
     operator: Operator<any, T>;
 
     /**
- * 
- * @constructor  
+ *
+ * @constructor
  * @param  the function that is called when the Observable is
 initially subscribed to. This function is given a Subscriber, to which new values
 can be `next`ed, or an `error` method can be called to raise an error, or
@@ -67,7 +67,7 @@ can be `next`ed, or an `error` method can be called to raise an error, or
     _trySubscribe(sink: Subscriber<T>): TeardownLogic;
 
     /**
- * 
+ *
  * @method  forEach
  * @param  a handler for each value emitted by the observable
  * @param  a constructor function used to instantiate the Promise
@@ -205,14 +205,9 @@ declare module "rxjs/internal/observable/ConnectableObservable" {
     connect(): Subscription;
     refCount(): Observable<T>;
   }
-  declare export var connectableObservableDescriptor: PropertyDescriptorMap;
 }
 declare module "rxjs/internal/operators/groupBy" {
-  declare export function groupBy<T, K>(
-    keySelector: (value: T) => K
-  ): OperatorFunction<T, GroupedObservable<K, T>>;
-
-  declare export interface RefCountSubscription {
+  declare interface RefCountSubscription {
     count: number;
     unsubscribe: () => void;
     closed: boolean;
@@ -255,14 +250,6 @@ declare module "rxjs/internal/symbol/observable" {
   declare export var observable: string | any;
 }
 declare module "rxjs/internal/Subject" {
-  /**
-   *
-   * @class  SubjectSubscriber<T>
-   */
-  declare export class SubjectSubscriber<T> mixins Subscriber<T> {
-    destination: Subject<T>;
-    constructor(destination: Subject<T>): this;
-  }
 
   /**
  * A Subject is a special type of Observable that allows values to be
@@ -310,24 +297,6 @@ code that uses the Observable.
  * @return  Observable that the Subject casts to
 */
     asObservable(): Observable<T>;
-  }
-
-  /**
-   *
-   * @class  AnonymousSubject<T>
-   */
-  declare export class AnonymousSubject<T> mixins Subject<T> {
-    destination: Observer<T>;
-    constructor(destination?: Observer<T>, source?: Observable<T>): this;
-    next(value: T): void;
-    error(err: any): void;
-    complete(): void;
-
-    /**
-     *
-     * @deprecated  This is an internal implementation detail, do not use.
-     */
-    _subscribe(subscriber: Subscriber<T>): Subscription;
   }
 }
 declare module "rxjs/internal/BehaviorSubject" {
@@ -389,16 +358,16 @@ declare module "rxjs/internal/AsyncSubject" {
   }
 }
 declare module "rxjs/internal/scheduler/asap" {
-  declare export var asap: AsapScheduler;
+  declare export var asapScheduler: AsapScheduler;
 }
 declare module "rxjs/internal/scheduler/async" {
-  declare export var async: AsyncScheduler;
+  declare export var asyncScheduler: AsyncScheduler;
 }
 declare module "rxjs/internal/scheduler/queue" {
-  declare export var queue: QueueScheduler;
+  declare export var queueScheduler: QueueScheduler;
 }
 declare module "rxjs/internal/scheduler/animationFrame" {
-  declare export var animationFrame: AnimationFrameScheduler;
+  declare export var animationFrameScheduler: AnimationFrameScheduler;
 }
 declare module "rxjs/internal/scheduler/VirtualTimeScheduler" {
   declare export class VirtualTimeScheduler mixins AsyncScheduler {
@@ -545,7 +514,7 @@ will be unsubscribed as well.
     _parents: Subscription[];
 
     /**
- * 
+ *
  * @param  A function describing how to
 perform the disposal of resources when the `unsubscribe` method is called.
 */
@@ -555,7 +524,7 @@ perform the disposal of resources when the `unsubscribe` method is called.
  * Disposes the resources held by the subscription. May, for instance, cancel
  * an ongoing Observable execution or cancel any other type of work that
 started when the Subscription was created.
- * @return  
+ * @return
 */
     unsubscribe(): void;
 
@@ -608,7 +577,7 @@ Observer.
 Observer.
  * @return  A Subscriber wrapping the (partially defined)
 Observer represented by the given arguments.
- * @nocollapse  
+ * @nocollapse
 */
     static create<T>(
       next?: (x?: T) => void,
@@ -637,7 +606,7 @@ Observer represented by the given arguments.
     destination: PartialObserver<any> | Subscriber<any>;
 
     /**
- * 
+ *
  * @param  ): void} [destinationOrNext] A partially
 defined Observer or a `next` callback function.
  * @param  ): void} [error] The `error` callback of an
@@ -656,7 +625,7 @@ Observer.
  * the Observable, with a value. The Observable may call this method 0 or more
 times.
  * @param  The `next` value.
- * @return  
+ * @return
 */
     next(value?: T): void;
 
@@ -665,7 +634,7 @@ times.
  * the Observable, with an attached `Error`. Notifies the Observer that
 the Observable has experienced an error condition.
  * @param  The `error` exception.
- * @return  
+ * @return
 */
     error(err?: any): void;
 
@@ -673,7 +642,7 @@ the Observable has experienced an error condition.
  * The {@link Observer} callback to receive a valueless notification of type
  * `complete` from the Observable. Notifies the Observer that the Observable
 has finished sending push-based notifications.
- * @return  
+ * @return
 */
     complete(): void;
     unsubscribe(): void;
@@ -686,29 +655,6 @@ has finished sending push-based notifications.
      * @deprecated  This is an internal implementation detail, do not use.
      */
     _unsubscribeAndRecycle(): Subscriber<T>;
-  }
-
-  /**
-   * We need this JSDoc comment for affecting ESDoc.
-   * @ignore
-   * @extends  {Ignored}
-   */
-  declare export class SafeSubscriber<T> mixins Subscriber<T> {
-    constructor(
-      _parentSubscriber: Subscriber<T>,
-      observerOrNext?: PartialObserver<T> | ((value: T) => void),
-      error?: (e?: any) => void,
-      complete?: () => void
-    ): this;
-    next(value?: T): void;
-    error(err?: any): void;
-    complete(): void;
-
-    /**
-     *
-     * @internal  This is an internal implementation detail, do not use.
-     */
-    _unsubscribe(): void;
   }
 }
 declare module "rxjs/internal/Notification" {
@@ -762,7 +708,7 @@ with metadata of, for instance, what type of push message it is (`next`,
 the `next` callback.
  * @param  ): void} [error] An Observer `error` callback.
  * @param  An Observer `complete` callback.
- * @return  
+ * @return
 */
     accept(
       nextOrObserver: PartialObserver<T> | ((value: T) => void),
@@ -783,7 +729,7 @@ the `next` callback.
  * @param  The `next` value.
  * @return  The "next" Notification representing the
 argument.
- * @nocollapse  
+ * @nocollapse
 */
     static createNext<T>(value: T): Notification<T>;
 
@@ -793,7 +739,7 @@ argument.
  * @param  The `error` error.
  * @return  The "error" Notification representing the
 argument.
- * @nocollapse  
+ * @nocollapse
 */
     static createError<T>(err?: any): Notification<T>;
 
@@ -807,14 +753,6 @@ argument.
 }
 declare module "rxjs/internal/util/pipe" {
   declare export function pipe<T>(): UnaryFunction<T, T>;
-
-  /**
-   *
-   * @internal
-   */
-  declare export function pipeFromArray<T, R>(
-    fns: Array<UnaryFunction<T, R>>
-  ): UnaryFunction<T, R>;
 }
 declare module "rxjs/internal/util/noop" {
   declare export function noop(): void;
@@ -831,45 +769,20 @@ declare module "rxjs/internal/util/isObservable" {
 }
 declare module "rxjs/internal/util/ArgumentOutOfRangeError" {
   declare export type ArgumentOutOfRangeError = {} & Error;
-
-  declare export interface ArgumentOutOfRangeErrorCtor {
-    new(): ArgumentOutOfRangeError;
-  }
-  declare export var ArgumentOutOfRangeError: ArgumentOutOfRangeErrorCtor;
 }
 declare module "rxjs/internal/util/EmptyError" {
   declare export type EmptyError = {} & Error;
-
-  declare export interface EmptyErrorCtor {
-    new(): EmptyError;
-  }
-  declare export var EmptyError: EmptyErrorCtor;
 }
 declare module "rxjs/internal/util/ObjectUnsubscribedError" {
   declare export type ObjectUnsubscribedError = {} & Error;
-
-  declare export interface ObjectUnsubscribedErrorCtor {
-    new(): ObjectUnsubscribedError;
-  }
-  declare export var ObjectUnsubscribedError: ObjectUnsubscribedErrorCtor;
 }
 declare module "rxjs/internal/util/UnsubscriptionError" {
   declare export type UnsubscriptionError = {
     errors: any[]
   } & Error;
-
-  declare export interface UnsubscriptionErrorCtor {
-    new(errors: any[]): UnsubscriptionError;
-  }
-  declare export var UnsubscriptionError: UnsubscriptionErrorCtor;
 }
 declare module "rxjs/internal/util/TimeoutError" {
   declare export type TimeoutError = {} & Error;
-
-  declare export interface TimeoutErrorCtor {
-    new(): TimeoutError;
-  }
-  declare export var TimeoutError: TimeoutErrorCtor;
 }
 declare module "rxjs/internal/observable/bindCallback" {
   /**
@@ -904,33 +817,6 @@ declare module "rxjs/internal/observable/combineLatest" {
     scheduler?: SchedulerLike
   ): Observable<R>;
 
-  declare export class CombineLatestOperator<T, R> mixins Operator<T, R> {
-    constructor(resultSelector?: (...values: Array<any>) => R): this;
-    call(subscriber: Subscriber<R>, source: any): any;
-  }
-
-  /**
-   * We need this JSDoc comment for affecting ESDoc.
-   * @ignore
-   * @extends  {Ignored}
-   */
-  declare export class CombineLatestSubscriber<T, R>
-    mixins OuterSubscriber<T, R> {
-    constructor(
-      destination: Subscriber<R>,
-      resultSelector?: (...values: Array<any>) => R
-    ): this;
-    _next(observable: any): void;
-    _complete(): void;
-    notifyComplete(unused: Subscriber<R>): void;
-    notifyNext(
-      outerValue: T,
-      innerValue: R,
-      outerIndex: number,
-      innerIndex: number,
-      innerSub: InnerSubscriber<T, R>
-    ): void;
-  }
 }
 declare module "rxjs/internal/observable/concat" {
   declare export function concat<T>(
@@ -990,7 +876,6 @@ an invocation of the given Observable factory function.
   ): Observable<T>;
 }
 declare module "rxjs/internal/observable/empty" {
-  declare export var EMPTY: Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
 
   /**
  * Creates an Observable that emits no items to the Observer and immediately
@@ -1048,10 +933,6 @@ notification.
   declare export function empty(
     scheduler?: SchedulerLike
   ): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
-
-  declare export function emptyScheduled(
-    scheduler: SchedulerLike
-  ): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
 }
 declare module "rxjs/internal/observable/forkJoin" {
   declare export function forkJoin<T>(
@@ -1065,23 +946,23 @@ declare module "rxjs/internal/observable/from" {
   ): Observable<T>;
 }
 declare module "rxjs/internal/observable/fromEvent" {
-  declare export interface NodeStyleEventEmitter {
+  declare interface NodeStyleEventEmitter {
     addListener: (eventName: string | any, handler: NodeEventHandler) => this;
     removeListener: (
       eventName: string | any,
       handler: NodeEventHandler
     ) => this;
   }
-  declare export type NodeEventHandler = (...args: any[]) => void;
-  declare export interface NodeCompatibleEventEmitter {
+  declare type NodeEventHandler = (...args: any[]) => void;
+  declare interface NodeCompatibleEventEmitter {
     addListener: (eventName: string, handler: NodeEventHandler) => void | {};
     removeListener: (eventName: string, handler: NodeEventHandler) => void | {};
   }
-  declare export interface JQueryStyleEventEmitter {
+  declare interface JQueryStyleEventEmitter {
     on: (eventName: string, handler: Function) => void;
     off: (eventName: string, handler: Function) => void;
   }
-  declare export interface HasEventTargetAddRemove<E> {
+  declare interface HasEventTargetAddRemove<E> {
     addEventListener(
       type: string,
       listener: ((evt: E) => void) | null,
@@ -1093,20 +974,20 @@ declare module "rxjs/internal/observable/fromEvent" {
       options?: EventListenerOptions | boolean
     ): void;
   }
-  declare export type EventTargetLike<T> =
+  declare type EventTargetLike<T> =
     | HasEventTargetAddRemove<T>
     | NodeStyleEventEmitter
     | NodeCompatibleEventEmitter
     | JQueryStyleEventEmitter;
-  declare export type FromEventTarget<T> =
+  declare type FromEventTarget<T> =
     | EventTargetLike<T>
     | ArrayLike<EventTargetLike<T>>;
-  declare export interface EventListenerOptions {
+  declare interface EventListenerOptions {
     capture?: boolean;
     passive?: boolean;
     once?: boolean;
   }
-  declare export type AddEventListenerOptions = {
+  declare type AddEventListenerOptions = {
     once?: boolean,
     passive?: boolean
   } & EventListenerOptions;
@@ -1123,10 +1004,10 @@ declare module "rxjs/internal/observable/fromEventPattern" {
   ): Observable<T>;
 }
 declare module "rxjs/internal/observable/generate" {
-  declare export type ConditionFunc<S> = (state: S) => boolean;
-  declare export type IterateFunc<S> = (state: S) => S;
-  declare export type ResultFunc<S, T> = (state: S) => T;
-  declare export interface GenerateBaseOptions<S> {
+  declare type ConditionFunc<S> = (state: S) => boolean;
+  declare type IterateFunc<S> = (state: S) => S;
+  declare type ResultFunc<S, T> = (state: S) => T;
+  declare interface GenerateBaseOptions<S> {
     /**
      * Initial state.
      */
@@ -1150,7 +1031,7 @@ If not specified, a generator never stops.
      */
     scheduler?: SchedulerLike;
   }
-  declare export type GenerateOptions<T, S> = {
+  declare type GenerateOptions<T, S> = {
     /**
      * Result selection function that accepts state and returns a value to emit.
      */
@@ -1190,7 +1071,7 @@ const res = generate(1, x => x < 5, x =>  * 2, x => x + 1, asap);
 declare module "rxjs/internal/observable/iif" {
   /**
  * Decides at subscription time which Observable will actually be subscribed.
- * 
+ *
 <span class="informal">`If` statement for Observables.</span>
 
 `iif` accepts a condition function and two Observables. When
@@ -1341,7 +1222,6 @@ declare module "rxjs/internal/observable/merge" {
   ): Observable<T>;
 }
 declare module "rxjs/internal/observable/never" {
-  declare export var NEVER: Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
 
   /**
    *
@@ -1363,7 +1243,7 @@ declare module "rxjs/internal/observable/onErrorResumeNext" {
 declare module "rxjs/internal/observable/pairs" {
   /**
  * Convert an object into an Observable of `[key, value]` pairs.
- * 
+ *
 <span class="informal">Turn entries of an object into a stream.</span>
 
 <img src="./img/pairs.png" width="100%">
@@ -1409,23 +1289,11 @@ when resulting Observable will emit values.
     obj: Object,
     scheduler?: SchedulerLike
   ): Observable<[string, T]>;
-
-  /**
-   *
-   * @internal
-   */
-  declare export function dispatch<T>(state: {
-    keys: string[],
-    index: number,
-    subscriber: Subscriber<[string, T]>,
-    subscription: Subscription,
-    obj: Object
-  }): void;
 }
 declare module "rxjs/internal/observable/race" {
   /**
  * Returns an Observable that mirrors the first source Observable to emit an item.
- * 
+ *
 ## Example
 ### Subscribes to the observable that was the first to start emitting.
 
@@ -1451,28 +1319,6 @@ race(obs3, obs1, obs2)
   declare export function race<T>(
     observables: Array<Observable<T>>
   ): Observable<T>;
-
-  declare export class RaceOperator<T> mixins Operator<T, T> {
-    call(subscriber: Subscriber<T>, source: any): TeardownLogic;
-  }
-
-  /**
-   * We need this JSDoc comment for affecting ESDoc.
-   * @ignore
-   * @extends  {Ignored}
-   */
-  declare export class RaceSubscriber<T> mixins OuterSubscriber<T, T> {
-    constructor(destination: Subscriber<T>): this;
-    _next(observable: any): void;
-    _complete(): void;
-    notifyNext(
-      outerValue: T,
-      innerValue: T,
-      outerIndex: number,
-      innerIndex: number,
-      innerSub: InnerSubscriber<T, T>
-    ): void;
-  }
 }
 declare module "rxjs/internal/observable/range" {
   /**
@@ -1514,18 +1360,6 @@ sequential integers.
     count?: number,
     scheduler?: SchedulerLike
   ): Observable<number>;
-
-  /**
-   *
-   * @internal
-   */
-  declare export function dispatch<T>(state: {
-    keys: string[],
-    index: number,
-    subscriber: Subscriber<[string, T]>,
-    subscription: Subscription,
-    obj: Object
-  }): void;
 }
 declare module "rxjs/internal/observable/throwError" {
   /**
@@ -1658,7 +1492,7 @@ thereafter.
 declare module "rxjs/internal/observable/using" {
   /**
  * Creates an Observable that uses a resource which will be disposed at the same time as the Observable.
- * 
+ *
 <span class="informal">Use it when you catch yourself cleaning up after an Observable.</span>
 
 `using` is a factory operator, which accepts two functions. First function returns a disposable resource.
@@ -1699,30 +1533,6 @@ declare module "rxjs/internal/observable/zip" {
     v1: ObservableInput<T>,
     resultSelector: (v1: T) => R
   ): Observable<R>;
-
-  declare export class ZipOperator<T, R> mixins Operator<T, R> {
-    resultSelector: (...values: Array<any>) => R;
-    constructor(resultSelector?: (...values: Array<any>) => R): this;
-    call(subscriber: Subscriber<R>, source: any): any;
-  }
-
-  /**
-   * We need this JSDoc comment for affecting ESDoc.
-   * @ignore
-   * @extends  {Ignored}
-   */
-  declare export class ZipSubscriber<T, R> mixins Subscriber<T> {
-    constructor(
-      destination: Subscriber<R>,
-      resultSelector?: (...values: Array<any>) => R,
-      values?: any
-    ): this;
-    _next(value: any): void;
-    _complete(): void;
-    notifyInactive(): void;
-    checkIterators(): void;
-    _tryresultSelector(args: any[]): void;
-  }
 }
 declare module "rxjs/internal/types" {
   /**
@@ -1856,12 +1666,12 @@ FOR MIGRATION REASONS.
   };
 }
 declare module "rxjs/internal/scheduler/AsapScheduler" {
-  declare export class AsapScheduler mixins AsyncScheduler {
+  declare class AsapScheduler mixins AsyncScheduler {
     flush(action?: AsyncAction<any>): void;
   }
 }
 declare module "rxjs/internal/scheduler/AsyncScheduler" {
-  declare export class AsyncScheduler mixins Scheduler {
+  declare class AsyncScheduler mixins Scheduler {
     static delegate: Scheduler;
     actions: Array<AsyncAction<any>>;
 
@@ -1877,7 +1687,7 @@ declare module "rxjs/internal/scheduler/AsyncScheduler" {
  * An internal ID used to track the latest asynchronous task such as those
  * coming from `setTimeout`, `setInterval`, `requestAnimationFrame`, and
 others.
- * @type  
+ * @type
  * @deprecated  internal use only
 */
     scheduled: any;
@@ -1891,10 +1701,10 @@ others.
   }
 }
 declare module "rxjs/internal/scheduler/QueueScheduler" {
-  declare export class QueueScheduler mixins AsyncScheduler {}
+  declare class QueueScheduler mixins AsyncScheduler {}
 }
 declare module "rxjs/internal/scheduler/AnimationFrameScheduler" {
-  declare export class AnimationFrameScheduler mixins AsyncScheduler {
+  declare class AnimationFrameScheduler mixins AsyncScheduler {
     flush(action?: AsyncAction<any>): void;
   }
 }
@@ -1904,7 +1714,7 @@ declare module "rxjs/internal/scheduler/AsyncAction" {
    * @ignore
    * @extends  {Ignored}
    */
-  declare export class AsyncAction<T> mixins Action<T> {
+  declare class AsyncAction<T> mixins Action<T> {
     scheduler: AsyncScheduler;
     work: (state?: T) => void;
     id: any;
@@ -1944,7 +1754,7 @@ class Action<T> extends Subscription {
 ```
  * @class  Action<T>
 */
-  declare export class Action<T> mixins Subscription {
+  declare class Action<T> mixins Subscription {
     constructor(scheduler: Scheduler, work: (state?: T) => void): this;
 
     /**
@@ -1955,45 +1765,8 @@ according to the `delay` parameter, if specified.
 called by the Scheduler.
  * @param  Time to wait before executing the work, where the
 time unit is implicit and defined by the Scheduler.
- * @return  
+ * @return
 */
     schedule(state?: T, delay?: number): Subscription;
-  }
-}
-declare module "rxjs/internal/OuterSubscriber" {
-  /**
-   * We need this JSDoc comment for affecting ESDoc.
-   * @ignore
-   * @extends  {Ignored}
-   */
-  declare export class OuterSubscriber<T, R> mixins Subscriber<T> {
-    notifyNext(
-      outerValue: T,
-      innerValue: R,
-      outerIndex: number,
-      innerIndex: number,
-      innerSub: InnerSubscriber<T, R>
-    ): void;
-    notifyError(error: any, innerSub: InnerSubscriber<T, R>): void;
-    notifyComplete(innerSub: InnerSubscriber<T, R>): void;
-  }
-}
-declare module "rxjs/internal/InnerSubscriber" {
-  /**
-   * We need this JSDoc comment for affecting ESDoc.
-   * @ignore
-   * @extends  {Ignored}
-   */
-  declare export class InnerSubscriber<T, R> mixins Subscriber<R> {
-    outerValue: T;
-    outerIndex: number;
-    constructor(
-      parent: OuterSubscriber<T, R>,
-      outerValue: T,
-      outerIndex: number
-    ): this;
-    _next(value: R): void;
-    _error(error: any): void;
-    _complete(): void;
   }
 }
