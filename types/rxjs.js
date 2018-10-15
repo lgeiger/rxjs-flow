@@ -47,7 +47,7 @@ declare type rxjs$ObservableInput<T> =
 /*// @deprecated use {@link rxjs$InteropObservable } */
 declare type rxjs$ObservableLike<T> = rxjs$InteropObservable<T>;
 declare type rxjs$InteropObservable<T> = {
-  [any]: () => rxjs$Subscribable<T>
+  [string | mixed]: () => rxjs$Subscribable<T>
 };
 /** OBSERVER INTERFACES */
 declare interface rxjs$NextObserver<T> {
@@ -328,7 +328,7 @@ declare module "rxjs" {
     iif: typeof rxjs$iif,
     ConnectableObservable: typeof rxjs$ConnectableObservable,
     GroupedObservable: typeof rxjs$GroupedObservable,
-    observable: string | any,
+    observable: string | mixed,
     Subject: typeof rxjs$Subject,
     BehaviorSubject: typeof BehaviorSubject,
     ReplaySubject: typeof ReplaySubject,
@@ -1813,9 +1813,9 @@ declare module "rxjs" {
   declare interface TimeoutError extends Error {}
 
   declare interface NodeStyleEventEmitter {
-    addListener: (eventName: string | any, handler: NodeEventHandler) => void;
+    addListener: (eventName: string | mixed, handler: NodeEventHandler) => void;
     removeListener: (
-      eventName: string | any,
+      eventName: string | mixed,
       handler: NodeEventHandler
     ) => void;
   }
