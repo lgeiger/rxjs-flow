@@ -1,6 +1,5 @@
 declare module "rxjs" {
-}
-declare module "rxjs/internal/Observable" {
+
   /**
    * A representation of any set of values over any amount of time. This is the most basic building block
    * of RxJS.
@@ -176,8 +175,7 @@ rejects with the handled error
     toPromise<T>(PromiseCtor: typeof Promise): Promise<T>;
     toPromise<T>(PromiseCtor: PromiseConstructorLike): Promise<T>;
   }
-}
-declare module "rxjs/internal/observable/ConnectableObservable" {
+
   /**
    *
    * @class  ConnectableObservable<T>
@@ -205,8 +203,7 @@ declare module "rxjs/internal/observable/ConnectableObservable" {
     connect(): Subscription;
     refCount(): Observable<T>;
   }
-}
-declare module "rxjs/internal/operators/groupBy" {
+
   declare interface RefCountSubscription {
     count: number;
     unsubscribe: () => void;
@@ -240,16 +237,13 @@ GroupedObservable instance.
      */
     _subscribe(subscriber: Subscriber<T>): Subscription;
   }
-}
-declare module "rxjs/internal/Operator" {
+
   declare export interface Operator<T, R> {
     call(subscriber: Subscriber<R>, source: any): TeardownLogic;
   }
-}
-declare module "rxjs/internal/symbol/observable" {
+
   declare export var observable: string | any;
-}
-declare module "rxjs/internal/Subject" {
+
 
   /**
  * A Subject is a special type of Observable that allows values to be
@@ -298,8 +292,7 @@ code that uses the Observable.
 */
     asObservable(): Observable<T>;
   }
-}
-declare module "rxjs/internal/BehaviorSubject" {
+
   /**
    * A variant of Subject that requires an initial value and emits its current
    * value whenever it is subscribed to.
@@ -317,8 +310,7 @@ declare module "rxjs/internal/BehaviorSubject" {
     getValue(): T;
     next(value: T): void;
   }
-}
-declare module "rxjs/internal/ReplaySubject" {
+
   /**
  * A variant of Subject that "replays" or emits old values to new subscribers.
  * It buffers a set number of values and will emit those values immediately to
@@ -339,8 +331,7 @@ any new subscribers in addition to emitting new values to existing subscribers.
     _subscribe(subscriber: Subscriber<T>): Subscription;
     _getNow(): number;
   }
-}
-declare module "rxjs/internal/AsyncSubject" {
+
   /**
    * A variant of Subject that only emits a value when it completes. It will emit
    * its latest value to all its observers on completion.
@@ -356,20 +347,15 @@ declare module "rxjs/internal/AsyncSubject" {
     error(error: any): void;
     complete(): void;
   }
-}
-declare module "rxjs/internal/scheduler/asap" {
+
   declare export var asapScheduler: AsapScheduler;
-}
-declare module "rxjs/internal/scheduler/async" {
+
   declare export var asyncScheduler: AsyncScheduler;
-}
-declare module "rxjs/internal/scheduler/queue" {
+
   declare export var queueScheduler: QueueScheduler;
-}
-declare module "rxjs/internal/scheduler/animationFrame" {
+
   declare export var animationFrameScheduler: AnimationFrameScheduler;
-}
-declare module "rxjs/internal/scheduler/VirtualTimeScheduler" {
+
   declare export class VirtualTimeScheduler mixins AsyncScheduler {
     maxFrames: number;
     static frameTimeFactor: number;
@@ -413,8 +399,7 @@ declare module "rxjs/internal/scheduler/VirtualTimeScheduler" {
     _execute(state: T, delay: number): any;
     static sortActions<T>(a: VirtualAction<T>, b: VirtualAction<T>): number;
   }
-}
-declare module "rxjs/internal/Scheduler" {
+
   /**
  * An execution context and a data structure to order tasks and schedule their
  * execution. Provides a notion of (potentially virtual) time, through the
@@ -475,8 +460,7 @@ the scheduled work.
       state?: T
     ): Subscription;
   }
-}
-declare module "rxjs/internal/Subscription" {
+
   /**
  * Represents a disposable resource, such as the execution of an Observable. A
  * Subscription has one important method, `unsubscribe`, that takes no argument
@@ -555,8 +539,7 @@ list.
      */
     remove(subscription: Subscription): void;
   }
-}
-declare module "rxjs/internal/Subscriber" {
+
   /**
  * Implements the {@link Observer} interface and extends the
  * {@link Subscription} class. While the {@link Observer} is the public API for
@@ -656,8 +639,7 @@ has finished sending push-based notifications.
      */
     _unsubscribeAndRecycle(): Subscriber<T>;
   }
-}
-declare module "rxjs/internal/Notification" {
+
   /**
  * Represents a push-based event or value that an {@link Observable} can emit.
  * This class is particularly useful for operators that manage notifications,
@@ -750,41 +732,31 @@ argument.
      */
     static createComplete(): Notification<any>;
   }
-}
-declare module "rxjs/internal/util/pipe" {
+
   declare export function pipe<T>(): UnaryFunction<T, T>;
-}
-declare module "rxjs/internal/util/noop" {
+
   declare export function noop(): void;
-}
-declare module "rxjs/internal/util/identity" {
+
   declare export function identity<T>(x: T): T;
-}
-declare module "rxjs/internal/util/isObservable" {
+
   /**
    * Tests to see if the object is an RxJS {@link Observable}
    * @param obj the object to test
    */
   declare export function isObservable<T>(obj: any): Observable;
-}
-declare module "rxjs/internal/util/ArgumentOutOfRangeError" {
+
   declare export type ArgumentOutOfRangeError = {} & Error;
-}
-declare module "rxjs/internal/util/EmptyError" {
+
   declare export type EmptyError = {} & Error;
-}
-declare module "rxjs/internal/util/ObjectUnsubscribedError" {
+
   declare export type ObjectUnsubscribedError = {} & Error;
-}
-declare module "rxjs/internal/util/UnsubscriptionError" {
+
   declare export type UnsubscriptionError = {
     errors: any[]
   } & Error;
-}
-declare module "rxjs/internal/util/TimeoutError" {
+
   declare export type TimeoutError = {} & Error;
-}
-declare module "rxjs/internal/observable/bindCallback" {
+
   /**
    *
    * @deprecated  resultSelector is no longer supported, use a mapping function.
@@ -794,8 +766,7 @@ declare module "rxjs/internal/observable/bindCallback" {
     resultSelector: Function,
     scheduler?: SchedulerLike
   ): (...args: any[]) => Observable<any>;
-}
-declare module "rxjs/internal/observable/bindNodeCallback" {
+
   /**
    *
    * @deprecated  resultSelector is deprecated, pipe to map instead
@@ -805,8 +776,7 @@ declare module "rxjs/internal/observable/bindNodeCallback" {
     resultSelector: Function,
     scheduler?: SchedulerLike
   ): (...args: any[]) => Observable<any>;
-}
-declare module "rxjs/internal/observable/combineLatest" {
+
   /**
    *
    * @deprecated  resultSelector no longer supported, pipe to map instead
@@ -817,14 +787,12 @@ declare module "rxjs/internal/observable/combineLatest" {
     scheduler?: SchedulerLike
   ): Observable<R>;
 
-}
-declare module "rxjs/internal/observable/concat" {
+
   declare export function concat<T>(
     v1: ObservableInput<T>,
     scheduler?: SchedulerLike
   ): Observable<T>;
-}
-declare module "rxjs/internal/observable/defer" {
+
   /**
  * Creates an Observable that, on subscribe, calls an Observable factory to
  * make an Observable for each new Observer.
@@ -874,8 +842,7 @@ an invocation of the given Observable factory function.
   declare export function defer<T>(
     observableFactory: () => SubscribableOrPromise<T> | void
   ): Observable<T>;
-}
-declare module "rxjs/internal/observable/empty" {
+
 
   /**
  * Creates an Observable that emits no items to the Observer and immediately
@@ -933,19 +900,16 @@ notification.
   declare export function empty(
     scheduler?: SchedulerLike
   ): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
-}
-declare module "rxjs/internal/observable/forkJoin" {
+
   declare export function forkJoin<T>(
     sources: [ObservableInput<T>]
   ): Observable<T[]>;
-}
-declare module "rxjs/internal/observable/from" {
+
   declare export function from<T>(
     input: ObservableInput<T>,
     scheduler?: SchedulerLike
   ): Observable<T>;
-}
-declare module "rxjs/internal/observable/fromEvent" {
+
   declare interface NodeStyleEventEmitter {
     addListener: (eventName: string | any, handler: NodeEventHandler) => this;
     removeListener: (
@@ -996,14 +960,12 @@ declare module "rxjs/internal/observable/fromEvent" {
     target: FromEventTarget<T>,
     eventName: string
   ): Observable<T>;
-}
-declare module "rxjs/internal/observable/fromEventPattern" {
+
   declare export function fromEventPattern<T>(
     addHandler: (handler: Function) => any,
     removeHandler?: (handler: Function, signal?: any) => void
   ): Observable<T>;
-}
-declare module "rxjs/internal/observable/generate" {
+
   declare type ConditionFunc<S> = (state: S) => boolean;
   declare type IterateFunc<S> = (state: S) => S;
   declare type ResultFunc<S, T> = (state: S) => T;
@@ -1067,8 +1029,7 @@ const res = generate(1, x => x < 5, x =>  * 2, x => x + 1, asap);
     resultSelector: ResultFunc<S, T>,
     scheduler?: SchedulerLike
   ): Observable<T>;
-}
-declare module "rxjs/internal/observable/iif" {
+
   /**
  * Decides at subscription time which Observable will actually be subscribed.
  *
@@ -1159,8 +1120,7 @@ observableIfYouHaveAccess.subscribe(
     trueResult?: SubscribableOrPromise<T>,
     falseResult?: SubscribableOrPromise<F>
   ): Observable<T | F>;
-}
-declare module "rxjs/internal/observable/interval" {
+
   /**
  * Creates an Observable that emits sequential numbers every specified
  * interval of time, on a specified {@link SchedulerLike}.
@@ -1214,14 +1174,12 @@ interval.
     period?: number,
     scheduler?: SchedulerLike
   ): Observable<number>;
-}
-declare module "rxjs/internal/observable/merge" {
+
   declare export function merge<T>(
     v1: ObservableInput<T>,
     scheduler?: SchedulerLike
   ): Observable<T>;
-}
-declare module "rxjs/internal/observable/never" {
+
 
   /**
    *
@@ -1231,16 +1189,13 @@ declare module "rxjs/internal/observable/never" {
   declare export function never(): Observable<
     "NO PRINT IMPLEMENTED: NeverKeyword"
   >;
-}
-declare module "rxjs/internal/observable/of" {
+
   declare export function of<T>(a: T, scheduler?: SchedulerLike): Observable<T>;
-}
-declare module "rxjs/internal/observable/onErrorResumeNext" {
+
   declare export function onErrorResumeNext<R>(
     v: ObservableInput<R>
   ): Observable<R>;
-}
-declare module "rxjs/internal/observable/pairs" {
+
   /**
  * Convert an object into an Observable of `[key, value]` pairs.
  *
@@ -1289,8 +1244,7 @@ when resulting Observable will emit values.
     obj: Object,
     scheduler?: SchedulerLike
   ): Observable<[string, T]>;
-}
-declare module "rxjs/internal/observable/race" {
+
   /**
  * Returns an Observable that mirrors the first source Observable to emit an item.
  *
@@ -1319,8 +1273,7 @@ race(obs3, obs1, obs2)
   declare export function race<T>(
     observables: Array<Observable<T>>
   ): Observable<T>;
-}
-declare module "rxjs/internal/observable/range" {
+
   /**
  * Creates an Observable that emits a sequence of numbers within a specified
  * range.
@@ -1360,8 +1313,7 @@ sequential integers.
     count?: number,
     scheduler?: SchedulerLike
   ): Observable<number>;
-}
-declare module "rxjs/internal/observable/throwError" {
+
   /**
  * Creates an Observable that emits no items to the Observer and immediately
  * emits an error notification.
@@ -1433,8 +1385,7 @@ using the given error argument.
     error: any,
     scheduler?: SchedulerLike
   ): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
-}
-declare module "rxjs/internal/observable/timer" {
+
   /**
  * Creates an Observable that starts emitting after an `dueTime` and
  * emits ever increasing numbers after each `period` of time thereafter.
@@ -1488,8 +1439,7 @@ thereafter.
     periodOrScheduler?: number | SchedulerLike,
     scheduler?: SchedulerLike
   ): Observable<number>;
-}
-declare module "rxjs/internal/observable/using" {
+
   /**
  * Creates an Observable that uses a resource which will be disposed at the same time as the Observable.
  *
@@ -1523,8 +1473,7 @@ which - when completed, errored or unsubscribed - will also call `unsubscribe` o
       resource: Unsubscribable | void
     ) => ObservableInput<T> | void
   ): Observable<T>;
-}
-declare module "rxjs/internal/observable/zip" {
+
   /**
    *
    * @deprecated  resultSelector is no longer supported, pipe to map instead
@@ -1533,8 +1482,7 @@ declare module "rxjs/internal/observable/zip" {
     v1: ObservableInput<T>,
     resultSelector: (v1: T) => R
   ): Observable<R>;
-}
-declare module "rxjs/internal/types" {
+
   /**
    * OPERATOR INTERFACES
    */
@@ -1645,8 +1593,7 @@ declare module "rxjs/internal/types" {
   declare export type SchedulerAction<T> = {
     schedule(state?: T, delay?: number): Subscription
   } & Subscription;
-}
-declare module "rxjs/internal/config" {
+
   declare export var config: {
     /**
      * The promise constructor used by default for methods such as
@@ -1664,13 +1611,11 @@ FOR MIGRATION REASONS.
 */
     useDeprecatedSynchronousErrorHandling: boolean
   };
-}
-declare module "rxjs/internal/scheduler/AsapScheduler" {
+
   declare class AsapScheduler mixins AsyncScheduler {
     flush(action?: AsyncAction<any>): void;
   }
-}
-declare module "rxjs/internal/scheduler/AsyncScheduler" {
+
   declare class AsyncScheduler mixins Scheduler {
     static delegate: Scheduler;
     actions: Array<AsyncAction<any>>;
@@ -1699,16 +1644,13 @@ others.
     ): Subscription;
     flush(action: AsyncAction<any>): void;
   }
-}
-declare module "rxjs/internal/scheduler/QueueScheduler" {
+
   declare class QueueScheduler mixins AsyncScheduler {}
-}
-declare module "rxjs/internal/scheduler/AnimationFrameScheduler" {
+
   declare class AnimationFrameScheduler mixins AsyncScheduler {
     flush(action?: AsyncAction<any>): void;
   }
-}
-declare module "rxjs/internal/scheduler/AsyncAction" {
+
   /**
    * We need this JSDoc comment for affecting ESDoc.
    * @ignore
@@ -1739,8 +1681,7 @@ declare module "rxjs/internal/scheduler/AsyncAction" {
      */
     _unsubscribe(): void;
   }
-}
-declare module "rxjs/internal/scheduler/Action" {
+
   /**
  * A unit of work to be executed in a `scheduler`. An action is typically
  * created from within a {@link SchedulerLike} and an RxJS user does not need to concern
