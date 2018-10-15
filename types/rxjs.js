@@ -26,7 +26,7 @@ declare interface rxjs$SubscriptionLike extends rxjs$Unsubscribable {
 }
 declare type rxjs$SubscribableOrPromise<T> =
   | rxjs$Subscribable<T>
-  | rxjs$Subscribable<"NO PRINT IMPLEMENTED: NeverKeyword">
+  | rxjs$Subscribable<empty>
   | Promise<T>
   | rxjs$InteropObservable<T>;
 
@@ -312,7 +312,7 @@ declare interface rxjs$RefCountSubscription {
 declare function rxjs$throwError(
   error: any,
   scheduler?: rxjs$SchedulerLike
-): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
+): rxjs$Observable<empty>;
 
 declare function rxjs$iif<T, F>(
   condition: () => boolean,
@@ -324,6 +324,7 @@ declare module "rxjs" {
   declare module.exports: {
     Observable: typeof rxjs$Observable,
     Subscriber: typeof rxjs$Subscriber,
+    Subscription: typeof rxjs$Subscription,
     throwError: typeof rxjs$throwError,
     iif: typeof rxjs$iif,
     ConnectableObservable: typeof rxjs$ConnectableObservable,
@@ -466,9 +467,6 @@ declare module "rxjs" {
     defer<T>(
       observableFactory: () => rxjs$SubscribableOrPromise<T> | void
     ): rxjs$Observable<T>,
-    empty(
-      scheduler?: rxjs$SchedulerLike
-    ): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
     forkJoin: (<T>(
       sources: [rxjs$ObservableInput<T>]
     ) => rxjs$Observable<T[]>) &
@@ -925,7 +923,11 @@ declare module "rxjs" {
         >
       ) => rxjs$Observable<R>),
     // @deprecated  Deprecated in favor of using {@link  NEVER} constant.
-    never(): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
+    never(): rxjs$Observable<empty>,
+    EMPTY: rxjs$Observable<empty>,
+    // @deprecated Deprecated in favor of using {@link EMPTY} constant.
+    empty(scheduler?: rxjs$SchedulerLike): rxjs$Observable<empty>,
+    NEVER: rxjs$Observable<empty>,
     /*// @deprecated resultSelector is no longer supported, use a mapping function. */
     bindCallback: ((
       callbackFunc: Function,
@@ -1967,10 +1969,7 @@ declare module "rxjs/operators" {
   ): rxjs$OperatorFunction<T, T[]>;
 
   declare export function catchError<T>(
-    selector: (
-      err: any,
-      caught: rxjs$Observable<T>
-    ) => "NO PRINT IMPLEMENTED: NeverKeyword"
+    selector: (err: any, caught: rxjs$Observable<T>) => empty
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function catchError<T, R>(
@@ -2214,10 +2213,7 @@ declare module "rxjs/operators" {
 
   // @deprecated  In future versions, empty notifiers will no longer re-emit the source value on the output observable.
   declare export function delayWhen<T>(
-    delayDurationSelector: (
-      value: T,
-      index: number
-    ) => rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
+    delayDurationSelector: (value: T, index: number) => rxjs$Observable<empty>,
     subscriptionDelay?: rxjs$Observable<any>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
@@ -2422,10 +2418,7 @@ declare module "rxjs/operators" {
     subjectSelector?: () => rxjs$Subject<R>
   ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, R>>;
 
-  declare export function ignoreElements(): rxjs$OperatorFunction<
-    any,
-    "NO PRINT IMPLEMENTED: NeverKeyword"
-  >;
+  declare export function ignoreElements(): rxjs$OperatorFunction<any, empty>;
 
   declare export function isEmpty<T>(): rxjs$OperatorFunction<T, boolean>;
 
@@ -3332,5 +3325,5 @@ declare module "rxjs/operators" {
   declare export function throwError(
     error: any,
     scheduler?: rxjs$SchedulerLike
-  ): rxjs$Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
+  ): rxjs$Observable<empty>;
 }
