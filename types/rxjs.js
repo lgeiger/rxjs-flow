@@ -1,185 +1,749 @@
-declare module "rxjs" {
+/** OPERATOR INTERFACES */
+declare interface UnaryFunction<T, R> {
+  (source: T): R;
+}
+declare interface OperatorFunction<T, R>
+  extends UnaryFunction<Observable<T>, Observable<R>> {}
+declare type FactoryOrValue<T> = T | (() => T);
+declare interface MonoTypeOperatorFunction<T> extends OperatorFunction<T, T> {}
+declare interface Timestamp<T> {
+  value: T;
+  timestamp: number;
+}
+declare interface TimeInterval<T> {
+  value: T;
+  interval: number;
+}
+/** SUBSCRIPTION INTERFACES */
+declare interface Unsubscribable {
+  unsubscribe(): void;
+}
+declare type TeardownLogic = Unsubscribable | Function | void;
+declare interface SubscriptionLike extends Unsubscribable {
+  unsubscribe(): void;
+  +closed: boolean;
+}
+declare type SubscribableOrPromise<T> =
+  | Subscribable<T>
+  | Subscribable<"NO PRINT IMPLEMENTED: NeverKeyword">
+  | Promise<T>
+  | InteropObservable<T>;
+
+/** OBSERVABLE INTERFACES */
+declare interface Subscribable<T> {
+  subscribe(observer?: PartialObserver<T>): Unsubscribable;
+  subscribe(
+    next?: (value: T) => void,
+    error?: (error: any) => void,
+    complete?: () => void
+  ): Unsubscribable;
+}
+declare type ObservableInput<T> =
+  | SubscribableOrPromise<T>
+  | Array<T>
+  | Iterable<T>;
+
+/** @deprecated use {@link InteropObservable } */
+declare type ObservableLike<T> = InteropObservable<T>;
+declare type InteropObservable<T> = {
+  [any]: () => Subscribable<T>
+};
+/** OBSERVER INTERFACES */
+declare interface NextObserver<T> {
+  closed?: boolean;
+  next: (value: T) => void;
+  error?: (err: any) => void;
+  complete?: () => void;
+}
+declare interface ErrorObserver<T> {
+  closed?: boolean;
+  next?: (value: T) => void;
+  error: (err: any) => void;
+  complete?: () => void;
+}
+declare interface CompletionObserver<T> {
+  closed?: boolean;
+  next?: (value: T) => void;
+  error?: (err: any) => void;
+  complete: () => void;
+}
+declare interface PartialObserver<T> {
+  closed?: boolean;
+  next?: (value: T) => void;
+  error?: (err: any) => void;
+  complete?: () => void;
+}
+declare interface Observer<T> {
+  closed?: boolean;
+  next(value: T): void;
+  error(err: any): void;
+  complete(): void;
+}
+/** SCHEDULER INTERFACES */
+declare interface SchedulerLike {
+  now(): number;
+  schedule<T>(
+    work: (state?: T) => void,
+    delay?: number,
+    state?: T
+  ): Subscription;
+}
+declare interface SchedulerAction<T> extends Subscription {
+  schedule(state?: T, delay?: number): Subscription;
+}
+
+/**
+ * A representation of any set of values over any amount of time. This is the most basic building block
+ * of RxJS.
+ * @class  Observable<T>
+ */
+declare class Observable<T> implements Subscribable<T> {
   /**
-   * A representation of any set of values over any amount of time. This is the most basic building block
-   * of RxJS.
-   * @class  Observable<T>
+   * Internal implementation detail, do not use directly.
    */
-  declare export class Observable<T> implements Subscribable<T> {
-    /**
-     * Internal implementation detail, do not use directly.
-     */
-    _isScalar: boolean;
+  _isScalar: boolean;
 
-    /**
-     *
-     * @deprecated  This is an internal implementation detail, do not use.
-     */
-    source: Observable<any>;
+  /**
+   *
+   * @deprecated  This is an internal implementation detail, do not use.
+   */
+  source: Observable<any>;
 
-    /**
-     *
-     * @deprecated  This is an internal implementation detail, do not use.
-     */
-    operator: Operator<any, T>;
+  /**
+   *
+   * @deprecated  This is an internal implementation detail, do not use.
+   */
+  operator: Operator<any, T>;
 
-    /**
- *
- * @constructor
- * @param  the function that is called when the Observable is
+  /**
+*
+* @constructor
+* @param  the function that is called when the Observable is
 initially subscribed to. This function is given a Subscriber, to which new values
 can be `next`ed, or an `error` method can be called to raise an error, or
 `complete` can be called to notify of a successful completion.
 */
-    constructor(subscribe?: (subscriber: Subscriber<T>) => TeardownLogic): this;
+  constructor(subscribe?: (subscriber: Subscriber<T>) => TeardownLogic): this;
 
-    /**
-     * Creates a new cold Observable by calling the Observable constructor
-     * @static  true
-     * @owner  Observable
-     * @method  create
-     * @param  ? the subscriber function to be passed to the Observable constructor
-     * @return  a new cold observable
-     * @nocollapse
-     */
-    static create: Function;
+  /**
+   * Creates a new cold Observable by calling the Observable constructor
+   * @static  true
+   * @owner  Observable
+   * @method  create
+   * @param  ? the subscriber function to be passed to the Observable constructor
+   * @return  a new cold observable
+   * @nocollapse
+   */
+  static create: Function;
 
-    /**
-     * Creates a new Observable, with this Observable as the source, and the passed
-     * operator defined as the new observable's operator.
-     * @method  lift
-     * @param  the operator defining the operation to take on the observable
-     * @return  a new observable with the Operator applied
-     */
-    lift<R>(operator: Operator<T, R>): Observable<R>;
-    subscribe(observer?: PartialObserver<T>): Subscription;
-    subscribe(
-      next?: (value: T) => void,
-      error?: (error: any) => void,
-      complete?: () => void
-    ): Subscription;
+  /**
+   * Creates a new Observable, with this Observable as the source, and the passed
+   * operator defined as the new observable's operator.
+   * @method  lift
+   * @param  the operator defining the operation to take on the observable
+   * @return  a new observable with the Operator applied
+   */
+  lift<R>(operator: Operator<T, R>): Observable<R>;
+  subscribe(observer?: PartialObserver<T>): Subscription;
+  subscribe(
+    next?: (value: T) => void,
+    error?: (error: any) => void,
+    complete?: () => void
+  ): Subscription;
 
-    /**
-     *
-     * @deprecated  This is an internal implementation detail, do not use.
-     */
-    _trySubscribe(sink: Subscriber<T>): TeardownLogic;
+  /**
+   *
+   * @deprecated  This is an internal implementation detail, do not use.
+   */
+  _trySubscribe(sink: Subscriber<T>): TeardownLogic;
 
-    /**
- *
- * @method  forEach
- * @param  a handler for each value emitted by the observable
- * @param  a constructor function used to instantiate the Promise
- * @return  a promise that either resolves on observable completion or
+  /**
+*
+* @method  forEach
+* @param  a handler for each value emitted by the observable
+* @param  a constructor function used to instantiate the Promise
+* @return  a promise that either resolves on observable completion or
 rejects with the handled error
 */
-    forEach(
-      next: (value: T) => void,
-      promiseCtor?: Promise.constructor
-    ): Promise<void>;
+  forEach(
+    next: (value: T) => void,
+    promiseCtor?: Promise.constructor
+  ): Promise<void>;
 
+  /**
+   *
+   * @internal  This is an internal implementation detail, do not use.
+   */
+  _subscribe(subscriber: Subscriber<any>): TeardownLogic;
+
+  /**
+   *
+   * @nocollapse
+   * @deprecated  In favor of iif creation function: import { iif } from 'rxjs';
+   */
+  static if: typeof iif;
+
+  /**
+   *
+   * @nocollapse
+   * @deprecated  In favor of throwError creation function: import { throwError } from 'rxjs';
+   */
+  static throw: typeof throwError;
+  pipe(): Observable<T>;
+  pipe<A>(op1: OperatorFunction<T, A>): Observable<A>;
+  pipe<A, B>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>
+  ): Observable<B>;
+  pipe<A, B, C>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>
+  ): Observable<C>;
+  pipe<A, B, C, D>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>
+  ): Observable<D>;
+  pipe<A, B, C, D, E>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>
+  ): Observable<E>;
+  pipe<A, B, C, D, E, F>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>
+  ): Observable<F>;
+  pipe<A, B, C, D, E, F, G>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>,
+    op7: OperatorFunction<F, G>
+  ): Observable<G>;
+  pipe<A, B, C, D, E, F, G, H>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>,
+    op7: OperatorFunction<F, G>,
+    op8: OperatorFunction<G, H>
+  ): Observable<H>;
+  pipe<A, B, C, D, E, F, G, H, I>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>,
+    op7: OperatorFunction<F, G>,
+    op8: OperatorFunction<G, H>,
+    op9: OperatorFunction<H, I>
+  ): Observable<I>;
+  pipe<A, B, C, D, E, F, G, H, I>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>,
+    op7: OperatorFunction<F, G>,
+    op8: OperatorFunction<G, H>,
+    op9: OperatorFunction<H, I>,
+    ...operations: OperatorFunction<any, any>[]
+  ): Observable<{}>;
+  toPromise<T>(): Promise<T>;
+  toPromise<T>(PromiseCtor: typeof Promise): Promise<T>;
+  toPromise<T>(PromiseCtor: Promise.constructor): Promise<T>;
+}
+
+/**
+* Represents a disposable resource, such as the execution of an Observable. A
+* Subscription has one important method, `unsubscribe`, that takes no argument
+and just disposes the resource held by the subscription.
+
+Additionally, subscriptions may be grouped together through the `add()`
+method, which will attach a child Subscription to the current Subscription.
+When a Subscription is unsubscribed, all its children (and its grandchildren)
+will be unsubscribed as well.
+* @class  Subscription
+*/
+declare class Subscription implements SubscriptionLike {
+  /**
+   *
+   * @nocollapse
+   */
+  static EMPTY: Subscription;
+
+  /**
+   * A flag to indicate whether this Subscription has already been unsubscribed.
+   * @type
+   */
+  closed: boolean;
+
+  /**
+   *
+   * @internal
+   */
+  _parent: Subscription;
+
+  /**
+   *
+   * @internal
+   */
+  _parents: Subscription[];
+
+  /**
+*
+* @param  A function describing how to
+perform the disposal of resources when the `unsubscribe` method is called.
+*/
+  constructor(unsubscribe?: () => void): this;
+
+  /**
+* Disposes the resources held by the subscription. May, for instance, cancel
+* an ongoing Observable execution or cancel any other type of work that
+started when the Subscription was created.
+* @return
+*/
+  unsubscribe(): void;
+
+  /**
+* Adds a tear down to be called during the unsubscribe() of this
+* Subscription.
+
+If the tear down being added is a subscription that is already
+unsubscribed, is the same reference `add` is being called on, or is
+`Subscription.EMPTY`, it will not be added.
+
+If this subscription is already in an `closed` state, the passed
+tear down logic will be executed immediately.
+* @param  The additional logic to execute on
+teardown.
+* @return  Returns the Subscription used or created to be
+added to the inner subscriptions list. This Subscription can be used with
+`remove()` to remove the passed teardown logic from the inner subscriptions
+list.
+*/
+  add(teardown: TeardownLogic): Subscription;
+
+  /**
+   * Removes a Subscription from the internal list of subscriptions that will
+   * unsubscribe during the unsubscribe process of this Subscription.
+   * @param  The subscription to remove.
+   * @return
+   */
+  remove(subscription: Subscription): void;
+}
+
+declare interface Operator<T, R> {
+  call(subscriber: Subscriber<R>, source: any): TeardownLogic;
+}
+
+/**
+* Implements the {@link Observer} interface and extends the
+* {@link Subscription} class. While the {@link Observer} is the public API for
+consuming the values of an {@link Observable}, all Observers get converted to
+a Subscriber, in order to provide Subscription-like capabilities such as
+`unsubscribe`. Subscriber is a common type in RxJS, and crucial for
+implementing operators, but it is rarely used as a public API.
+* @class  Subscriber<T>
+*/
+declare class Subscriber<T> extends Subscription implements Observer<T> {
+  /**
+* A static factory for a Subscriber, given a (potentially partial) definition
+* of an Observer.
+* @param  ): void} [next] The `next` callback of an Observer.
+* @param  ): void} [error] The `error` callback of an
+Observer.
+* @param  The `complete` callback of an
+Observer.
+* @return  A Subscriber wrapping the (partially defined)
+Observer represented by the given arguments.
+* @nocollapse
+*/
+  static create<T>(
+    next?: (x?: T) => void,
+    error?: (e?: any) => void,
+    complete?: () => void
+  ): Subscriber<T>;
+
+  /**
+   *
+   * @internal
+   */
+  syncErrorValue: any;
+
+  /**
+   *
+   * @internal
+   */
+  syncErrorThrown: boolean;
+
+  /**
+   *
+   * @internal
+   */
+  syncErrorThrowable: boolean;
+  isStopped: boolean;
+  destination: PartialObserver<any> | Subscriber<any>;
+
+  /**
+*
+* @param  ): void} [destinationOrNext] A partially
+defined Observer or a `next` callback function.
+* @param  ): void} [error] The `error` callback of an
+Observer.
+* @param  The `complete` callback of an
+Observer.
+*/
+  constructor(
+    destinationOrNext?: PartialObserver<any> | ((value: T) => void),
+    error?: (e?: any) => void,
+    complete?: () => void
+  ): this;
+
+  /**
+* The {@link Observer} callback to receive notifications of type `next` from
+* the Observable, with a value. The Observable may call this method 0 or more
+times.
+* @param  The `next` value.
+* @return
+*/
+  next(value?: T): void;
+
+  /**
+* The {@link Observer} callback to receive notifications of type `error` from
+* the Observable, with an attached `Error`. Notifies the Observer that
+the Observable has experienced an error condition.
+* @param  The `error` exception.
+* @return
+*/
+  error(err?: any): void;
+
+  /**
+* The {@link Observer} callback to receive a valueless notification of type
+* `complete` from the Observable. Notifies the Observer that the Observable
+has finished sending push-based notifications.
+* @return
+*/
+  complete(): void;
+  unsubscribe(): void;
+  _next(value: T): void;
+  _error(err: any): void;
+  _complete(): void;
+
+  /**
+   *
+   * @deprecated  This is an internal implementation detail, do not use.
+   */
+  _unsubscribeAndRecycle(): Subscriber<T>;
+}
+
+/**
+* Creates an Observable that emits no items to the Observer and immediately
+* emits an error notification.
+
+<span class="informal">Just emits 'error', and nothing else.
+</span>
+
+![](throw.png)
+
+This static operator is useful for creating a simple Observable that only
+emits the error notification. It can be used for composing with other
+Observables, such as in a {@link mergeMap}.
+
+## Examples
+### Emit the number 7, then emit an error
+```javascript
+import { throwError, concat, of } from 'rxjs';
+
+const result = concat(of(7), throwError(new Error('oops!')));
+result.subscribe(x => console.log(x), e => console.error(e));
+
+// Logs:
+// 7
+// Error: oops!
+```
+
+---
+
+### Map and flatten numbers to the sequence 'a', 'b', 'c', but throw an error for 13
+```javascript
+import { throwError, interval, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
+
+interval(1000).pipe(
+ mergeMap(x => x === 2
+   ? throwError('Twos are bad')
+   : of('a', 'b', 'c')
+ ),
+).subscribe(x => console.log(x), e => console.error(e));
+
+// Logs:
+// a
+// b
+// c
+// a
+// b
+// c
+// Twos are bad
+```
+* @see  {@link  Observable}
+* @see  {@link  empty}
+* @see  {@link  never}
+* @see  {@link  of}
+* @param  The particular Error to pass to the error notification.
+* @param  A {@link  SchedulerLike} to use for scheduling the emission of the error notification.
+* @return  An error Observable: emits only the error notification using the given error argument.
+* @static  true
+* @name  throwError
+* @owner  Observable
+*/
+declare function throwError(
+  error: any,
+  scheduler?: SchedulerLike
+): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
+
+/**
+* Decides at subscription time which Observable will actually be subscribed.
+*
+<span class="informal">`If` statement for Observables.</span>
+
+`iif` accepts a condition function and two Observables. When
+an Observable returned by the operator is subscribed, condition function will be called.
+Based on what boolean it returns at that moment, consumer will subscribe either to
+the first Observable (if condition was true) or to the second (if condition was false). Condition
+function may also not return anything - in that case condition will be evaluated as false and
+second Observable will be subscribed.
+
+Note that Observables for both cases (true and false) are optional. If condition points to an Observable that
+was left undefined, resulting stream will simply complete immediately. That allows you to, rather
+then controlling which Observable will be subscribed, decide at runtime if consumer should have access
+to given Observable or not.
+
+If you have more complex logic that requires decision between more than two Observables, {@link defer}
+will probably be a better choice. Actually `iif` can be easily implemented with {@link defer}
+and exists only for convenience and readability reasons.
+
+
+## Examples
+### Change at runtime which Observable will be subscribed
+```javascript
+let subscribeToFirst;
+const firstOrSecond = iif(
+ () => subscribeToFirst,
+ of('first'),
+ of('second'),
+);
+
+subscribeToFirst = true;
+firstOrSecond.subscribe(value => console.log(value));
+
+// Logs:
+// "first"
+
+subscribeToFirst = false;
+firstOrSecond.subscribe(value => console.log(value));
+
+// Logs:
+// "second"
+
+```
+
+### Control an access to an Observable
+```javascript
+let accessGranted;
+const observableIfYouHaveAccess = iif(
+ () => accessGranted,
+ of('It seems you have an access...'), // Note that only one Observable is passed to the operator.
+);
+
+accessGranted = true;
+observableIfYouHaveAccess.subscribe(
+ value => console.log(value),
+ err => {},
+ () => console.log('The end'),
+);
+
+// Logs:
+// "It seems you have an access..."
+// "The end"
+
+accessGranted = false;
+observableIfYouHaveAccess.subscribe(
+ value => console.log(value),
+ err => {},
+ () => console.log('The end'),
+);
+
+// Logs:
+// "The end"
+```
+* @see  {@link  defer}
+* @param  Condition which Observable should be chosen.
+* @param  An Observable that will be subscribed if condition is true.
+* @param  An Observable that will be subscribed if condition is false.
+* @return  Either first or second Observable, depending on condition.
+* @static  true
+* @name  iif
+* @owner  Observable
+*/
+declare function iif<T, F>(
+  condition: () => boolean,
+  trueResult?: SubscribableOrPromise<T>,
+  falseResult?: SubscribableOrPromise<F>
+): Observable<T | F>;
+
+declare module "rxjs" {
+  declare module.exports: {
+    Observable: typeof Observable,
+    Subscriber: typeof Subscriber,
+    throwError: typeof throwError,
+    iif: typeof iif,
+    ConnectableObservable: typeof ConnectableObservable,
+    GroupedObservable: typeof GroupedObservable,
+    observable: string | any,
+    Subject: typeof Subject,
+    BehaviorSubject: typeof BehaviorSubject,
+    ReplaySubject: typeof ReplaySubject,
+    AsyncSubject: typeof AsyncSubject,
+    asapScheduler: AsapScheduler,
+    asyncScheduler: AsyncScheduler,
+    queueScheduler: QueueScheduler,
+    animationFrameScheduler: AnimationFrameScheduler,
+    VirtualTimeScheduler: typeof VirtualTimeScheduler,
+    VirtualAction: typeof VirtualAction,
+    Scheduler: typeof Scheduler,
+    Notification: typeof Notification,
+    pipe<T>(): UnaryFunction<T, T>,
+    noop(): void,
+    identity<T>(x: T): T,
+    isObservable<T>(obj: any): boolean,
     /**
      *
-     * @internal  This is an internal implementation detail, do not use.
+     * @deprecated  resultSelector is no longer supported, use a mapping function.
      */
-    _subscribe(subscriber: Subscriber<any>): TeardownLogic;
-
+    bindCallback(
+      callbackFunc: Function,
+      resultSelector: Function,
+      scheduler?: SchedulerLike
+    ): (...args: any[]) => Observable<any>,
     /**
      *
-     * @nocollapse
-     * @deprecated  In favor of iif creation function: import { iif } from 'rxjs';
+     * @deprecated  resultSelector is deprecated, pipe to map instead
      */
-    static if: typeof iif;
-
+    bindNodeCallback(
+      callbackFunc: Function,
+      resultSelector: Function,
+      scheduler?: SchedulerLike
+    ): (...args: any[]) => Observable<any>,
     /**
      *
-     * @nocollapse
-     * @deprecated  In favor of throwError creation function: import { throwError } from 'rxjs';
+     * @deprecated  resultSelector no longer supported, pipe to map instead
      */
-    static throw: typeof throwError;
-    pipe(): Observable<T>;
-    pipe<A>(op1: OperatorFunction<T, A>): Observable<A>;
-    pipe<A, B>(
-      op1: OperatorFunction<T, A>,
-      op2: OperatorFunction<A, B>
-    ): Observable<B>;
-    pipe<A, B, C>(
-      op1: OperatorFunction<T, A>,
-      op2: OperatorFunction<A, B>,
-      op3: OperatorFunction<B, C>
-    ): Observable<C>;
-    pipe<A, B, C, D>(
-      op1: OperatorFunction<T, A>,
-      op2: OperatorFunction<A, B>,
-      op3: OperatorFunction<B, C>,
-      op4: OperatorFunction<C, D>
-    ): Observable<D>;
-    pipe<A, B, C, D, E>(
-      op1: OperatorFunction<T, A>,
-      op2: OperatorFunction<A, B>,
-      op3: OperatorFunction<B, C>,
-      op4: OperatorFunction<C, D>,
-      op5: OperatorFunction<D, E>
-    ): Observable<E>;
-    pipe<A, B, C, D, E, F>(
-      op1: OperatorFunction<T, A>,
-      op2: OperatorFunction<A, B>,
-      op3: OperatorFunction<B, C>,
-      op4: OperatorFunction<C, D>,
-      op5: OperatorFunction<D, E>,
-      op6: OperatorFunction<E, F>
-    ): Observable<F>;
-    pipe<A, B, C, D, E, F, G>(
-      op1: OperatorFunction<T, A>,
-      op2: OperatorFunction<A, B>,
-      op3: OperatorFunction<B, C>,
-      op4: OperatorFunction<C, D>,
-      op5: OperatorFunction<D, E>,
-      op6: OperatorFunction<E, F>,
-      op7: OperatorFunction<F, G>
-    ): Observable<G>;
-    pipe<A, B, C, D, E, F, G, H>(
-      op1: OperatorFunction<T, A>,
-      op2: OperatorFunction<A, B>,
-      op3: OperatorFunction<B, C>,
-      op4: OperatorFunction<C, D>,
-      op5: OperatorFunction<D, E>,
-      op6: OperatorFunction<E, F>,
-      op7: OperatorFunction<F, G>,
-      op8: OperatorFunction<G, H>
-    ): Observable<H>;
-    pipe<A, B, C, D, E, F, G, H, I>(
-      op1: OperatorFunction<T, A>,
-      op2: OperatorFunction<A, B>,
-      op3: OperatorFunction<B, C>,
-      op4: OperatorFunction<C, D>,
-      op5: OperatorFunction<D, E>,
-      op6: OperatorFunction<E, F>,
-      op7: OperatorFunction<F, G>,
-      op8: OperatorFunction<G, H>,
-      op9: OperatorFunction<H, I>
-    ): Observable<I>;
-    pipe<A, B, C, D, E, F, G, H, I>(
-      op1: OperatorFunction<T, A>,
-      op2: OperatorFunction<A, B>,
-      op3: OperatorFunction<B, C>,
-      op4: OperatorFunction<C, D>,
-      op5: OperatorFunction<D, E>,
-      op6: OperatorFunction<E, F>,
-      op7: OperatorFunction<F, G>,
-      op8: OperatorFunction<G, H>,
-      op9: OperatorFunction<H, I>,
-      ...operations: OperatorFunction<any, any>[]
-    ): Observable<{}>;
-    toPromise<T>(): Promise<T>;
-    toPromise<T>(PromiseCtor: typeof Promise): Promise<T>;
-    toPromise<T>(PromiseCtor: Promise.constructor): Promise<T>;
-  }
+    combineLatest<T, R>(
+      v1: ObservableInput<T>,
+      resultSelector: (v1: T) => R,
+      scheduler?: SchedulerLike
+    ): Observable<R>,
+    concat<T>(v1: ObservableInput<T>, scheduler?: SchedulerLike): Observable<T>,
+    defer<T>(
+      observableFactory: () => SubscribableOrPromise<T> | void
+    ): Observable<T>,
+    empty(
+      scheduler?: SchedulerLike
+    ): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
+    forkJoin<T>(sources: [ObservableInput<T>]): Observable<T[]>,
+    from<T>(
+      input: ObservableInput<T>,
+      scheduler?: SchedulerLike
+    ): Observable<T>,
+    ArgumentOutOfRangeError: ArgumentOutOfRangeError,
+    EmptyError: EmptyError,
+    ObjectUnsubscribedError: ObjectUnsubscribedError,
+    UnsubscriptionError: UnsubscriptionError,
+    TimeoutError: TimeoutError,
+    fromEvent<T>(target: FromEventTarget<T>, eventName: string): Observable<T>,
+    fromEventPattern<T>(
+      addHandler: (handler: Function) => any,
+      removeHandler?: (handler: Function, signal?: any) => void
+    ): Observable<T>,
+    generate<T, S>(
+      initialState: S,
+      condition: ConditionFunc<S>,
+      iterate: IterateFunc<S>,
+      resultSelector: ResultFunc<S, T>,
+      scheduler?: SchedulerLike
+    ): Observable<T>,
+    interval(period?: number, scheduler?: SchedulerLike): Observable<number>,
+    merge<T>(v1: ObservableInput<T>, scheduler?: SchedulerLike): Observable<T>,
+    /**
+     * @deprecated  Deprecated in favor of using {@link  NEVER} constant.
+     */
+    never(): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">,
+    of<T>(a: T, scheduler?: SchedulerLike): Observable<T>,
+    onErrorResumeNext<R>(v: ObservableInput<R>): Observable<R>,
+    pairs<T>(obj: Object, scheduler?: SchedulerLike): Observable<[string, T]>,
+    race<T>(observables: Array<Observable<T>>): Observable<T>,
+    range(
+      start?: number,
+      count?: number,
+      scheduler?: SchedulerLike
+    ): Observable<number>,
+    timer(
+      dueTime?: number | Date,
+      periodOrScheduler?: number | SchedulerLike,
+      scheduler?: SchedulerLike
+    ): Observable<number>,
+    using<T>(
+      resourceFactory: () => Unsubscribable | void,
+      observableFactory: (
+        resource: Unsubscribable | void
+      ) => ObservableInput<T> | void
+    ): Observable<T>,
+    /**
+     * @deprecated  resultSelector is no longer supported, pipe to map instead
+     */
+    zip<T, R>(
+      v1: ObservableInput<T>,
+      resultSelector: (v1: T) => R
+    ): Observable<R>,
+    config: {
+      /**
+       * The promise constructor used by default for methods such as
+       * {@link toPromise} and {@link forEach}
+       */
+      Promise: Promise.constructor,
+
+      /**
+   * If true, turns on synchronous error rethrowing, which is a deprecated behavior
+   * in v6 and higher. This behavior enables bad patterns like wrapping a subscribe
+  call in a try/catch block. It also enables producer interference, a nasty bug
+  where a multicast can be broken for all observers by a downstream consumer with
+  an unhandled error. DO NOT USE THIS FLAG UNLESS IT'S NEEDED TO BY TIME
+  FOR MIGRATION REASONS.
+  */
+      useDeprecatedSynchronousErrorHandling: boolean
+    }
+  };
 
   /**
    *
    * @class  ConnectableObservable<T>
    */
-  declare export class ConnectableObservable<T> extends Observable<T> {
+  declare class ConnectableObservable<T> extends Observable<T> {
     source: Observable<T>;
     subjectFactory: () => Subject<T>;
     _subject: Subject<T>;
@@ -217,7 +781,7 @@ Observable. The common key is available as the field `key` on a
 GroupedObservable instance.
  * @class  GroupedObservable<K, T>
 */
-  declare export class GroupedObservable<K, T> extends Observable<T> {
+  declare class GroupedObservable<K, T> extends Observable<T> {
     key: K;
 
     /**
@@ -237,12 +801,6 @@ GroupedObservable instance.
     _subscribe(subscriber: Subscriber<T>): Subscription;
   }
 
-  declare export interface Operator<T, R> {
-    call(subscriber: Subscriber<R>, source: any): TeardownLogic;
-  }
-
-  declare export var observable: string | any;
-
   /**
  * A Subject is a special type of Observable that allows values to be
  * multicasted to many Observables. Subjects are like EventEmitters.
@@ -251,8 +809,7 @@ Every Subject is an Observable and an Observer. You can subscribe to a
 Subject, and you can call next to feed values as well as error and complete.
  * @class  Subject<T>
 */
-  declare export class Subject<T> extends Observable<T>
-    implements SubscriptionLike {
+  declare class Subject<T> extends Observable<T> implements SubscriptionLike {
     observers: Observer<T>[];
     closed: boolean;
     isStopped: boolean;
@@ -297,7 +854,7 @@ code that uses the Observable.
    * value whenever it is subscribed to.
    * @class  BehaviorSubject<T>
    */
-  declare export class BehaviorSubject<T> extends Subject<T> {
+  declare class BehaviorSubject<T> extends Subject<T> {
     constructor(_value: T): this;
     +value: T;
 
@@ -316,7 +873,7 @@ code that uses the Observable.
 any new subscribers in addition to emitting new values to existing subscribers.
  * @class  ReplaySubject<T>
 */
-  declare export class ReplaySubject<T> extends Subject<T> {
+  declare class ReplaySubject<T> extends Subject<T> {
     constructor(
       bufferSize?: number,
       windowTime?: number,
@@ -336,7 +893,7 @@ any new subscribers in addition to emitting new values to existing subscribers.
    * its latest value to all its observers on completion.
    * @class  AsyncSubject<T>
    */
-  declare export class AsyncSubject<T> extends Subject<T> {
+  declare class AsyncSubject<T> extends Subject<T> {
     /**
      *
      * @deprecated  This is an internal implementation detail, do not use.
@@ -347,15 +904,7 @@ any new subscribers in addition to emitting new values to existing subscribers.
     complete(): void;
   }
 
-  declare export var asapScheduler: AsapScheduler;
-
-  declare export var asyncScheduler: AsyncScheduler;
-
-  declare export var queueScheduler: QueueScheduler;
-
-  declare export var animationFrameScheduler: AnimationFrameScheduler;
-
-  declare export class VirtualTimeScheduler extends AsyncScheduler {
+  declare class VirtualTimeScheduler extends AsyncScheduler {
     maxFrames: number;
     static frameTimeFactor: number;
     frame: number;
@@ -374,7 +923,7 @@ any new subscribers in addition to emitting new values to existing subscribers.
    * We need this JSDoc comment for affecting ESDoc.
    * @nodoc
    */
-  declare export class VirtualAction<T> extends AsyncAction<T> {
+  declare class VirtualAction<T> extends AsyncAction<T> {
     // $FlowFixMe: flow fails due to class inheritance issues
     scheduler: VirtualTimeScheduler;
     work: (state?: T) => void;
@@ -422,7 +971,7 @@ should not be used directly. Rather, create your own class and implement
 {
  * @link  SchedulerLike}
 */
-  declare export class Scheduler implements SchedulerLike {
+  declare class Scheduler implements SchedulerLike {
     /**
      * Note: the extra arrow function wrapper is to make testing by overriding
      * Date.now easier.
@@ -465,186 +1014,6 @@ the scheduled work.
   }
 
   /**
- * Represents a disposable resource, such as the execution of an Observable. A
- * Subscription has one important method, `unsubscribe`, that takes no argument
-and just disposes the resource held by the subscription.
-
-Additionally, subscriptions may be grouped together through the `add()`
-method, which will attach a child Subscription to the current Subscription.
-When a Subscription is unsubscribed, all its children (and its grandchildren)
-will be unsubscribed as well.
- * @class  Subscription
-*/
-  declare export class Subscription extends SubscriptionLike {
-    /**
-     *
-     * @nocollapse
-     */
-    static EMPTY: Subscription;
-
-    /**
-     * A flag to indicate whether this Subscription has already been unsubscribed.
-     * @type
-     */
-    closed: boolean;
-
-    /**
-     *
-     * @internal
-     */
-    _parent: Subscription;
-
-    /**
-     *
-     * @internal
-     */
-    _parents: Subscription[];
-
-    /**
- *
- * @param  A function describing how to
-perform the disposal of resources when the `unsubscribe` method is called.
-*/
-    constructor(unsubscribe?: () => void): this;
-
-    /**
- * Disposes the resources held by the subscription. May, for instance, cancel
- * an ongoing Observable execution or cancel any other type of work that
-started when the Subscription was created.
- * @return
-*/
-    unsubscribe(): void;
-
-    /**
- * Adds a tear down to be called during the unsubscribe() of this
- * Subscription.
-
-If the tear down being added is a subscription that is already
-unsubscribed, is the same reference `add` is being called on, or is
-`Subscription.EMPTY`, it will not be added.
-
-If this subscription is already in an `closed` state, the passed
-tear down logic will be executed immediately.
- * @param  The additional logic to execute on
-teardown.
- * @return  Returns the Subscription used or created to be
-added to the inner subscriptions list. This Subscription can be used with
-`remove()` to remove the passed teardown logic from the inner subscriptions
-list.
-*/
-    add(teardown: TeardownLogic): Subscription;
-
-    /**
-     * Removes a Subscription from the internal list of subscriptions that will
-     * unsubscribe during the unsubscribe process of this Subscription.
-     * @param  The subscription to remove.
-     * @return
-     */
-    remove(subscription: Subscription): void;
-  }
-
-  /**
- * Implements the {@link Observer} interface and extends the
- * {@link Subscription} class. While the {@link Observer} is the public API for
-consuming the values of an {@link Observable}, all Observers get converted to
-a Subscriber, in order to provide Subscription-like capabilities such as
-`unsubscribe`. Subscriber is a common type in RxJS, and crucial for
-implementing operators, but it is rarely used as a public API.
- * @class  Subscriber<T>
-*/
-  declare export class Subscriber<T> extends Subscription
-    implements Observer<T> {
-    /**
- * A static factory for a Subscriber, given a (potentially partial) definition
- * of an Observer.
- * @param  ): void} [next] The `next` callback of an Observer.
- * @param  ): void} [error] The `error` callback of an
-Observer.
- * @param  The `complete` callback of an
-Observer.
- * @return  A Subscriber wrapping the (partially defined)
-Observer represented by the given arguments.
- * @nocollapse
-*/
-    static create<T>(
-      next?: (x?: T) => void,
-      error?: (e?: any) => void,
-      complete?: () => void
-    ): Subscriber<T>;
-
-    /**
-     *
-     * @internal
-     */
-    syncErrorValue: any;
-
-    /**
-     *
-     * @internal
-     */
-    syncErrorThrown: boolean;
-
-    /**
-     *
-     * @internal
-     */
-    syncErrorThrowable: boolean;
-    isStopped: boolean;
-    destination: PartialObserver<any> | Subscriber<any>;
-
-    /**
- *
- * @param  ): void} [destinationOrNext] A partially
-defined Observer or a `next` callback function.
- * @param  ): void} [error] The `error` callback of an
-Observer.
- * @param  The `complete` callback of an
-Observer.
-*/
-    constructor(
-      destinationOrNext?: PartialObserver<any> | ((value: T) => void),
-      error?: (e?: any) => void,
-      complete?: () => void
-    ): this;
-
-    /**
- * The {@link Observer} callback to receive notifications of type `next` from
- * the Observable, with a value. The Observable may call this method 0 or more
-times.
- * @param  The `next` value.
- * @return
-*/
-    next(value?: T): void;
-
-    /**
- * The {@link Observer} callback to receive notifications of type `error` from
- * the Observable, with an attached `Error`. Notifies the Observer that
-the Observable has experienced an error condition.
- * @param  The `error` exception.
- * @return
-*/
-    error(err?: any): void;
-
-    /**
- * The {@link Observer} callback to receive a valueless notification of type
- * `complete` from the Observable. Notifies the Observer that the Observable
-has finished sending push-based notifications.
- * @return
-*/
-    complete(): void;
-    unsubscribe(): void;
-    _next(value: T): void;
-    _error(err: any): void;
-    _complete(): void;
-
-    /**
-     *
-     * @deprecated  This is an internal implementation detail, do not use.
-     */
-    _unsubscribeAndRecycle(): Subscriber<T>;
-  }
-
-  /**
  * Represents a push-based event or value that an {@link Observable} can emit.
  * This class is particularly useful for operators that manage notifications,
 like {@link materialize}, {@link dematerialize}, {@link observeOn}, and
@@ -659,7 +1028,7 @@ with metadata of, for instance, what type of push message it is (`next`,
  * @link  observeOn}
  * @class  Notification<T>
 */
-  declare export class Notification<T> {
+  declare class Notification<T> {
     kind: string;
     value: T;
     error: any;
@@ -737,180 +1106,17 @@ argument.
     static createComplete(): Notification<any>;
   }
 
-  declare export function pipe<T>(): UnaryFunction<T, T>;
+  declare interface ArgumentOutOfRangeError extends Error {}
 
-  declare export function noop(): void;
+  declare interface EmptyError extends Error {}
 
-  declare export function identity<T>(x: T): T;
+  declare interface ObjectUnsubscribedError extends Error {}
 
-  /**
-   * Tests to see if the object is an RxJS {@link Observable}
-   * @param obj the object to test
-   */
-  declare export function isObservable<T>(obj: any): boolean;
-
-  declare export interface ArgumentOutOfRangeError extends Error {}
-
-  declare export interface EmptyError extends Error {}
-
-  declare export interface ObjectUnsubscribedError extends Error {}
-
-  declare export interface UnsubscriptionError extends Error {
+  declare interface UnsubscriptionError extends Error {
     +errors: any[];
   }
 
-  declare export interface TimeoutError extends Error {}
-
-  /**
-   *
-   * @deprecated  resultSelector is no longer supported, use a mapping function.
-   */
-  declare export function bindCallback(
-    callbackFunc: Function,
-    resultSelector: Function,
-    scheduler?: SchedulerLike
-  ): (...args: any[]) => Observable<any>;
-
-  /**
-   *
-   * @deprecated  resultSelector is deprecated, pipe to map instead
-   */
-  declare export function bindNodeCallback(
-    callbackFunc: Function,
-    resultSelector: Function,
-    scheduler?: SchedulerLike
-  ): (...args: any[]) => Observable<any>;
-
-  /**
-   *
-   * @deprecated  resultSelector no longer supported, pipe to map instead
-   */
-  declare export function combineLatest<T, R>(
-    v1: ObservableInput<T>,
-    resultSelector: (v1: T) => R,
-    scheduler?: SchedulerLike
-  ): Observable<R>;
-
-  declare export function concat<T>(
-    v1: ObservableInput<T>,
-    scheduler?: SchedulerLike
-  ): Observable<T>;
-
-  /**
- * Creates an Observable that, on subscribe, calls an Observable factory to
- * make an Observable for each new Observer.
-
-<span class="informal">Creates the Observable lazily, that is, only when it
-is subscribed.
-</span>
-
-![](defer.png)
-
-`defer` allows you to create the Observable only when the Observer
-subscribes, and create a fresh Observable for each Observer. It waits until
-an Observer subscribes to it, and then it generates an Observable,
-typically with an Observable factory function. It does this afresh for each
-subscriber, so although each subscriber may think it is subscribing to the
-same Observable, in fact each subscriber gets its own individual
-Observable.
-
-## Example
-### Subscribe to either an Observable of clicks or an Observable of interval, at random
-```javascript
-const clicksOrInterval = defer(function () {
-   return Math.random() > 0.5
-     ? fromEvent(document, 'click')
-     : interval(1000);
-});
-clicksOrInterval.subscribe(x => console.log(x));
-
-// Results in the following behavior:
-// If the result of Math.random() is greater than 0.5 it will listen
-// for clicks anywhere on the "document"; when document is clicked it
-// will log a MouseEvent object to the console. If the result is less
-// than 0.5 it will emit ascending numbers, one every second(1000ms).
-```
- * @see  {
- * @link  Observable}
- * @param  The Observable
-factory function to invoke for each Observer that subscribes to the output
-Observable. May also return a Promise, which will be converted on the fly
-to an Observable.
- * @return  An Observable whose Observers' subscriptions trigger
-an invocation of the given Observable factory function.
- * @static  true
- * @name  defer
- * @owner  Observable
-*/
-  declare export function defer<T>(
-    observableFactory: () => SubscribableOrPromise<T> | void
-  ): Observable<T>;
-
-  /**
- * Creates an Observable that emits no items to the Observer and immediately
- * emits a complete notification.
-
-<span class="informal">Just emits 'complete', and nothing else.
-</span>
-
-![](empty.png)
-
-This static operator is useful for creating a simple Observable that only
-emits the complete notification. It can be used for composing with other
-Observables, such as in a {@link mergeMap}.
-
-## Examples
-### Emit the number 7, then complete
-```javascript
-const result = empty().pipe(startWith(7));
-result.subscribe(x => console.log(x));
-```
-
-### Map and flatten only odd numbers to the sequence 'a', 'b', 'c'
-```javascript
-const interval$ = interval(1000);
-result = interval$.pipe(
-   mergeMap(x => x % 2 === 1 ? of('a', 'b', 'c') : empty()),
-);
-result.subscribe(x => console.log(x));
-
-// Results in the following to the console:
-// x is equal to the count on the interval eg(0,1,2,3,...)
-// x will occur every 1000ms
-// if x % 2 is equal to 1 print abc
-// if x % 2 is not equal to 1 nothing will be output
-```
- * @see  {
- * @link  Observable}
- * @see  {
- * @link  never}
- * @see  {
- * @link  of}
- * @see  {
- * @link  throwError}
- * @param  A {
- * @link  SchedulerLike} to use for scheduling
-the emission of the complete notification.
- * @return  An "empty" Observable: emits only the complete
-notification.
- * @static  true
- * @name  empty
- * @owner  Observable
- * @deprecated  Deprecated in favor of using {
- * @link  index/EMPTY} constant.
-*/
-  declare export function empty(
-    scheduler?: SchedulerLike
-  ): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
-
-  declare export function forkJoin<T>(
-    sources: [ObservableInput<T>]
-  ): Observable<T[]>;
-
-  declare export function from<T>(
-    input: ObservableInput<T>,
-    scheduler?: SchedulerLike
-  ): Observable<T>;
+  declare interface TimeoutError extends Error {}
 
   declare interface NodeStyleEventEmitter {
     addListener: (eventName: string | any, handler: NodeEventHandler) => void;
@@ -958,16 +1164,6 @@ notification.
     passive?: boolean;
   }
 
-  declare export function fromEvent<T>(
-    target: FromEventTarget<T>,
-    eventName: string
-  ): Observable<T>;
-
-  declare export function fromEventPattern<T>(
-    addHandler: (handler: Function) => any,
-    removeHandler?: (handler: Function, signal?: any) => void
-  ): Observable<T>;
-
   declare type ConditionFunc<S> = (state: S) => boolean;
   declare type IterateFunc<S> = (state: S) => S;
   declare type ResultFunc<S, T> = (state: S) => T;
@@ -1001,127 +1197,6 @@ If not specified, a generator never stops.
      */
     resultSelector: ResultFunc<S, T>;
   }
-
-  /**
- * Generates an observable sequence by running a state-driven loop
- * producing the sequence's elements, using the specified scheduler
-to send out observer messages.
-
-![](generate.png)
- * @example  <caption>Produces sequence of 0, 1, 2, ... 9, then completes.</caption>
-const res = generate(0, x => x < 10, x => x + 1, x => x);
- * @example  <caption>Using asap scheduler, produces sequence of 2, 3, 5, then completes.</caption>
-const res = generate(1, x => x < 5, x =>  * 2, x => x + 1, asap);
- * @see  {
- * @link  from}
- * @see  {
- * @link  Observable}
- * @param  Initial state.
- * @param  ): boolean} condition Condition to terminate generation (upon returning false).
- * @param  ): S} iterate Iteration step function.
- * @param  ): T} resultSelector Selector function for results produced in the sequence. (deprecated)
- * @param  A {
- * @link  SchedulerLike} on which to run the generator loop. If not provided, defaults to emit immediately.
- * @returns  The generated sequence.
-*/
-  declare export function generate<T, S>(
-    initialState: S,
-    condition: ConditionFunc<S>,
-    iterate: IterateFunc<S>,
-    resultSelector: ResultFunc<S, T>,
-    scheduler?: SchedulerLike
-  ): Observable<T>;
-
-  /**
- * Decides at subscription time which Observable will actually be subscribed.
- *
-<span class="informal">`If` statement for Observables.</span>
-
-`iif` accepts a condition function and two Observables. When
-an Observable returned by the operator is subscribed, condition function will be called.
-Based on what boolean it returns at that moment, consumer will subscribe either to
-the first Observable (if condition was true) or to the second (if condition was false). Condition
-function may also not return anything - in that case condition will be evaluated as false and
-second Observable will be subscribed.
-
-Note that Observables for both cases (true and false) are optional. If condition points to an Observable that
-was left undefined, resulting stream will simply complete immediately. That allows you to, rather
-then controlling which Observable will be subscribed, decide at runtime if consumer should have access
-to given Observable or not.
-
-If you have more complex logic that requires decision between more than two Observables, {@link defer}
-will probably be a better choice. Actually `iif` can be easily implemented with {@link defer}
-and exists only for convenience and readability reasons.
-
-
-## Examples
-### Change at runtime which Observable will be subscribed
-```javascript
-let subscribeToFirst;
-const firstOrSecond = iif(
-   () => subscribeToFirst,
-   of('first'),
-   of('second'),
-);
-
-subscribeToFirst = true;
-firstOrSecond.subscribe(value => console.log(value));
-
-// Logs:
-// "first"
-
-subscribeToFirst = false;
-firstOrSecond.subscribe(value => console.log(value));
-
-// Logs:
-// "second"
-
-```
-
-### Control an access to an Observable
-```javascript
-let accessGranted;
-const observableIfYouHaveAccess = iif(
-   () => accessGranted,
-   of('It seems you have an access...'), // Note that only one Observable is passed to the operator.
-);
-
-accessGranted = true;
-observableIfYouHaveAccess.subscribe(
-   value => console.log(value),
-   err => {},
-   () => console.log('The end'),
-);
-
-// Logs:
-// "It seems you have an access..."
-// "The end"
-
-accessGranted = false;
-observableIfYouHaveAccess.subscribe(
-   value => console.log(value),
-   err => {},
-   () => console.log('The end'),
-);
-
-// Logs:
-// "The end"
-```
- * @see  {
- * @link  defer}
- * @param  Condition which Observable should be chosen.
- * @param  An Observable that will be subscribed if condition is true.
- * @param  An Observable that will be subscribed if condition is false.
- * @return  Either first or second Observable, depending on condition.
- * @static  true
- * @name  iif
- * @owner  Observable
-*/
-  declare export function iif<T, F>(
-    condition: () => boolean,
-    trueResult?: SubscribableOrPromise<T>,
-    falseResult?: SubscribableOrPromise<F>
-  ): Observable<T | F>;
 
   /**
  * Creates an Observable that emits sequential numbers every specified
@@ -1172,30 +1247,6 @@ interval.
  * @name  interval
  * @owner  Observable
 */
-  declare export function interval(
-    period?: number,
-    scheduler?: SchedulerLike
-  ): Observable<number>;
-
-  declare export function merge<T>(
-    v1: ObservableInput<T>,
-    scheduler?: SchedulerLike
-  ): Observable<T>;
-
-  /**
-   *
-   * @deprecated  Deprecated in favor of using {
-   * @link  NEVER} constant.
-   */
-  declare export function never(): Observable<
-    "NO PRINT IMPLEMENTED: NeverKeyword"
-  >;
-
-  declare export function of<T>(a: T, scheduler?: SchedulerLike): Observable<T>;
-
-  declare export function onErrorResumeNext<R>(
-    v: ObservableInput<R>
-  ): Observable<R>;
 
   /**
  * Convert an object into an Observable of `[key, value]` pairs.
@@ -1241,10 +1292,6 @@ when resulting Observable will emit values.
  * @returns  >>)} An observable sequence of
 [key, value] pairs from the object.
 */
-  declare export function pairs<T>(
-    obj: Object,
-    scheduler?: SchedulerLike
-  ): Observable<[string, T]>;
 
   /**
  * Returns an Observable that mirrors the first source Observable to emit an item.
@@ -1271,9 +1318,6 @@ race(obs3, obs1, obs2)
  * @name  race
  * @owner  Observable
 */
-  declare export function race<T>(
-    observables: Array<Observable<T>>
-  ): Observable<T>;
 
   /**
  * Creates an Observable that emits a sequence of numbers within a specified
@@ -1309,83 +1353,6 @@ sequential integers.
  * @name  range
  * @owner  Observable
 */
-  declare export function range(
-    start?: number,
-    count?: number,
-    scheduler?: SchedulerLike
-  ): Observable<number>;
-
-  /**
- * Creates an Observable that emits no items to the Observer and immediately
- * emits an error notification.
-
-<span class="informal">Just emits 'error', and nothing else.
-</span>
-
-![](throw.png)
-
-This static operator is useful for creating a simple Observable that only
-emits the error notification. It can be used for composing with other
-Observables, such as in a {@link mergeMap}.
-
-## Examples
-### Emit the number 7, then emit an error
-```javascript
-import { throwError, concat, of } from 'rxjs';
-
-const result = concat(of(7), throwError(new Error('oops!')));
-result.subscribe(x => console.log(x), e => console.error(e));
-
-// Logs:
-// 7
-// Error: oops!
-```
-
----
-
-### Map and flatten numbers to the sequence 'a', 'b', 'c', but throw an error for 13
-```javascript
-import { throwError, interval, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
-
-interval(1000).pipe(
-   mergeMap(x => x === 2
-     ? throwError('Twos are bad')
-     : of('a', 'b', 'c')
-   ),
-).subscribe(x => console.log(x), e => console.error(e));
-
-// Logs:
-// a
-// b
-// c
-// a
-// b
-// c
-// Twos are bad
-```
- * @see  {
- * @link  Observable}
- * @see  {
- * @link  empty}
- * @see  {
- * @link  never}
- * @see  {
- * @link  of}
- * @param  The particular Error to pass to the error notification.
- * @param  A {
- * @link  SchedulerLike} to use for scheduling
-the emission of the error notification.
- * @return  An error Observable: emits only the error notification
-using the given error argument.
- * @static  true
- * @name  throwError
- * @owner  Observable
-*/
-  declare export function throwError(
-    error: any,
-    scheduler?: SchedulerLike
-  ): Observable<"NO PRINT IMPLEMENTED: NeverKeyword">;
 
   /**
  * Creates an Observable that starts emitting after an `dueTime` and
@@ -1435,11 +1402,6 @@ thereafter.
  * @name  timer
  * @owner  Observable
 */
-  declare export function timer(
-    dueTime?: number | Date,
-    periodOrScheduler?: number | SchedulerLike,
-    scheduler?: SchedulerLike
-  ): Observable<number>;
 
   /**
  * Creates an Observable that uses a resource which will be disposed at the same time as the Observable.
@@ -1468,136 +1430,6 @@ creates an Observable, that can use injected resource object.
  * @return  An Observable that behaves the same as Observable returned by `observableFactory`, but
 which - when completed, errored or unsubscribed - will also call `unsubscribe` on created resource object.
 */
-  declare export function using<T>(
-    resourceFactory: () => Unsubscribable | void,
-    observableFactory: (
-      resource: Unsubscribable | void
-    ) => ObservableInput<T> | void
-  ): Observable<T>;
-
-  /**
-   *
-   * @deprecated  resultSelector is no longer supported, pipe to map instead
-   */
-  declare export function zip<T, R>(
-    v1: ObservableInput<T>,
-    resultSelector: (v1: T) => R
-  ): Observable<R>;
-
-  /**
-   * OPERATOR INTERFACES
-   */
-  declare export interface UnaryFunction<T, R> {
-    (source: T): R;
-  }
-  declare export interface OperatorFunction<T, R>
-    extends UnaryFunction<Observable<T>, Observable<R>> {}
-  declare export type FactoryOrValue<T> = T | (() => T);
-  declare export interface MonoTypeOperatorFunction<T>
-    extends OperatorFunction<T, T> {}
-  declare export interface Timestamp<T> {
-    value: T;
-    timestamp: number;
-  }
-  declare export interface TimeInterval<T> {
-    value: T;
-    interval: number;
-  }
-  /** SUBSCRIPTION INTERFACES */
-  declare export interface Unsubscribable {
-    unsubscribe(): void;
-  }
-  declare export type TeardownLogic = Unsubscribable | Function | void;
-  declare export interface SubscriptionLike extends Unsubscribable {
-    unsubscribe(): void;
-    +closed: boolean;
-  }
-  declare export type SubscribableOrPromise<T> =
-    | Subscribable<T>
-    | Subscribable<"NO PRINT IMPLEMENTED: NeverKeyword">
-    | Promise<T>
-    | InteropObservable<T>;
-
-  /** OBSERVABLE INTERFACES */
-  declare export interface Subscribable<T> {
-    subscribe(observer?: PartialObserver<T>): Unsubscribable;
-    subscribe(
-      next?: (value: T) => void,
-      error?: (error: any) => void,
-      complete?: () => void
-    ): Unsubscribable;
-  }
-  declare export type ObservableInput<T> =
-    | SubscribableOrPromise<T>
-    | Array<T>
-    | Iterable<T>;
-
-  /** @deprecated use {@link InteropObservable } */
-  declare export type ObservableLike<T> = InteropObservable<T>;
-  declare export type InteropObservable<T> = {
-    [any]: () => Subscribable<T>
-  };
-  /** OBSERVER INTERFACES */
-  declare export interface NextObserver<T> {
-    closed?: boolean;
-    next: (value: T) => void;
-    error?: (err: any) => void;
-    complete?: () => void;
-  }
-  declare export interface ErrorObserver<T> {
-    closed?: boolean;
-    next?: (value: T) => void;
-    error: (err: any) => void;
-    complete?: () => void;
-  }
-  declare export interface CompletionObserver<T> {
-    closed?: boolean;
-    next?: (value: T) => void;
-    error?: (err: any) => void;
-    complete: () => void;
-  }
-  declare export interface PartialObserver<T> {
-    closed?: boolean;
-    next?: (value: T) => void;
-    error?: (err: any) => void;
-    complete?: () => void;
-  }
-  declare export interface Observer<T> {
-    closed?: boolean;
-    next(value: T): void;
-    error(err: any): void;
-    complete(): void;
-  }
-  /** SCHEDULER INTERFACES */
-  declare export interface SchedulerLike {
-    now(): number;
-    schedule<T>(
-      work: (state?: T) => void,
-      delay?: number,
-      state?: T
-    ): Subscription;
-  }
-  declare export interface SchedulerAction<T> extends Subscription {
-    schedule(state?: T, delay?: number): Subscription;
-  }
-
-  declare export var config: {
-    /**
-     * The promise constructor used by default for methods such as
-     * {@link toPromise} and {@link forEach}
-     */
-    Promise: Promise.constructor,
-
-    /**
- * If true, turns on synchronous error rethrowing, which is a deprecated behavior
- * in v6 and higher. This behavior enables bad patterns like wrapping a subscribe
-call in a try/catch block. It also enables producer interference, a nasty bug
-where a multicast can be broken for all observers by a downstream consumer with
-an unhandled error. DO NOT USE THIS FLAG UNLESS IT'S NEEDED TO BY TIME
-FOR MIGRATION REASONS.
-*/
-    useDeprecatedSynchronousErrorHandling: boolean
-  };
 
   declare class AsapScheduler extends AsyncScheduler {
     flush(action?: AsyncAction<any>): void;
