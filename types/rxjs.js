@@ -3323,3 +3323,135 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$Observable<empty>;
 }
+
+declare module "rxjs/ajax" {
+  declare export interface AjaxRequest {
+    url?: string;
+    body?: any;
+    user?: string;
+    async?: boolean;
+    method?: string;
+    headers?: Object;
+    timeout?: number;
+    password?: string;
+    hasContent?: boolean;
+    crossDomain?: boolean;
+    withCredentials?: boolean;
+    createXHR?: () => XMLHttpRequest;
+    progressSubscriber?: rxjs$Subscriber<any>;
+    responseType?: string;
+  }
+
+  declare export class AjaxResponse {
+    originalEvent: Event;
+    xhr: XMLHttpRequest;
+    request: AjaxRequest;
+    status: number;
+    response: any;
+    responseText: string;
+    responseType: string;
+    constructor(
+      originalEvent: Event,
+      xhr: XMLHttpRequest,
+      request: AjaxRequest
+    ): this;
+  }
+
+  declare export interface AjaxError extends Error {
+    xhr: XMLHttpRequest;
+    request: AjaxRequest;
+    status: number;
+    responseType: string;
+    response: any;
+  }
+
+  declare export interface AjaxTimeoutError extends AjaxError {}
+
+  declare interface AjaxCreationMethod {
+    (urlOrRequest: string | AjaxRequest): rxjs$Observable<AjaxResponse>;
+    get(url: string, headers?: Object): rxjs$Observable<AjaxResponse>;
+    post(
+      url: string,
+      body?: any,
+      headers?: Object
+    ): rxjs$Observable<AjaxResponse>;
+    put(
+      url: string,
+      body?: any,
+      headers?: Object
+    ): rxjs$Observable<AjaxResponse>;
+    patch(
+      url: string,
+      body?: any,
+      headers?: Object
+    ): rxjs$Observable<AjaxResponse>;
+    delete(url: string, headers?: Object): rxjs$Observable<AjaxResponse>;
+    getJSON<T>(url: string, headers?: Object): rxjs$Observable<T>;
+  }
+
+  declare export var ajax: AjaxCreationMethod;
+}
+
+declare module "rxjs/webSocket" {
+  declare type WebSocketMessage = string | ArrayBuffer | Blob;
+
+  declare interface NextObserver<T> {
+    closed?: boolean;
+    next: (value: T) => void;
+    error?: (err: any) => void;
+    complete?: () => void;
+  }
+
+  declare export interface WebSocketSubjectConfig<T> {
+    url: string;
+    protocol?: string | Array<string>;
+    // @deprecated use {@link deserializer}
+    resultSelector?: (e: MessageEvent) => T;
+    serializer?: (value: T) => WebSocketMessage;
+    deserializer?: (e: MessageEvent) => T;
+    openObserver?: NextObserver<Event>;
+    closeObserver?: NextObserver<CloseEvent>;
+    closingObserver?: NextObserver<void>;
+    WebSocketCtor?: {
+      new(url: string, protocols?: string | string[]): WebSocket
+    };
+    binaryType?: "blob" | "arraybuffer";
+  }
+
+  declare class AnonymousSubject<T> extends rxjs$Subject<T> {
+    constructor(
+      destination?: rxjs$Observer<T>,
+      source?: rxjs$Observable<T>
+    ): this;
+    next(value: ?T): void;
+    error(err: any): void;
+    complete(): void;
+    // @deprecated This is an internal implementation detail, do not use.
+    _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
+  }
+
+  declare export class WebSocketSubject<T> extends AnonymousSubject<T> {
+    // @deprecated This is an internal implementation detail, do not use.
+    _output: rxjs$Subject<T>;
+    constructor(
+      urlConfigOrSource:
+        | string
+        | WebSocketSubjectConfig<T>
+        | rxjs$Observable<T>,
+      destination?: rxjs$Observer<T>
+    ): this;
+    lift<R>(operator: rxjs$Operator<T, R>): WebSocketSubject<R>;
+    multiplex(
+      subMsg: () => any,
+      unsubMsg: () => any,
+      messageFilter: (value: T) => boolean
+    ): rxjs$Observable<any>;
+    // @deprecated This is an internal implementation detail, do not use.
+    _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
+    unsubscribe(): void;
+  }
+
+  declare export function webSocket<T>(
+    urlConfigOrSource: string | WebSocketSubjectConfig<T>
+  ): WebSocketSubject<T>;
+}
