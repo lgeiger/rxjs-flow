@@ -1779,7 +1779,7 @@ declare module "rxjs" {
       delay?: number
     ): any;
     _execute(state: T, delay: number): any;
-    static sortActions<T>(a: VirtualAction<T>, b: VirtualAction<T>): number;
+    static sortActions<T>(a: VirtualAction<T>, b: VirtualAction<T>): 1 | -1 | 0;
   }
 
   declare class Scheduler implements rxjs$SchedulerLike {
