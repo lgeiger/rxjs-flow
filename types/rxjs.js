@@ -1761,27 +1761,23 @@ declare module "rxjs" {
   }
 
   declare class VirtualAction<T> extends AsyncAction<T> {
-    // $FlowFixMe: flow fails due to class inheritance issues
-    scheduler: VirtualTimeScheduler;
+    scheduler: AsyncScheduler | VirtualTimeScheduler;
     work: (state?: T) => void;
     index: number;
     active: boolean;
-    // $FlowFixMe: flow fails due to class inheritance issues
     constructor(
-      scheduler: VirtualTimeScheduler,
+      scheduler: AsyncScheduler | VirtualTimeScheduler,
       work: (state?: T) => void,
       index?: number
     ): void;
     schedule(state?: T, delay?: number): rxjs$Subscription;
     requestAsyncId(
-      // $FlowFixMe: flow fails due to class inheritance issues
-      scheduler: VirtualTimeScheduler,
+      scheduler: AsyncScheduler | VirtualTimeScheduler,
       id?: any,
       delay?: number
     ): any;
     recycleAsyncId(
-      // $FlowFixMe: flow fails due to class inheritance issues
-      scheduler: VirtualTimeScheduler,
+      scheduler: AsyncScheduler | VirtualTimeScheduler,
       id?: any,
       delay?: number
     ): any;
@@ -2175,12 +2171,12 @@ declare module "rxjs/operators" {
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function distinctUntilKeyChanged<T>(
-    key: string
+    key: $Keys<T>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function distinctUntilKeyChanged<T, K: $Keys<T>>(
-    key: string,
-    compare: (x: K, y: K) => boolean
+    key: K,
+    compare: (x: mixed, y: mixed) => boolean
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function elementAt<T>(
