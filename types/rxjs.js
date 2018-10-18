@@ -3340,13 +3340,6 @@ declare module "rxjs/ajax" {
 declare module "rxjs/webSocket" {
   declare type WebSocketMessage = string | ArrayBuffer | Blob;
 
-  declare interface NextObserver<T> {
-    closed?: boolean;
-    next: (value: T) => void;
-    error?: (err: any) => void;
-    complete?: () => void;
-  }
-
   declare export interface WebSocketSubjectConfig<T> {
     url: string;
     protocol?: string | Array<string>;
@@ -3354,9 +3347,9 @@ declare module "rxjs/webSocket" {
     resultSelector?: (e: MessageEvent) => T;
     serializer?: (value: T) => WebSocketMessage;
     deserializer?: (e: MessageEvent) => T;
-    openObserver?: NextObserver<Event>;
-    closeObserver?: NextObserver<CloseEvent>;
-    closingObserver?: NextObserver<void>;
+    openObserver?: rxjs$NextObserver<Event>;
+    closeObserver?: rxjs$NextObserver<CloseEvent>;
+    closingObserver?: rxjs$NextObserver<void>;
     WebSocketCtor?: {
       new(url: string, protocols?: string | string[]): WebSocket
     };
