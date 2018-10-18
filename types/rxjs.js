@@ -368,7 +368,7 @@ declare module "rxjs" {
     VirtualTimeScheduler: typeof VirtualTimeScheduler,
     VirtualAction: typeof VirtualAction,
     Scheduler: typeof Scheduler,
-    rxjs$Notification: typeof rxjs$Notification,
+    Notification: typeof rxjs$Notification,
     pipe: (<T>() => rxjs$UnaryFunction<T, T>) &
       (<T, A>(fn1: rxjs$UnaryFunction<T, A>) => rxjs$UnaryFunction<T, A>) &
       (<T, A, B>(
