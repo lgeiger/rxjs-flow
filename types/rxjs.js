@@ -44,8 +44,6 @@ declare type rxjs$ObservableInput<T> =
   | Array<T>
   | Iterable<T>;
 
-// @deprecated use {@link rxjs$InteropObservable }
-declare type rxjs$ObservableLike<T> = rxjs$InteropObservable<T>;
 declare type rxjs$InteropObservable<T> = {
   [string | mixed]: () => rxjs$Subscribable<T>
 };
@@ -72,7 +70,7 @@ declare interface rxjs$PartialObserver<T> {
   closed?: boolean;
   +next?: (value: T) => void;
   +error?: (err: any) => void;
-  +complete: () => void;
+  +complete?: () => void;
 }
 declare interface rxjs$Observer<T> {
   closed?: boolean;
