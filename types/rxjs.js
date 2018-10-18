@@ -91,6 +91,12 @@ declare interface rxjs$SchedulerAction<T> extends rxjs$Subscription {
   schedule(state?: T, delay?: number): rxjs$Subscription;
 }
 
+declare interface rxjs$EventListenerOptions {
+  capture?: boolean;
+  passive?: boolean;
+  once?: boolean;
+}
+
 declare class rxjs$Observable<T> implements rxjs$Subscribable<T> {
   // @internal
   _isScalar: boolean;
@@ -574,28 +580,13 @@ declare module "rxjs" {
     ObjectUnsubscribedError: ObjectUnsubscribedError,
     UnsubscriptionError: UnsubscriptionError,
     TimeoutError: TimeoutError,
-    fromEvent: (<T>(
-      target: FromEventTarget<T>,
-      eventName: string
-    ) => rxjs$Observable<T>) &
+    fromEvent: <T>(
+      target: mixed,
+      eventName: string,
+      options?: rxjs$EventListenerOptions | ((...args: any[]) => T),
       // @deprecated resultSelector no longer supported, pipe to map instead
-      (<T>(
-        target: FromEventTarget<T>,
-        eventName: string,
-        resultSelector: (...args: any[]) => T
-      ) => rxjs$Observable<T>) &
-      (<T>(
-        target: FromEventTarget<T>,
-        eventName: string,
-        options: EventListenerOptions
-      ) => rxjs$Observable<T>) &
-      // @deprecated resultSelector no longer supported, pipe to map instead
-      (<T>(
-        target: FromEventTarget<T>,
-        eventName: string,
-        options: EventListenerOptions,
-        resultSelector: (...args: any[]) => T
-      ) => rxjs$Observable<T>),
+      resultSelector?: (...args: any[]) => T
+    ) => rxjs$Observable<T>,
     fromEventPattern: (<T>(
       addHandler: (handler: Function) => any,
       removeHandler?: (handler: Function, signal?: any) => void
@@ -1811,52 +1802,6 @@ declare module "rxjs" {
   }
 
   declare interface TimeoutError extends Error {}
-
-  declare interface NodeStyleEventEmitter {
-    addListener: (eventName: string | mixed, handler: NodeEventHandler) => void;
-    removeListener: (
-      eventName: string | mixed,
-      handler: NodeEventHandler
-    ) => void;
-  }
-  declare type NodeEventHandler = (...args: any[]) => void;
-  declare interface NodeCompatibleEventEmitter {
-    addListener: (eventName: string, handler: NodeEventHandler) => void | {};
-    removeListener: (eventName: string, handler: NodeEventHandler) => void | {};
-  }
-  declare interface JQueryStyleEventEmitter {
-    on: (eventName: string, handler: Function) => void;
-    off: (eventName: string, handler: Function) => void;
-  }
-  declare interface HasEventTargetAddRemove<E> {
-    addEventListener(
-      type: string,
-      listener: ((evt: E) => void) | null,
-      options?: boolean | AddEventListenerOptions
-    ): void;
-    removeEventListener(
-      type: string,
-      listener?: ((evt: E) => void) | null,
-      options?: EventListenerOptions | boolean
-    ): void;
-  }
-  declare type EventTargetLike<T> =
-    | HasEventTargetAddRemove<T>
-    | NodeStyleEventEmitter
-    | NodeCompatibleEventEmitter
-    | JQueryStyleEventEmitter;
-  declare type FromEventTarget<T> =
-    | EventTargetLike<T>
-    | Array<EventTargetLike<T>>;
-  declare interface EventListenerOptions {
-    capture?: boolean;
-    passive?: boolean;
-    once?: boolean;
-  }
-  declare interface AddEventListenerOptions extends EventListenerOptions {
-    once?: boolean;
-    passive?: boolean;
-  }
 
   declare type ConditionFunc<S> = (state: S) => boolean;
   declare type IterateFunc<S> = (state: S) => S;
