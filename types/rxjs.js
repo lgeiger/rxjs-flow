@@ -494,7 +494,7 @@ declare module "rxjs" {
         ...observables: (rxjs$ObservableInput<any> | rxjs$SchedulerLike)[]
       ) => rxjs$Observable<R>),
     defer<T>(
-      observableFactory: () => rxjs$SubscribableOrPromise<T> | void
+      observableFactory: () => rxjs$SubscribableOrPromise<T> | null
     ): rxjs$Observable<T>,
     forkJoin: (<T>(
       sources: [rxjs$ObservableInput<T>]
@@ -574,7 +574,9 @@ declare module "rxjs" {
       ) => rxjs$Observable<any>) &
       (<T>(...sources: rxjs$ObservableInput<T>[]) => rxjs$Observable<T[]>),
     from<T>(
-      input: rxjs$ObservableInput<T>,
+      input:
+        | rxjs$ObservableInput<T>
+        | rxjs$ObservableInput<rxjs$ObservableInput<T>>,
       scheduler?: rxjs$SchedulerLike
     ): rxjs$Observable<T>,
     ArgumentOutOfRangeError: ArgumentOutOfRangeError,
@@ -1913,9 +1915,7 @@ declare module "rxjs/operators" {
     closingSelector: () => rxjs$Observable<any>
   ): rxjs$OperatorFunction<T, T[]>;
 
-  declare export function catchError<T>(
-    selector: (err: any, caught: rxjs$Observable<T>) => empty
-  ): rxjs$MonoTypeOperatorFunction<T>;
+  // declare export function catchError<T>(selector: (err: any, caught: rxjs$Observable<T>) => empty): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function catchError<T, R>(
     selector: (err: any, caught: rxjs$Observable<T>) => rxjs$ObservableInput<R>
@@ -2093,26 +2093,15 @@ declare module "rxjs/operators" {
 
   declare export function concatAll<R>(): rxjs$OperatorFunction<any, R>;
 
-  declare export function concatMap<T, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<R>
-  ): rxjs$OperatorFunction<T, R>;
-
-  // @deprecated resultSelector no longer supported, use inner map instead
-  declare export function concatMap<T, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<R>,
-    resultSelector: void
-  ): rxjs$OperatorFunction<T, R>;
-
-  // @deprecated resultSelector no longer supported, use inner map instead
   declare export function concatMap<T, I, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<I>,
-    resultSelector: (
+    project: (value: T, index: number) => rxjs$ObservableInput<I | R>,
+    resultSelector?: (
       outerValue: T,
       innerValue: I,
       outerIndex: number,
       innerIndex: number
     ) => R
-  ): rxjs$OperatorFunction<T, R>;
+  ): rxjs$OperatorFunction<T, I | R>;
 
   declare export function concatMapTo<T>(
     observable: rxjs$ObservableInput<T>
@@ -2187,12 +2176,12 @@ declare module "rxjs/operators" {
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function distinctUntilKeyChanged<T>(
-    key: any
+    key: string
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function distinctUntilKeyChanged<T>(
-    key: any,
-    compare: (x: any, y: any) => boolean
+    key: string,
+    compare: (x: mixed, y: mixed) => boolean
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function elementAt<T>(
@@ -2262,26 +2251,16 @@ declare module "rxjs/operators" {
 
   declare export function exhaust<R>(): rxjs$OperatorFunction<any, R>;
 
-  declare export function exhaustMap<T, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<R>
-  ): rxjs$OperatorFunction<T, R>;
-
-  // @deprecated resultSelector is no longer supported. Use inner map instead.
-  declare export function exhaustMap<T, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<R>,
-    resultSelector: void
-  ): rxjs$OperatorFunction<T, R>;
-
-  // @deprecated resultSelector is no longer supported. Use inner map instead.
   declare export function exhaustMap<T, I, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<I>,
-    resultSelector: (
+    project: (value: T, index: number) => rxjs$ObservableInput<I | R>,
+    // @deprecated resultSelector is no longer supported. Use inner map instead.
+    resultSelector?: (
       outerValue: T,
       innerValue: I,
       outerIndex: number,
       innerIndex: number
     ) => R
-  ): rxjs$OperatorFunction<T, R>;
+  ): rxjs$OperatorFunction<T, I | R>;
 
   declare export function expand<T, R>(
     project: (value: T, index: number) => rxjs$ObservableInput<R>,
@@ -2295,7 +2274,7 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$MonoTypeOperatorFunction<T>;
 
-  declare export function filter<T, S>(
+  declare export function filter<T, S: T>(
     predicate: (value: T, index: number) => boolean,
     thisArg?: any
   ): rxjs$OperatorFunction<T, S>;
@@ -2309,30 +2288,32 @@ declare module "rxjs/operators" {
     callback: () => void
   ): rxjs$MonoTypeOperatorFunction<T>;
 
-  declare export function find<T, S>(
+  declare export function find<T, S: T>(
     predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
     thisArg?: any
-  ): rxjs$OperatorFunction<T, S | void>;
-
-  declare export function find<T>(
-    predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
-    thisArg?: any
-  ): rxjs$OperatorFunction<T, T | void>;
+  ): rxjs$OperatorFunction<T, T | S | void>;
 
   declare export function findIndex<T>(
     predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
     thisArg?: any
   ): rxjs$OperatorFunction<T, number>;
 
+  declare export function first<T>(
+    predicate?: ?(
+      value: T,
+      index: number,
+      source: rxjs$Observable<T>
+    ) => boolean
+  ): rxjs$OperatorFunction<T, T>;
+
   declare export function first<T, D>(
-    predicate?: null,
+    predicate?: ?(
+      value: T,
+      index: number,
+      source: rxjs$Observable<T>
+    ) => boolean,
     defaultValue?: D
   ): rxjs$OperatorFunction<T, T | D>;
-
-  declare export function first<T, S>(
-    predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
-    defaultValue?: S
-  ): rxjs$OperatorFunction<T, S>;
 
   declare export function groupBy<T, K>(
     keySelector: (value: T) => K
@@ -2351,14 +2332,6 @@ declare module "rxjs/operators" {
     elementSelector?: (value: T) => R,
     durationSelector?: (
       grouped: rxjs$GroupedObservable<K, R>
-    ) => rxjs$Observable<any>
-  ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, R>>;
-
-  declare export function groupBy<T, K, R>(
-    keySelector: (value: T) => K,
-    elementSelector?: (value: T) => R,
-    durationSelector?: (
-      grouped: rxjs$GroupedObservable<K, R>
     ) => rxjs$Observable<any>,
     subjectSelector?: () => rxjs$Subject<R>
   ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, R>>;
@@ -2367,21 +2340,22 @@ declare module "rxjs/operators" {
 
   declare export function isEmpty<T>(): rxjs$OperatorFunction<T, boolean>;
 
+  declare export function last<T>(
+    predicate?: ?(
+      value: T,
+      index: number,
+      source: rxjs$Observable<T>
+    ) => boolean
+  ): rxjs$OperatorFunction<T, T>;
+
   declare export function last<T, D>(
-    predicate?: null,
+    predicate?: ?(
+      value: T,
+      index: number,
+      source: rxjs$Observable<T>
+    ) => boolean,
     defaultValue?: D
   ): rxjs$OperatorFunction<T, T | D>;
-
-  // declare export function last<T, S>(
-  //   predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
-  //   defaultValue?: S
-  // ): rxjs$OperatorFunction<T, S>;
-  //
-  //
-  // declare export function last<T, D>(
-  //   predicate: (value: T, index: number, source: rxjs$Observable<T>) => boolean,
-  //   defaultValue?: D
-  // ): rxjs$OperatorFunction<T, D>;
 
   declare export function map<T, R>(
     project: (value: T, index: number) => R,
@@ -2511,34 +2485,19 @@ declare module "rxjs/operators" {
     concurrent?: number
   ): rxjs$OperatorFunction<rxjs$ObservableInput<T>, T>;
 
-  declare export function mergeMap<T, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<R>,
-    concurrent?: number
-  ): rxjs$OperatorFunction<T, R>;
-
-  declare export function mergeMap<T, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<R>,
-    concurrent?: number
-  ): rxjs$OperatorFunction<T, R>;
-
-  // @deprecated resultSelector no longer supported, use inner map instead
-  declare export function mergeMap<T, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<R>,
-    resultSelector: void,
-    concurrent?: number
-  ): rxjs$OperatorFunction<T, R>;
-
-  // @deprecated resultSelector no longer supported, use inner map instead
   declare export function mergeMap<T, I, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<I>,
-    resultSelector: (
-      outerValue: T,
-      innerValue: I,
-      outerIndex: number,
-      innerIndex: number
-    ) => R,
+    project: (value: T, index: number) => rxjs$ObservableInput<I | R>,
+    // @deprecated resultSelector no longer supported, use inner map instead
+    resultSelector?:
+      | ((
+          outerValue: T,
+          innerValue: I,
+          outerIndex: number,
+          innerIndex: number
+        ) => R)
+      | number,
     concurrent?: number
-  ): rxjs$OperatorFunction<T, R>;
+  ): rxjs$OperatorFunction<T, I | R>;
 
   declare export function flatMap<T, R>(
     project: (value: T, index: number) => rxjs$ObservableInput<R>,
@@ -2782,8 +2741,8 @@ declare module "rxjs/operators" {
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function retryWhen<T>(
-    notifier: (errors: rxjs$Observable<any>) => rxjs$Observable<any>
-  ): rxjs$MonoTypeOperatorFunction<T>;
+    notifier: (errors: rxjs$Observable<Error>) => rxjs$Observable<any>
+  ): (rxjs$Observable<T>) => rxjs$Observable<T>;
 
   declare export function refCount<T>(): rxjs$MonoTypeOperatorFunction<T>;
 
@@ -2911,26 +2870,16 @@ declare module "rxjs/operators" {
     T
   >;
 
-  declare export function switchMap<T, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<R>
-  ): rxjs$OperatorFunction<T, R>;
-
-  // @deprecated resultSelector is no longer supported, use inner map instead
-  declare export function switchMap<T, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<R>,
-    resultSelector: void
-  ): rxjs$OperatorFunction<T, R>;
-
-  // @deprecated resultSelector is no longer supported, use inner map instead
   declare export function switchMap<T, I, R>(
-    project: (value: T, index: number) => rxjs$ObservableInput<I>,
-    resultSelector: (
+    project: (value: T, index: number) => rxjs$ObservableInput<I | R>,
+    // @deprecated resultSelector is no longer supported, use inner map instead
+    resultSelector?: (
       outerValue: T,
       innerValue: I,
       outerIndex: number,
       innerIndex: number
     ) => R
-  ): rxjs$OperatorFunction<T, R>;
+  ): rxjs$OperatorFunction<T, I | R>;
 
   declare export function switchMapTo<R>(
     observable: rxjs$ObservableInput<R>
@@ -2965,7 +2914,7 @@ declare module "rxjs/operators" {
     notifier: rxjs$Observable<any>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
-  declare export function takeWhile<T, S>(
+  declare export function takeWhile<T, S: T>(
     predicate: (value: T, index: number) => S
   ): rxjs$OperatorFunction<T, S>;
 
@@ -2974,9 +2923,9 @@ declare module "rxjs/operators" {
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function tap<T>(
-    next?: (x: T) => void,
-    error?: (e: any) => void,
-    complete?: () => void
+    next?: (x: T) => mixed,
+    error?: (e: any) => mixed,
+    complete?: () => mixed
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function tap<T>(
