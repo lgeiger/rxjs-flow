@@ -107,7 +107,9 @@ declare class rxjs$Observable<T> implements rxjs$Subscribable<T> {
   constructor(
     subscribe?: (subscriber: rxjs$Subscriber<T>) => rxjs$TeardownLogic
   ): this;
-  static create: Function;
+  static create(
+    subscribe?: (subscriber: rxjs$Subscriber<T>) => rxjs$TeardownLogic
+  ): rxjs$Observable<T>;
   lift<R>(operator: rxjs$Operator<T, R>): rxjs$Observable<R>;
   subscribe(observer?: rxjs$PartialObserver<T>): rxjs$Subscription;
   subscribe(
