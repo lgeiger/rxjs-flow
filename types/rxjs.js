@@ -106,7 +106,7 @@ declare class rxjs$Observable<T> implements rxjs$Subscribable<T> {
   operator: rxjs$Operator<any, T>;
   constructor(
     subscribe?: (subscriber: rxjs$Subscriber<T>) => rxjs$TeardownLogic
-  ): this;
+  ): void;
   static create(
     subscribe?: (subscriber: rxjs$Subscriber<T>) => rxjs$TeardownLogic
   ): rxjs$Observable<T>;
@@ -215,7 +215,7 @@ declare class rxjs$Subscription implements rxjs$SubscriptionLike {
   _parent: rxjs$Subscription;
   // @internal
   _parents: rxjs$Subscription[];
-  constructor(unsubscribe?: () => void): this;
+  constructor(unsubscribe?: () => void): void;
   unsubscribe(): void;
   add(teardown: rxjs$TeardownLogic): rxjs$Subscription;
   remove(subscription: rxjs$Subscription): void;
@@ -244,7 +244,7 @@ declare class rxjs$Subscriber<T> extends rxjs$Subscription
     destinationOrNext?: rxjs$PartialObserver<any> | ((value: T) => void),
     error?: (e?: any) => void,
     complete?: () => void
-  ): this;
+  ): void;
   next(value?: T): void;
   error(err?: any): void;
   complete(): void;
@@ -267,7 +267,7 @@ declare class rxjs$ConnectableObservable<T> extends rxjs$Observable<T> {
   constructor(
     source: rxjs$Observable<T>,
     subjectFactory: () => rxjs$Subject<T>
-  ): this;
+  ): void;
   // @deprecated  This is an internal implementation detail, do not use.
   _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
   getSubject(): rxjs$Subject<T>;
@@ -282,7 +282,7 @@ declare class rxjs$Subject<T> extends rxjs$Observable<T>
   isStopped: boolean;
   hasError: boolean;
   thrownError: any;
-  constructor(): this;
+  constructor(): void;
   static create: Function;
   lift<R>(operator: rxjs$Operator<T, R>): rxjs$Observable<R>;
   next(value?: T): void;
@@ -301,7 +301,7 @@ declare class rxjs$Notification<T> {
   value: T;
   error: any;
   hasValue: boolean;
-  constructor(kind: string, value?: T, error?: any): this;
+  constructor(kind: string, value?: T, error?: any): void;
   observe(observer: rxjs$PartialObserver<T>): any;
   do(
     next: (value: T) => void,
@@ -326,7 +326,7 @@ declare class rxjs$GroupedObservable<K, T> extends rxjs$Observable<T> {
     key: K,
     groupSubject: rxjs$Subject<T>,
     refCountSubscription?: rxjs$RefCountSubscription
-  ): this;
+  ): void;
   // @deprecated  This is an internal implementation detail, do not use.
   _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
 }
@@ -341,7 +341,7 @@ declare interface rxjs$RefCountSubscription {
 declare function rxjs$throwError(
   error: any,
   scheduler?: rxjs$SchedulerLike
-): rxjs$Observable<empty>;
+): rxjs$Observable<any>;
 
 declare function rxjs$iif<T, F>(
   condition: () => boolean,
@@ -939,11 +939,11 @@ declare module "rxjs" {
         >
       ) => rxjs$Observable<R>),
     // @deprecated  Deprecated in favor of using {@link  NEVER} constant.
-    never(): rxjs$Observable<empty>,
-    EMPTY: rxjs$Observable<empty>,
+    never(): rxjs$Observable<*>,
+    NEVER: rxjs$Observable<*>,
     // @deprecated Deprecated in favor of using {@link EMPTY} constant.
-    empty(scheduler?: rxjs$SchedulerLike): rxjs$Observable<empty>,
-    NEVER: rxjs$Observable<empty>,
+    empty(scheduler?: rxjs$SchedulerLike): rxjs$Observable<*>,
+    EMPTY: rxjs$Observable<*>,
     // @deprecated resultSelector is no longer supported, use a mapping function.
     bindCallback: ((
       callbackFunc: Function,
@@ -961,7 +961,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => () => rxjs$Observable<any[]>) &
+      ) => () => rxjs$Observable<mixed[]>) &
       (<R1, R2, R3>(
         callbackFunc: (callback: (res1: R1, res2: R2, res3: R3) => any) => any,
         scheduler?: rxjs$SchedulerLike
@@ -990,7 +990,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (arg1: A1) => rxjs$Observable<any[]>) &
+      ) => (arg1: A1) => rxjs$Observable<mixed[]>) &
       (<A1, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1023,7 +1023,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (arg1: A1, arg2: A2) => rxjs$Observable<any[]>) &
+      ) => (arg1: A1, arg2: A2) => rxjs$Observable<mixed[]>) &
       (<A1, A2, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1062,7 +1062,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<any[]>) &
+      ) => (arg1: A1, arg2: A2, arg3: A3) => rxjs$Observable<mixed[]>) &
       (<A1, A2, A3, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1114,7 +1114,12 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (arg1: A1, arg2: A2, arg3: A3, arg4: A4) => rxjs$Observable<any[]>) &
+      ) => (
+        arg1: A1,
+        arg2: A2,
+        arg3: A3,
+        arg4: A4
+      ) => rxjs$Observable<mixed[]>) &
       (<A1, A2, A3, A4, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1187,7 +1192,7 @@ declare module "rxjs" {
         arg3: A3,
         arg4: A4,
         arg5: A5
-      ) => rxjs$Observable<any[]>) &
+      ) => rxjs$Observable<mixed[]>) &
       (<A1, A2, A3, A4, A5, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1273,7 +1278,7 @@ declare module "rxjs" {
       callbackFunc: Function,
       resultSelector: Function,
       scheduler?: rxjs$SchedulerLike
-    ) => (...args: any[]) => rxjs$Observable<any>) &
+    ) => (...args: any[]) => rxjs$Observable<*>) &
       (<R1, R2, R3, R4>(
         callbackFunc: (
           callback: (
@@ -1286,7 +1291,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      ) => (...args: any[]) => rxjs$Observable<mixed[]>) &
       (<R1, R2, R3>(
         callbackFunc: (
           callback: (err: any, res1: R1, res2: R2, res3: R3) => any
@@ -1305,7 +1310,7 @@ declare module "rxjs" {
         callbackFunc: (callback: (err: any) => any) => any,
         scheduler?: rxjs$SchedulerLike
       ) => () => rxjs$Observable<void>) &
-      (<A1, R1, R2, R3, R4>(
+      (<T, A1, R1, R2, R3, R4>(
         callbackFunc: (
           arg1: A1,
           callback: (
@@ -1318,7 +1323,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      ) => (...args: any[]) => rxjs$Observable<T>) &
       (<A1, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1355,7 +1360,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      ) => (...args: any[]) => rxjs$Observable<mixed[]>) &
       (<A1, A2, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1384,7 +1389,7 @@ declare module "rxjs" {
         callbackFunc: (arg1: A1, arg2: A2, callback: (err: any) => any) => any,
         scheduler?: rxjs$SchedulerLike
       ) => (arg1: A1, arg2: A2) => rxjs$Observable<void>) &
-      (<A1, A2, A3, R1, R2, R3, R4>(
+      (<T, A1, A2, A3, R1, R2, R3, R4>(
         callbackFunc: (
           arg1: A1,
           arg2: A2,
@@ -1399,7 +1404,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      ) => (...args: any[]) => rxjs$Observable<T>) &
       (<A1, A2, A3, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1452,7 +1457,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      ) => (...args: any[]) => rxjs$Observable<mixed[]>) &
       (<A1, A2, A3, A4, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1520,7 +1525,7 @@ declare module "rxjs" {
           ) => any
         ) => any,
         scheduler?: rxjs$SchedulerLike
-      ) => (...args: any[]) => rxjs$Observable<any[]>) &
+      ) => (...args: any[]) => rxjs$Observable<mixed[]>) &
       (<A1, A2, A3, A4, A5, R1, R2, R3>(
         callbackFunc: (
           arg1: A1,
@@ -1592,7 +1597,7 @@ declare module "rxjs" {
       ((
         callbackFunc: Function,
         scheduler?: rxjs$SchedulerLike
-      ) => (...args: any[]) => rxjs$Observable<any[]>),
+      ) => (...args: any[]) => rxjs$Observable<mixed[]>),
     // @deprecated resultSelector no longer supported, pipe to map instead
     combineLatest: (<T, R>(
       v1: rxjs$ObservableInput<T>,
@@ -1719,7 +1724,7 @@ declare module "rxjs" {
   };
 
   declare class BehaviorSubject<T> extends rxjs$Subject<T> {
-    constructor(_value: T): this;
+    constructor(_value: T): void;
     +value: T;
     // @deprecated  This is an internal implementation detail, do not use.
     _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
@@ -1732,7 +1737,7 @@ declare module "rxjs" {
       bufferSize?: number,
       windowTime?: number,
       scheduler?: rxjs$SchedulerLike
-    ): this;
+    ): void;
     // @deprecated  This is an internal implementation detail, do not use.
     _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
     _getNow(): number;
@@ -1740,7 +1745,7 @@ declare module "rxjs" {
 
   declare class AsyncSubject<T> extends rxjs$Subject<T> {
     // @deprecated  This is an internal implementation detail, do not use.
-    _subscribe(subscriber: rxjs$Subscriber<any>): rxjs$Subscription;
+    _subscribe(subscriber: rxjs$Subscriber<*>): rxjs$Subscription;
     next(value?: T): void;
     error(error: any): void;
     complete(): void;
@@ -1751,7 +1756,7 @@ declare module "rxjs" {
     static frameTimeFactor: number;
     frame: number;
     index: number;
-    constructor(SchedulerAction?: typeof AsyncAction, maxFrames?: number): this;
+    constructor(SchedulerAction?: typeof AsyncAction, maxFrames?: number): void;
     flush(): void;
   }
 
@@ -1766,7 +1771,7 @@ declare module "rxjs" {
       scheduler: VirtualTimeScheduler,
       work: (state?: T) => void,
       index?: number
-    ): this;
+    ): void;
     schedule(state?: T, delay?: number): rxjs$Subscription;
     requestAsyncId(
       // $FlowFixMe: flow fails due to class inheritance issues
@@ -1786,7 +1791,7 @@ declare module "rxjs" {
 
   declare class Scheduler implements rxjs$SchedulerLike {
     static now: () => number;
-    constructor(SchedulerAction: typeof Action, now?: () => number): this;
+    constructor(SchedulerAction: typeof Action, now?: () => number): void;
     now: () => number;
     schedule<T>(
       work: (state?: T) => void,
@@ -1821,42 +1826,42 @@ declare module "rxjs" {
   }
 
   declare class AsapScheduler extends AsyncScheduler {
-    flush(action?: AsyncAction<any>): void;
+    flush(action?: AsyncAction<mixed>): void;
   }
 
   declare class AsyncScheduler extends Scheduler {
     static delegate: Scheduler;
-    actions: Array<AsyncAction<any>>;
+    actions: Array<AsyncAction<mixed>>;
     // @deprecated  internal use only
     active: boolean;
     // @deprecated  internal use only
     scheduled: any;
-    constructor(SchedulerAction: typeof Action, now?: () => number): this;
+    constructor(SchedulerAction: typeof Action, now?: () => number): void;
     schedule<T>(
       work: (state?: T) => void,
       delay?: number,
       state?: T
     ): rxjs$Subscription;
-    flush(action: AsyncAction<any>): void;
+    flush(action: AsyncAction<mixed>): void;
   }
 
   declare class QueueScheduler extends AsyncScheduler {}
 
   declare class AnimationFrameScheduler extends AsyncScheduler {
-    flush(action?: AsyncAction<any>): void;
+    flush(action?: AsyncAction<mixed>): void;
   }
 
   declare class AsyncAction<T> extends Action<T> {
     scheduler: AsyncScheduler;
     work: (state?: T) => void;
-    id: any;
+    id: mixed;
     state: T;
     delay: number;
     pending: boolean;
-    constructor(scheduler: AsyncScheduler, work: (state?: T) => void): this;
+    constructor(scheduler: AsyncScheduler, work: (state?: T) => void): void;
     schedule(state?: T, delay?: number): rxjs$Subscription;
-    requestAsyncId(scheduler: AsyncScheduler, id?: any, delay?: number): any;
-    recycleAsyncId(scheduler: AsyncScheduler, id: any, delay?: number): any;
+    requestAsyncId(scheduler: AsyncScheduler, id?: mixed, delay?: number): any;
+    recycleAsyncId(scheduler: AsyncScheduler, id: mixed, delay?: number): any;
     execute(state: T, delay: number): any;
     _execute(state: T, delay: number): any;
     // @deprecated  This is an internal implementation detail, do not use.
@@ -1864,14 +1869,14 @@ declare module "rxjs" {
   }
 
   declare class Action<T> extends rxjs$Subscription {
-    constructor(scheduler: Scheduler, work: (state?: T) => void): this;
+    constructor(scheduler: Scheduler, work: (state?: T) => void): void;
     schedule(state?: T, delay?: number): rxjs$Subscription;
   }
 }
 
 declare module "rxjs/operators" {
   declare export function audit<T>(
-    durationSelector: (value: T) => rxjs$SubscribableOrPromise<any>
+    durationSelector: (value: T) => rxjs$SubscribableOrPromise<mixed>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function auditTime<T>(
@@ -1908,11 +1913,11 @@ declare module "rxjs/operators" {
 
   declare export function bufferToggle<T, O>(
     openings: rxjs$SubscribableOrPromise<O>,
-    closingSelector: (value: O) => rxjs$SubscribableOrPromise<any>
+    closingSelector: (value: O) => rxjs$SubscribableOrPromise<mixed>
   ): rxjs$OperatorFunction<T, T[]>;
 
   declare export function bufferWhen<T>(
-    closingSelector: () => rxjs$Observable<any>
+    closingSelector: () => rxjs$Observable<mixed>
   ): rxjs$OperatorFunction<T, T[]>;
 
   // declare export function catchError<T>(selector: (err: any, caught: rxjs$Observable<T>) => empty): rxjs$MonoTypeOperatorFunction<T>;
@@ -1926,15 +1931,15 @@ declare module "rxjs/operators" {
     T[]
   >;
 
-  declare export function combineAll<T>(): rxjs$OperatorFunction<any, T[]>;
+  declare export function combineAll<T>(): rxjs$OperatorFunction<mixed, T[]>;
 
   declare export function combineAll<T, R>(
     project: (...values: T[]) => R
   ): rxjs$OperatorFunction<rxjs$ObservableInput<T>, R>;
 
   declare export function combineAll<R>(
-    project: (...values: Array<any>) => R
-  ): rxjs$OperatorFunction<any, R>;
+    project: (...values: Array<mixed>) => R
+  ): rxjs$OperatorFunction<mixed, R>;
 
   // @deprecated Deprecated in favor of static combineLatest.
   declare export function combineLatest<T, R>(
@@ -2083,7 +2088,7 @@ declare module "rxjs/operators" {
   ): rxjs$MonoTypeOperatorFunction<T>;
   // @deprecated Deprecated in favor of static concat.
   declare export function concat<T, R>(
-    ...observables: Array<rxjs$ObservableInput<any> | rxjs$SchedulerLike>
+    ...observables: Array<rxjs$ObservableInput<mixed> | rxjs$SchedulerLike>
   ): rxjs$OperatorFunction<T, R>;
 
   declare export function concatAll<T>(): rxjs$OperatorFunction<
@@ -2091,7 +2096,7 @@ declare module "rxjs/operators" {
     T
   >;
 
-  declare export function concatAll<R>(): rxjs$OperatorFunction<any, R>;
+  declare export function concatAll<R>(): rxjs$OperatorFunction<mixed, R>;
 
   declare export function concatMap<T, I, R>(
     project: (value: T, index: number) => rxjs$ObservableInput<I | R>,
@@ -2105,13 +2110,13 @@ declare module "rxjs/operators" {
 
   declare export function concatMapTo<T>(
     observable: rxjs$ObservableInput<T>
-  ): rxjs$OperatorFunction<any, T>;
+  ): rxjs$OperatorFunction<mixed, T>;
 
   // @deprecated
   declare export function concatMapTo<T>(
     observable: rxjs$ObservableInput<T>,
     resultSelector: void
-  ): rxjs$OperatorFunction<any, T>;
+  ): rxjs$OperatorFunction<mixed, T>;
   // @deprecated
   declare export function concatMapTo<T, I, R>(
     observable: rxjs$ObservableInput<I>,
@@ -2128,7 +2133,7 @@ declare module "rxjs/operators" {
   ): rxjs$OperatorFunction<T, number>;
 
   declare export function debounce<T>(
-    durationSelector: (value: T) => rxjs$SubscribableOrPromise<any>
+    durationSelector: (value: T) => rxjs$SubscribableOrPromise<mixed>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function debounceTime<T>(
@@ -2145,15 +2150,9 @@ declare module "rxjs/operators" {
     scheduler?: rxjs$SchedulerLike
   ): rxjs$MonoTypeOperatorFunction<T>;
 
-  // @deprecated  In future versions, empty notifiers will no longer re-emit the source value on the output observable.
   declare export function delayWhen<T>(
-    delayDurationSelector: (value: T, index: number) => rxjs$Observable<empty>,
-    subscriptionDelay?: rxjs$Observable<any>
-  ): rxjs$MonoTypeOperatorFunction<T>;
-
-  declare export function delayWhen<T>(
-    delayDurationSelector: (value: T, index: number) => rxjs$Observable<any>,
-    subscriptionDelay?: rxjs$Observable<any>
+    delayDurationSelector: (value: T, index: number) => rxjs$Observable<mixed>,
+    subscriptionDelay?: rxjs$Observable<mixed>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function dematerialize<T>(): rxjs$OperatorFunction<
@@ -2163,7 +2162,7 @@ declare module "rxjs/operators" {
 
   declare export function distinct<T, K>(
     keySelector?: (value: T) => K,
-    flushes?: rxjs$Observable<any>
+    flushes?: rxjs$Observable<mixed>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function distinctUntilChanged<T>(
@@ -2179,9 +2178,9 @@ declare module "rxjs/operators" {
     key: string
   ): rxjs$MonoTypeOperatorFunction<T>;
 
-  declare export function distinctUntilKeyChanged<T>(
+  declare export function distinctUntilKeyChanged<T, K: $Keys<T>>(
     key: string,
-    compare: (x: mixed, y: mixed) => boolean
+    compare: (x: K, y: K) => boolean
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function elementAt<T>(
@@ -2249,7 +2248,7 @@ declare module "rxjs/operators" {
     T
   >;
 
-  declare export function exhaust<R>(): rxjs$OperatorFunction<any, R>;
+  declare export function exhaust<R>(): rxjs$OperatorFunction<mixed, R>;
 
   declare export function exhaustMap<T, I, R>(
     project: (value: T, index: number) => rxjs$ObservableInput<I | R>,
@@ -2324,7 +2323,7 @@ declare module "rxjs/operators" {
     elementSelector: void,
     durationSelector: (
       grouped: rxjs$GroupedObservable<K, T>
-    ) => rxjs$Observable<any>
+    ) => rxjs$Observable<mixed>
   ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, T>>;
 
   declare export function groupBy<T, K, R>(
@@ -2332,11 +2331,11 @@ declare module "rxjs/operators" {
     elementSelector?: (value: T) => R,
     durationSelector?: (
       grouped: rxjs$GroupedObservable<K, R>
-    ) => rxjs$Observable<any>,
+    ) => rxjs$Observable<mixed>,
     subjectSelector?: () => rxjs$Subject<R>
   ): rxjs$OperatorFunction<T, rxjs$GroupedObservable<K, R>>;
 
-  declare export function ignoreElements(): rxjs$OperatorFunction<any, empty>;
+  declare export function ignoreElements<T, U>(): rxjs$OperatorFunction<T, U>;
 
   declare export function isEmpty<T>(): rxjs$OperatorFunction<T, boolean>;
 
@@ -2477,7 +2476,7 @@ declare module "rxjs/operators" {
   // @deprecated Deprecated in favor of static merge.
   declare export function merge<T, R>(
     ...observables: Array<
-      rxjs$ObservableInput<any> | rxjs$SchedulerLike | number
+      rxjs$ObservableInput<mixed> | rxjs$SchedulerLike | number
     >
   ): rxjs$OperatorFunction<T, R>;
 
@@ -2507,7 +2506,7 @@ declare module "rxjs/operators" {
   declare export function mergeMapTo<T>(
     innerObservable: rxjs$ObservableInput<T>,
     concurrent?: number
-  ): rxjs$OperatorFunction<any, T>;
+  ): rxjs$OperatorFunction<mixed, T>;
 
   // @deprecated
   declare export function mergeMapTo<T, I, R>(
@@ -2590,12 +2589,12 @@ declare module "rxjs/operators" {
 
   declare export function onErrorResumeNext<T, R>(
     ...observables: Array<
-      rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
+      rxjs$ObservableInput<mixed> | ((...values: Array<mixed>) => R)
     >
   ): rxjs$OperatorFunction<T, R>;
 
   declare export function onErrorResumeNext<T, R>(
-    array: rxjs$ObservableInput<any>[]
+    array: rxjs$ObservableInput<mixed>[]
   ): rxjs$OperatorFunction<T, R>;
 
   declare export function onErrorResumeNextStatic<R>(
@@ -2630,12 +2629,12 @@ declare module "rxjs/operators" {
 
   declare export function onErrorResumeNextStatic<R>(
     ...observables: Array<
-      rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
+      rxjs$ObservableInput<mixed> | ((...values: Array<any>) => R)
     >
   ): rxjs$Observable<R>;
 
   declare export function onErrorResumeNextStatic<R>(
-    array: rxjs$ObservableInput<any>[]
+    array: rxjs$ObservableInput<mixed>[]
   ): rxjs$Observable<R>;
 
   declare export function pairwise<T>(): rxjs$OperatorFunction<T, [T, T]>;
@@ -2711,7 +2710,9 @@ declare module "rxjs/operators" {
 
   // @deprecated Deprecated in favor of static race.
   declare export function race<T, R>(
-    ...observables: Array<rxjs$Observable<any> | Array<rxjs$Observable<any>>>
+    ...observables: Array<
+      rxjs$Observable<mixed> | Array<rxjs$Observable<mixed>>
+    >
   ): rxjs$OperatorFunction<T, R>;
 
   declare export function reduce<T>(
@@ -2733,7 +2734,7 @@ declare module "rxjs/operators" {
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function repeatWhen<T>(
-    notifier: (notifications: rxjs$Observable<any>) => rxjs$Observable<any>
+    notifier: (notifications: rxjs$Observable<any>) => rxjs$Observable<mixed>
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function retry<T>(
@@ -2741,7 +2742,7 @@ declare module "rxjs/operators" {
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function retryWhen<T>(
-    notifier: (errors: rxjs$Observable<Error>) => rxjs$Observable<any>
+    notifier: (errors: rxjs$Observable<any>) => rxjs$Observable<mixed>
   ): (rxjs$Observable<T>) => rxjs$Observable<T>;
 
   declare export function refCount<T>(): rxjs$MonoTypeOperatorFunction<T>;
@@ -2883,7 +2884,7 @@ declare module "rxjs/operators" {
 
   declare export function switchMapTo<R>(
     observable: rxjs$ObservableInput<R>
-  ): rxjs$OperatorFunction<any, R>;
+  ): rxjs$OperatorFunction<mixed, R>;
 
   // @deprecated resultSelector is no longer supported. Switch to using switchMap with an inner map
   declare export function switchMapTo<T, R>(
@@ -2938,7 +2939,7 @@ declare module "rxjs/operators" {
   }
 
   declare export function throttle<T>(
-    durationSelector: (value: T) => rxjs$SubscribableOrPromise<any>,
+    durationSelector: (value: T) => rxjs$SubscribableOrPromise<mixed>,
     config?: ThrottleConfig
   ): rxjs$MonoTypeOperatorFunction<T>;
 
@@ -2974,7 +2975,7 @@ declare module "rxjs/operators" {
   declare export function toArray<T>(): rxjs$OperatorFunction<T, T[]>;
 
   declare export function window<T>(
-    windowBoundaries: rxjs$Observable<any>
+    windowBoundaries: rxjs$Observable<mixed>
   ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
 
   declare export function windowCount<T>(
@@ -3002,11 +3003,11 @@ declare module "rxjs/operators" {
 
   declare export function windowToggle<T, O>(
     openings: rxjs$Observable<O>,
-    closingSelector: (openValue: O) => rxjs$Observable<any>
+    closingSelector: (openValue: O) => rxjs$Observable<mixed>
   ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
 
   declare export function windowWhen<T>(
-    closingSelector: () => rxjs$Observable<any>
+    closingSelector: () => rxjs$Observable<mixed>
   ): rxjs$OperatorFunction<T, rxjs$Observable<T>>;
 
   declare export function withLatestFrom<T, R>(
@@ -3080,16 +3081,16 @@ declare module "rxjs/operators" {
 
   declare export function withLatestFrom<T, R>(
     ...observables: Array<
-      rxjs$ObservableInput<any> | ((...values: Array<any>) => R)
+      rxjs$ObservableInput<mixed> | ((...values: Array<any>) => R)
     >
   ): rxjs$OperatorFunction<T, R>;
 
   declare export function withLatestFrom<T, R>(
-    array: rxjs$ObservableInput<any>[]
+    array: rxjs$ObservableInput<mixed>[]
   ): rxjs$OperatorFunction<T, R>;
 
   declare export function withLatestFrom<T, R>(
-    array: rxjs$ObservableInput<any>[],
+    array: rxjs$ObservableInput<mixed>[],
     project: (...values: Array<any>) => R
   ): rxjs$OperatorFunction<T, R>;
 
@@ -3196,7 +3197,7 @@ declare module "rxjs/operators" {
     T[]
   >;
 
-  declare export function zipAll<T>(): rxjs$OperatorFunction<any, T[]>;
+  declare export function zipAll<T>(): rxjs$OperatorFunction<mixed, T[]>;
 
   declare export function zipAll<T, R>(
     project: (...values: T[]) => R
@@ -3204,7 +3205,7 @@ declare module "rxjs/operators" {
 
   declare export function zipAll<R>(
     project: (...values: Array<any>) => R
-  ): rxjs$OperatorFunction<any, R>;
+  ): rxjs$OperatorFunction<mixed, R>;
 
   declare export function iif<T, F>(
     condition: () => boolean,
@@ -3215,7 +3216,7 @@ declare module "rxjs/operators" {
   declare export function throwError(
     error: any,
     scheduler?: rxjs$SchedulerLike
-  ): rxjs$Observable<empty>;
+  ): rxjs$Observable<mixed>;
 }
 
 declare module "rxjs/ajax" {
@@ -3232,7 +3233,7 @@ declare module "rxjs/ajax" {
     crossDomain?: boolean;
     withCredentials?: boolean;
     createXHR?: () => XMLHttpRequest;
-    progressSubscriber?: rxjs$Subscriber<any>;
+    progressSubscriber?: rxjs$Subscriber<mixed>;
     responseType?: string;
   }
 
@@ -3248,7 +3249,7 @@ declare module "rxjs/ajax" {
       originalEvent: Event,
       xhr: XMLHttpRequest,
       request: AjaxRequest
-    ): this;
+    ): void;
   }
 
   declare export interface AjaxError extends Error {
@@ -3309,7 +3310,7 @@ declare module "rxjs/webSocket" {
     constructor(
       destination?: rxjs$Observer<T>,
       source?: rxjs$Observable<T>
-    ): this;
+    ): void;
     next(value: ?T): void;
     error(err: any): void;
     complete(): void;
@@ -3326,13 +3327,13 @@ declare module "rxjs/webSocket" {
         | WebSocketSubjectConfig<T>
         | rxjs$Observable<T>,
       destination?: rxjs$Observer<T>
-    ): this;
+    ): void;
     lift<R>(operator: rxjs$Operator<T, R>): WebSocketSubject<R>;
     multiplex(
       subMsg: () => any,
       unsubMsg: () => any,
       messageFilter: (value: T) => boolean
-    ): rxjs$Observable<any>;
+    ): rxjs$Observable<mixed>;
     // @deprecated This is an internal implementation detail, do not use.
     _subscribe(subscriber: rxjs$Subscriber<T>): rxjs$Subscription;
     unsubscribe(): void;
